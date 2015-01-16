@@ -45,8 +45,8 @@ ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%m}/{slug}.html'
 SITESUBTITLE = u'Notes and musings from the IT department at MET Norway'
 SUMMARY_MAX_LENGTH = 150
 READERS = {'html': None}
-TEMPLATE_PAGES = {
-'CNAME': 'CNAME'
-}
+#TEMPLATE_PAGES = {
+#'CNAME': 'CNAME'
+#}
 TAG_CLOUD_MAX_ITEMS=100
 TAG_CLOUD_STEPS=4
