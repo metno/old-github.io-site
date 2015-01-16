@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Webmaster" />
+    <meta name="robots" content="index, follow"/>
+
+    <meta property="og:title" content="it.met.no"/>
+    <meta property="og:url" content="."/>
+    <meta property="og:site_name" content="it.met.no"/>
+    <meta property="og:type" content="website"/>
+
+    <link rel="canonical" href="." />
+
+    <title>it.met.no</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="./theme/css/main.css" />
+    <link href="http://it.met.no/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="it.met.no Atom Feed" />
+
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">
+        stLight.options({
+            publisher: "",
+            doNotHash: false,
+            doNotCopy: false,
+            hashAddressBar: false
+        });
+    </script>
+</head>
+
+<body id="index">
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <header id="banner" >
+                <h1>
+                    <a href="./">it.met.no  <strong>Notes and musings from the IT department at MET Norway</strong></a>
+                </h1>
+                <nav class="navbar">
+                    <div class="navbar-inner">
+                        <ul class="nav">
+                            <li ><a href="./category/aheimsbakk.html">aheimsbakk</a></li>
+                        </ul>
+
+                    </div>
+                </nav>
+            </header><!-- /#banner -->
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <div class="row-fluid">
+<div class="span9">
+                <section>
+                    <ol id="posts-list" class="hfeed" start="9">
+                    <li>
+                        <article>
+                            <header>
+                                <h1 class="entry-title">
+                                    <a href="./posts/2015/00/vagrant-openstack.html" rel="bookmark" title="Permalink to Vagrant with OpenStack">
+                                       Vagrant with OpenStack
+                                    </a>
+                                </h1>
+                            </header>
+                            <div class="entry-content">
+<footer class="post-info">
+    <address class="vcard author">
+        by <a class="url fn" href="./author/arnulfheimsbakkmetno.html">arnulf.heimsbakk@met.no</a>
+    </address>
+
+    in <a href="./category/aheimsbakk.html">aheimsbakk</a>
+
+    on 2015-01-16
+
+        |
+        tags:         <a href="./tag/howto.html">howto</a>
+        <a href="./tag/openstack.html">openstack</a>
+        <a href="./tag/vagrant.html">vagrant</a>
+
+
+
+    
+</footer><!-- /.post-info -->                                <p>If you want to use <a href="https://www.vagrantup.com">Vagrant</a> with <a href="http://www.openstack.org">OpenStack</a>, you need to prepare <a href="https://www.vagrantup.com">Vagrant</a> with installing the <a href="https://github.com/cloudbau/vagrant-openstack-plugin">vagrant-openstack-plugin</a>. I had some problems installing it directly through <code>vagrant plugin install</code>. I had to clone it from <a href="https://github.com">Github</a> and install it manually. </p>
+<h2>One time configuration</h2>
+<h3>Install OpenStack plugin in Vagrant</h3>
+<div class="highlight"><pre><span class="nb">cd</span> /tmp
+git clone https://github.com/cloudbau/vagrant-openstack-plugin
+<span class="nb">cd </span>vagrant-openstack-plugin
+gem build vagrant-openstack-plugin.gemspec
+vagrant plugin install vagrant-openstack-plugin-*.gem
+</pre></div>
+
+
+<p>Add a dummy box to <a href="https://www.vagrantup.com">Vagrant</a> thats needed by the plugin.</p>
+<div class="highlight"><pre>vagrant box add dummy https://github.com/cloudbau/vagrant-openstack-plugin/raw/master/dummy.box
+</pre></div>
+
+
+<h3>Download OpenStack RC file</h3>
+<ul>
+<li>Log into OpenStack</li>
+<li>Download OpenStack API RC file</li>
+<li>Go to <code>Project</code> -&gt; <code>Compute</code> -&gt; <code>Access &amp; Security</code> -&gt; <code>API Access</code> </li>
+<li>Down RC file by hitting <code>Download OpenStack RC File</code></li>
+<li>Put <code>$USER-openrc.sh</code> in your <code>~/</code> or somewhere you prefer</li>
+</ul>
+<h2>Configure a Vagrant VM</h2>
+<h3>Vagrantfile</h3>
+<p>This is a default generic Vagrant file which starts a <code>m1.tiny</code> flavor image of Ubuntu ...</p>
+                                <p class="readmore">
+                                    <a class="btn btn-small btn-info" href="./posts/2015/00/vagrant-openstack.html">Read more...</a>
+                                </p>
+                            </div><!-- /.entry-content -->
+                            <hr/>
+                        </article>
+                    </li>
+                    </ol><!-- /#posts-list -->
+                </section><!-- /#content -->
+</div>
+<div class="span3">
+    <section id="sidebar">
+            <div>
+                <h2>Browse content by</h2>
+                <ul class="fa-ul">
+                <li><a href="./categories.html"><i class="fa-li fa fa-tags"></i> Categories</a></li>
+                <li><a href="./archives.html"><i class="fa-li fa fa-calendar"></i> Dates</a></li>
+                <li><a href="./tags.html"><i class="fa-li fa fa-tag"></i> Tags</a></li>
+
+                <li><a href="http://it.met.no/feeds/all.atom.xml"><i class="fa-li fa fa-rss"></i> Feed</a></li>
+                </ul>
+            </div><!-- /.browse -->
+            <div>
+                <h2>Links</h2>
+                <ul>
+                    <li><a href="http://met.no/English">MET Norway</a></li>
+                    <li><a href="http://yr.no">yr.no</a></li>
+                </ul>
+            </div><!-- /.Links -->
+            <div>
+                <h2>Tags</h2>
+                <ul id="cloud">
+                     <li class="tag-4"><a href="./tag/openstack.html">openstack</a></li>
+                     <li class="tag-4"><a href="./tag/howto.html">howto</a></li>
+                     <li class="tag-4"><a href="./tag/vagrant.html">vagrant</a></li>
+                </ul>
+             </div>
+<!-- /.Tags -->
+    </section><!-- /#sidebar -->
+</div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="site-footer">
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <address>
+                    <p>
+                        This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                    </p>
+                    <p>
+                        <a href="http://github.com/jsliang/pelican-fresh/">Fresh</a> is a responsive theme designed by <a href="http://jsliang.com/">jsliang</a> and <a href="https://github.com/jsliang/pelican-fresh/graphs/contributors">contributors</a>.
+                        Special thanks to <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a> and <a href="http://getbootstrap.com/">Twitter Bootstrap</a>.
+                    </p>
+                </address>
+            </div>
+        </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+</body>
+</html>

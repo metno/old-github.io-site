@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>it.met.no</title><link href="http://it.met.no/" rel="alternate"></link><link href="http://it.met.no/feeds/aheimsbakk.atom.xml" rel="self"></link><id>http://it.met.no/</id><updated>2015-01-16T00:00:00+01:00</updated><entry><title>Vagrant with OpenStack</title><link href="http://it.met.no/posts/2015/00/vagrant-openstack.html" rel="alternate"></link><updated>2015-01-16T00:00:00+01:00</updated><author><name>arnulf.heimsbakk@met.no</name></author><id>tag:it.met.no,2015-01-16:posts/2015/00/vagrant-openstack.html</id><summary type="html">&lt;p&gt;If you want to use &lt;a href="https://www.vagrantup.com"&gt;Vagrant&lt;/a&gt; with &lt;a href="http://www.openstack.org"&gt;OpenStack&lt;/a&gt;, you need to prepare &lt;a href="https://www.vagrantup.com"&gt;Vagrant&lt;/a&gt; with installing the &lt;a href="https://github.com/cloudbau/vagrant-openstack-plugin"&gt;vagrant-openstack-plugin&lt;/a&gt;. I had some problems installing it directly through &lt;code&gt;vagrant plugin install&lt;/code&gt;. I had to clone it from &lt;a href="https://github.com"&gt;Github&lt;/a&gt; and install it manually. &lt;/p&gt;
+&lt;h2&gt;One time configuration&lt;/h2&gt;
+&lt;h3&gt;Install OpenStack plugin in Vagrant&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /tmp
+git clone https://github.com/cloudbau/vagrant-openstack-plugin
+&lt;span class="nb"&gt;cd &lt;/span&gt;vagrant-openstack-plugin
+gem build vagrant-openstack-plugin.gemspec
+vagrant plugin install vagrant-openstack-plugin-*.gem
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Add a dummy box to &lt;a href="https://www.vagrantup.com"&gt;Vagrant&lt;/a&gt; thats needed by the plugin.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;vagrant box add dummy https://github.com/cloudbau/vagrant-openstack-plugin/raw/master/dummy.box
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Download OpenStack RC file&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Log into OpenStack&lt;/li&gt;
+&lt;li&gt;Download OpenStack API RC file&lt;/li&gt;
+&lt;li&gt;Go to &lt;code&gt;Project&lt;/code&gt; -&amp;gt; &lt;code&gt;Compute&lt;/code&gt; -&amp;gt; &lt;code&gt;Access &amp;amp; Security&lt;/code&gt; -&amp;gt; &lt;code&gt;API Access&lt;/code&gt; &lt;/li&gt;
+&lt;li&gt;Down RC file by hitting &lt;code&gt;Download OpenStack RC File&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Put &lt;code&gt;$USER-openrc.sh&lt;/code&gt; in your &lt;code&gt;~/&lt;/code&gt; or somewhere you prefer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Configure a Vagrant VM&lt;/h2&gt;
+&lt;h3&gt;Vagrantfile&lt;/h3&gt;
+&lt;p&gt;This is a default generic Vagrant file which starts a &lt;code&gt;m1.tiny&lt;/code&gt; flavor image of Ubuntu Utopic. It requires that you already have added your ssh key to OpenStack. Please add your ssh key with the name &lt;code&gt;$USER_ssh_key&lt;/code&gt;. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;require&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;vagrant-openstack-plugin&amp;#39;&lt;/span&gt;
+
+&lt;span class="no"&gt;Vagrant&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;box&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;dummy&amp;quot;&lt;/span&gt;
+  &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;synced_folder&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;.&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/vagrant&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;type&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;rsync&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;rsync__exclude&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;.git/&amp;quot;&lt;/span&gt;
+
+  &lt;span class="c1"&gt;# Make sure the private key from the key pair is provided&lt;/span&gt;
+  &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;private_key_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;~/.ssh/id_rsa&amp;quot;&lt;/span&gt;
+
+  &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;provider&lt;/span&gt; &lt;span class="ss"&gt;:openstack&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt;     &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="no"&gt;ENV&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;OS_USERNAME&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;api_key&lt;/span&gt;      &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="no"&gt;ENV&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;OS_PASSWORD&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flavor&lt;/span&gt;       &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sr"&gt;/m1.tiny/&lt;/span&gt;
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;image&lt;/span&gt;        &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Ubuntu CI utopic 2014-09-18&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;endpoint&lt;/span&gt;     &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="no"&gt;ENV&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;OS_AUTH_URL&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/tokens&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;keypair_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="no"&gt;ENV&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;OS_USERNAME&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;_ssh_key&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh_username&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;ubuntu&amp;quot;&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# The tenant have two networks, so need to specify at least one&lt;/span&gt;
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;network&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;vagrant&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;floating_ip&lt;/span&gt;        &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;:auto&lt;/span&gt; 
+    &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;floating_ip_pool&lt;/span&gt;   &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;public&amp;quot;&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;provision&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;shell&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;path&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;bootstrap.sh&amp;quot;&lt;/span&gt;
+
+  &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;provision&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;shell&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;inline&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;-&lt;/span&gt;&lt;span class="no"&gt;SCRIPT&lt;/span&gt;
+&lt;span class="sh"&gt;    # Set your country code here to get a local repositroy&lt;/span&gt;
+&lt;span class="sh"&gt;    CN=&amp;quot;no&amp;quot;&lt;/span&gt;
+&lt;span class="sh"&gt;    grep -q repo.met.no /etc/apt/sources.list || sed -i~ &amp;quot;s#nova.clouds.archive.ubuntu.com#$CN.archive.ubuntu.com#g&amp;quot; /etc/apt/sources.list&lt;/span&gt;
+&lt;span class="sh"&gt;    apt-get update&lt;/span&gt;
+&lt;span class="no"&gt;  SCRIPT&lt;/span&gt;
+
+  &lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;define&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;myvm&amp;quot;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;bootstrap.sh&lt;/h3&gt;
+&lt;p&gt;Create your custom bootstrap file.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class="c"&gt;# Your aditional bootstrap here...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Running Vagrant&lt;/h2&gt;
+&lt;p&gt;Remember to source your OpenStack RC file before you run Vagrant up. You need to do that in each shell windows you are going to run Vagrant in.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;source&lt;/span&gt; ~/&lt;span class="nv"&gt;$USER&lt;/span&gt;-openrc.sh
+vagrant up
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h6&gt;vim: set syn=markdown spell spl=en:&lt;/h6&gt;</summary><category term="howto"></category><category term="openstack"></category><category term="vagrant"></category></entry></feed>
