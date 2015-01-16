@@ -8,7 +8,7 @@ SITEURL = ''
 
 PATH = 'content'
 
-TIMEZONE = 'Europe/Paris'
+TIMEZONE = 'Europe/Oslo'
 
 DEFAULT_LANG = u'en'
 
@@ -20,16 +20,32 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-LINKS = (('Pelican', 'http://getpelican.com/'),
-         ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
+LINKS = (('MET Norway', 'http://met.no/English'),
+         ('yr.no', 'http://yr.no'),
 
 # Social widget
-SOCIAL = (('You can add links in your config file', '#'),
-          ('Another social link', '#'),)
+#SOCIAL = (('You can add links in your config file', '#'),
+#          ('Another social link', '#'),)
 
 DEFAULT_PAGINATION = 10
 
 # Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
+RELATIVE_URLS = True
+
+CHECK_MODIFIED_METHOD="md5"
+THEME = "pelican-fresh"
+
+DISPLAY_PAGES_ON_MENU=True
+DISPLAY_CATEGORIES_ON_MENU=True
+
+YEAR_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/index.html'
+ARTICLE_URL = 'posts/{date:%Y}/{date:%M}/{slug}.html'
+ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%M}/{slug}.html'
+SITESUBTITLE = u'Notes and musings from the IT department at MET Norway'
+SUMMARY_MAX_LENGTH = 150
+READERS = {'html': None}
+TEMPLATE_PAGES = {
+'CNAME': 'CNAME'
+}
+TAG_CLOUD_MAX_ITEMS=100
+TAG_CLOUD_STEPS=4
