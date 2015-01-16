@@ -24,6 +24,14 @@ LINKS = (('MET Norway', 'http://met.no/English'),
          ('yr.no', 'http://yr.no'),
 	)
 
+# Menu
+MENUITEMS = (
+    ('home', '/index.html'),
+    ('about', '/pages/about.html'),
+    ('howto', '/pages/howto.html'),
+    ('|', '#'),
+)
+
 # Social widget
 #SOCIAL = (('You can add links in your config file', '#'),
 #          ('Another social link', '#'),)
@@ -36,7 +44,7 @@ RELATIVE_URLS = True
 CHECK_MODIFIED_METHOD="md5"
 THEME = "pelican-fresh"
 
-DISPLAY_PAGES_ON_MENU=True
+DISPLAY_PAGES_ON_MENU=False
 DISPLAY_CATEGORIES_ON_MENU=True
 
 YEAR_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/index.html'
