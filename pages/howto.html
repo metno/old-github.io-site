@@ -82,55 +82,67 @@ sudo pip install pelican markdown ghp-import
 <h2>Add an article</h2>
 <p>Now we are going to add an article to the blog. </p>
 <ul>
-<li>
-<p>Go into the git repository and ensure that you are on the blog branch.</p>
-<p><code>bash
-cd itmetno.github.io 
-git branch blog</code></p>
-</li>
-<li>
-<p>Ensure you have the latest updates.</p>
-</li>
+<li>Go into the git repository and ensure that you are on the blog branch.</li>
 </ul>
-<p><code>bash
-   git pull</code></p>
+<div class="highlight"><pre><span class="nb">cd </span>itmetno.github.io 
+git branch blog
+</pre></div>
+
+
 <ul>
-<li>
-<p>Add your article under <code>blog</code> in <code>content</code> folder. Tips is to use <code>YYYYMMDD-</code> as a prefix for your filename.</p>
-<p><code>bash
-cd content/blog
-vim 20150116-example-article.md</code></p>
-</li>
-<li>
-<p>Fill out the standardized header of the blog.</p>
-<p>```md
-Title: Example title
-Date: 2015-01-16
-Tags: example, tag, list 
-Slug: example
-Author: example.name@met.no
-Status: draft</p>
-<p>Example ingress.</p>
-<h2>Examle headline</h2>
-<p>New example paragraph here.
-```</p>
-</li>
+<li>Ensure you have the latest updates.</li>
+</ul>
+<div class="highlight"><pre>git pull
+</pre></div>
+
+
+<ul>
+<li>Add your article under <code>blog</code> in <code>content</code> folder. Tips is to use <code>YYYYMMDD-</code> as a prefix for your filename.</li>
+</ul>
+<div class="highlight"><pre><span class="nb">cd </span>content/blog
+vim 20150116-example-article.md
+</pre></div>
+
+
+<ul>
+<li>Fill out the standardized header of the blog.</li>
+</ul>
+<div class="highlight"><pre><span class="n">Title</span><span class="o">:</span> <span class="n">Example</span> <span class="n">title</span>
+<span class="n">Date</span><span class="o">:</span> <span class="mi">2015</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">16</span>
+<span class="n">Tags</span><span class="o">:</span> <span class="n">example</span><span class="o">,</span> <span class="n">tag</span><span class="o">,</span> <span class="n">list</span> 
+<span class="n">Slug</span><span class="o">:</span> <span class="n">example</span>
+<span class="n">Author</span><span class="o">:</span> <span class="n">example</span><span class="o">.</span><span class="na">name</span><span class="err">@</span><span class="n">met</span><span class="o">.</span><span class="na">no</span>
+<span class="n">Status</span><span class="o">:</span> <span class="n">draft</span>
+
+<span class="n">Example</span> <span class="n">ingress</span><span class="o">.</span>
+
+<span class="err">##</span> <span class="n">Examle</span> <span class="n">headline</span>
+
+<span class="n">New</span> <span class="n">example</span> <span class="n">paragraph</span> <span class="n">here</span><span class="o">.</span>
+</pre></div>
+
+
+<ul>
 <li>
 <p>Remove the <code>Status: draft</code> when you are ready to publish the article.</p>
 </li>
 <li>
 <p>Add the new article to the git repository and push it to github.</p>
-<p><code>bash
-git add 20150116-example-article.md
-git commit -a -m "Added example article"
-git push</code></p>
-</li>
-<li>
-<p>Publish the article by generating the blog from the main folder of the repository.</p>
-<p><code>bash
-make github</code></p>
 </li>
 </ul>
+<div class="highlight"><pre>git add 20150116-example-article.md
+git commit -a -m <span class="s2">&quot;Added example article&quot;</span>
+git push
+</pre></div>
+
+
+<ul>
+<li>Publish the article by generating the blog from the main folder of the repository.</li>
+</ul>
+<div class="highlight"><pre>make github
+</pre></div>
+
+
 <p>Since I didn't remove the <code>Status: draft</code> of this example, it is accessible under the draft folder on the blog http://it.met.no/drafts/example.html</p>
 <h6>vim: set syn=markdown spell spl=en:</h6>
 </section>
