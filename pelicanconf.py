@@ -22,6 +22,7 @@ AUTHOR_FEED_RSS = None
 # Blogroll
 LINKS = (('MET Norway', 'http://met.no/English'),
          ('yr.no', 'http://yr.no'),
+	)
 
 # Social widget
 #SOCIAL = (('You can add links in your config file', '#'),
@@ -39,8 +40,8 @@ DISPLAY_PAGES_ON_MENU=True
 DISPLAY_CATEGORIES_ON_MENU=True
 
 YEAR_ARCHIVE_SAVE_AS = 'posts/{date:%Y}/index.html'
-ARTICLE_URL = 'posts/{date:%Y}/{date:%M}/{slug}.html'
-ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%M}/{slug}.html'
+ARTICLE_URL = 'posts/{date:%Y}/{date:%m}/{slug}.html'
+ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%m}/{slug}.html'
 SITESUBTITLE = u'Notes and musings from the IT department at MET Norway'
 SUMMARY_MAX_LENGTH = 150
 READERS = {'html': None}
