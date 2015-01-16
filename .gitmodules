@@ -1,0 +1,5 @@
+
+[submodule "pelican-fresh"]
+	path = pelican-fresh
+	url = https://github.com/jsliang/pelican-fresh.git
+
