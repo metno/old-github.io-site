@@ -27,7 +27,7 @@ sudo pip install pelican markdown ghp-import
 Make a local copy of the blog repository.
 
 ```bash
-git clone --recurse-submodules git@github.com:itmetno/itmetno.github.io.git
+git clone --recurse-submodules git@github.com:metno/metno.github.io.git
 ```
 
 ## Add an article 
@@ -37,7 +37,7 @@ Now we are going to add an article to the blog.
 - Go into the git repository and ensure that you are on the blog branch.
 
 ```bash
-cd itmetno.github.io 
+cd metno.github.io 
 git branch blog
 ```
 
