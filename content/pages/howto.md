@@ -7,7 +7,7 @@ Author: arnulf.heimsbakk@met.no
 [Pelican]: http://docs.getpelican.com/en/3.5.0/content.html
 [github]: https://github.io
 
-There is a short HowTo on how this blog is updated. To update the blog you need access to the git repository on [github].
+This is a short HowTo on how this blog is updated. To update the blog you need access to the git repository on [github].
 
 ## Pre request
 
