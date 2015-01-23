@@ -140,7 +140,11 @@
 </footer><!-- /.post-info -->                                <p>If you want to use <a href="https://www.vagrantup.com">Vagrant</a> with <a href="http://www.openstack.org">OpenStack</a>, you need to prepare <a href="https://www.vagrantup.com">Vagrant</a> with installing the <a href="https://github.com/cloudbau/vagrant-openstack-plugin">vagrant-openstack-plugin</a>. I had some problems installing it directly through <code>vagrant plugin install</code>. I had to clone it from <a href="https://github.com">Github</a> and install it manually. </p>
 <h2>One time configuration</h2>
 <h3>Install OpenStack plugin in Vagrant</h3>
-<div class="highlight"><pre><span class="nb">cd</span> /tmp
+<div class="highlight"><pre>sudo apt-get install ruby1.9.1 git virtualbox
+<span class="nb">cd</span> /tmp
+<span class="c"># At writing moment the latest version of Vagrant is the following version.</span>
+wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb
+sudo dpkg -i vagrant_1.7.2_x86_64.deb
 git clone https://github.com/cloudbau/vagrant-openstack-plugin
 <span class="nb">cd </span>vagrant-openstack-plugin
 gem build vagrant-openstack-plugin.gemspec
@@ -158,12 +162,7 @@ vagrant plugin install vagrant-openstack-plugin-*.gem
 <li>Log into OpenStack</li>
 <li>Download OpenStack API RC file</li>
 <li>Go to <code>Project</code> -&gt; <code>Compute</code> -&gt; <code>Access &amp; Security</code> -&gt; <code>API Access</code> </li>
-<li>Down RC file by hitting <code>Download OpenStack RC File</code></li>
-<li>Put <code>$USER-openrc.sh</code> in your <code>~/</code> or somewhere you prefer</li>
-</ul>
-<h2>Configure a Vagrant VM</h2>
-<h3>Vagrantfile</h3>
-<p>This is a default generic Vagrant file which starts a <code>m1.tiny</code> flavor image of Ubuntu ...</p>
+<li>Down ...</li></ul>
                                 <p class="readmore">
                                     <a class="btn btn-small btn-info" href="../posts/2015/01/vagrant-openstack.html">Read more...</a>
                                 </p>
@@ -199,13 +198,13 @@ vagrant plugin install vagrant-openstack-plugin-*.gem
             <div>
                 <h2>Tags</h2>
                 <ul id="cloud">
-                     <li class="tag-4"><a href="../tag/howto.html">howto</a></li>
-                     <li class="tag-4"><a href="../tag/oneliner.html">oneliner</a></li>
                      <li class="tag-4"><a href="../tag/bash.html">bash</a></li>
-                     <li class="tag-4"><a href="../tag/precise.html">precise</a></li>
-                     <li class="tag-4"><a href="../tag/kernel.html">kernel</a></li>
+                     <li class="tag-4"><a href="../tag/howto.html">howto</a></li>
                      <li class="tag-4"><a href="../tag/openstack.html">openstack</a></li>
+                     <li class="tag-4"><a href="../tag/kernel.html">kernel</a></li>
+                     <li class="tag-4"><a href="../tag/precise.html">precise</a></li>
                      <li class="tag-4"><a href="../tag/vagrant.html">vagrant</a></li>
+                     <li class="tag-4"><a href="../tag/oneliner.html">oneliner</a></li>
                 </ul>
              </div>
 <!-- /.Tags -->

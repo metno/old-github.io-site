@@ -90,7 +90,11 @@
         <p>If you want to use <a href="https://www.vagrantup.com">Vagrant</a> with <a href="http://www.openstack.org">OpenStack</a>, you need to prepare <a href="https://www.vagrantup.com">Vagrant</a> with installing the <a href="https://github.com/cloudbau/vagrant-openstack-plugin">vagrant-openstack-plugin</a>. I had some problems installing it directly through <code>vagrant plugin install</code>. I had to clone it from <a href="https://github.com">Github</a> and install it manually. </p>
 <h2>One time configuration</h2>
 <h3>Install OpenStack plugin in Vagrant</h3>
-<div class="highlight"><pre><span class="nb">cd</span> /tmp
+<div class="highlight"><pre>sudo apt-get install ruby1.9.1 git virtualbox
+<span class="nb">cd</span> /tmp
+<span class="c"># At writing moment the latest version of Vagrant is the following version.</span>
+wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb
+sudo dpkg -i vagrant_1.7.2_x86_64.deb
 git clone https://github.com/cloudbau/vagrant-openstack-plugin
 <span class="nb">cd </span>vagrant-openstack-plugin
 gem build vagrant-openstack-plugin.gemspec
