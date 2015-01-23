@@ -3,6 +3,7 @@ Date: 2015-01-16
 Tags: howto, openstack, vagrant
 Slug: vagrant-openstack
 Author: arnulf.heimsbakk@met.no
+Modified: 2015-01-23
 
 [Vagrant]: https://www.vagrantup.com
 [OpenStack]: http://www.openstack.org
@@ -16,7 +17,11 @@ If you want to use [Vagrant] with [OpenStack], you need to prepare [Vagrant] wit
 ### Install OpenStack plugin in Vagrant
 
 ```bash
+sudo apt-get install ruby1.9.1 git virtualbox
 cd /tmp
+# At writing moment the latest version of Vagrant is the following version.
+wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb
+sudo dpkg -i vagrant_1.7.2_x86_64.deb
 git clone https://github.com/cloudbau/vagrant-openstack-plugin
 cd vagrant-openstack-plugin
 gem build vagrant-openstack-plugin.gemspec
