@@ -6,11 +6,11 @@
     <meta name="robots" content="index, follow"/>
 
     <meta property="og:title" content="How to Use Cloud-init to Customize New OpenStack VMs"/>
-    <meta property="og:url" content="../drafts/how-to-use-cloud-init-to-customize-new-openstack-vms.html"/>
+    <meta property="og:url" content="../../../posts/2015/02/use-cloud-init-to-customize-new-openstack-vms.html"/>
     <meta property="og:site_name" content="IT.met.no"/>
     <meta property="og:type" content="article"/>
 
-    <link rel="canonical" href="../drafts/how-to-use-cloud-init-to-customize-new-openstack-vms.html" />
+    <link rel="canonical" href="../../../posts/2015/02/use-cloud-init-to-customize-new-openstack-vms.html" />
 
     <title>How to Use Cloud-init to Customize New OpenStack VMs | IT.met.no</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
 
-    <link rel="stylesheet" type="text/css" href="../theme/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../../../theme/css/main.css" />
     <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="IT.met.no Atom Feed" />
 
     <script type="text/javascript">var switchTo5x=true;</script>
@@ -38,7 +38,7 @@
         <div class="span10 offset1">
             <header id="banner" >
                 <h1>
-                    <a href="../">IT.met.no </a>
+                    <a href="../../../">IT.met.no </a>
                 </h1>
                 <nav class="navbar">
                     <div class="navbar-inner">
@@ -47,7 +47,7 @@
                             <li ><a href="/pages/about.html">about</a></li>
                             <li ><a href="/pages/howto.html">howto</a></li>
                             <li ><a href="#">|</a></li>
-                            <li class="active"><a href="../category/blog.html">blog</a></li>
+                            <li class="active"><a href="../../../category/blog.html">blog</a></li>
                         </ul>
 
                     </div>
@@ -64,26 +64,27 @@
     <article>
       <header>
         <h1 class="entry-title">
-          <a href="../drafts/how-to-use-cloud-init-to-customize-new-openstack-vms.html" rel="bookmark"
+          <a href="../../../posts/2015/02/use-cloud-init-to-customize-new-openstack-vms.html" rel="bookmark"
              title="Permalink to How to Use Cloud-init to Customize New OpenStack VMs">How to Use Cloud-init to Customize New OpenStack VMs</a></h1>
       </header>
       <div class="entry-content">
 <footer class="post-info">
     <address class="vcard author">
-        by <a class="url fn" href="../author/arnesundmetno.html">arne.sund@met.no</a>
+        by <a class="url fn" href="../../../author/arnesundmetno.html">arne.sund@met.no</a>
     </address>
 
-    in <a href="../category/blog.html">blog</a>
+    in <a href="../../../category/blog.html">blog</a>
 
     on 2015-02-05
 
         |
-        tags:         <a href="../tag/openstack.html">openstack</a>
-        <a href="../tag/cloud-init.html">cloud-init</a>
-        <a href="../tag/bootstrap.html">bootstrap</a>
-        <a href="../tag/nova-boot.html">nova boot</a>
-        <a href="../tag/ubuntu.html">ubuntu</a>
-        <a href="../tag/cloud-config.html">cloud-config</a>
+        tags:         <a href="../../../tag/openstack.html">openstack</a>
+        <a href="../../../tag/cloud-init.html">cloud-init</a>
+        <a href="../../../tag/bootstrap.html">bootstrap</a>
+        <a href="../../../tag/nova-boot.html">nova boot</a>
+        <a href="../../../tag/ubuntu.html">ubuntu</a>
+        <a href="../../../tag/cloud-config.html">cloud-config</a>
+        <a href="../../../tag/howto.html">howto</a>
 
 
 
@@ -131,7 +132,7 @@ nova floating-ip-associate web1 10.99.1.71
 
 <h2>Results</h2>
 <p>The new web instance has Apache running right from the start, no manual steps needed:</p>
-<p><img alt="Apache2 default page" src="../images/apache2-set-up-using-cloudinit.png" /></p>
+<p><img alt="Apache2 default page" src="../../../images/apache2-set-up-using-cloudinit.png" /></p>
 <h3>More Cloud-init options: Cloud-Config syntax</h3>
 <p>Cloud-init can do more than just run bash scripts. Using cloud-config syntax many different actions are possible. The documentation has <a href="http://cloudinit.readthedocs.org/en/latest/topics/examples.html">many useful examples</a> of cloud-config syntax to add user accounts, configure mount points, initialize the instance as a Chef/Puppet client and much more.</p>
 <p>For example, the same Apache2 initialization as above can be done with the following cloud-config statements:</p>
@@ -152,7 +153,7 @@ https://gist.githubusercontent.com/arnesund/7332e15c5eb9df8c55aa/raw/0bd63296980
 
 <p>The <a href="Simple cloud-config example">gist</a> contains the same cloud-config statements as above, so the end result it the same.</p>
 <h2>Troubleshooting</h2>
-<p>Cloud-init logs messages to /var/log/cloud-init.log and in my tests even debug level messages were logged. In addition, Cloud-init records all console output from changes it performs to /var/log/cloud-init-output.log. That makes it easy to catch errors in the initialization scripts, like for instance when I omitted ‘-y’ to apt-get install and package installation failed:</p>
+<p>Cloud-init logs messages to <code>/var/log/cloud-init.log</code> and in my tests even debug level messages were logged. In addition, Cloud-init records all console output from changes it performs to <code>/var/log/cloud-init-output.log</code>. That makes it easy to catch errors in the initialization scripts, like for instance when I omitted ‘-y’ to apt-get install and package installation failed:</p>
 <div class="highlight"><pre>The following NEW packages will be installed:
  apache2 apache2-bin apache2-data libapr1 libaprutil1 libaprutil1-dbd-sqlite3
  libaprutil1-ldap ssl-cert
@@ -184,7 +185,7 @@ Cloud-init v. 0.7.5 finished at Thu, 05 Feb 2015 12:35:49 +0000. Datasource Data
 </pre></div>
 
 
-<p>This also reveals that the "a2ensite 000-default" is not needed since the default site is enabled already. However, it’s included here as an example of how to run shell commands using cloud-config statements.</p>
+<p>This also reveals that the command "a2ensite 000-default" is not needed since the default site is enabled already. However, it’s included here as an example of how to run shell commands using cloud-config statements.</p>
 <h2>Testing vs Production</h2>
 <p>Using Cloud-init to get new instances to the desired state is nice when testing and a necessary step when deploying production instances. In a production context, one would probably use Cloud-init to initialize the instance as a Chef or Puppet client. From there, Chef/Puppet takes over the configuration task and will make sure the instance is set up according to the desired role it should fill. Cloud-init makes the initial bootstrapping of the instance easy.</p>
 

@@ -66,6 +66,53 @@
                         <article>
                             <header>
                                 <h1 class="entry-title">
+                                    <a href="./posts/2015/02/use-cloud-init-to-customize-new-openstack-vms.html" rel="bookmark" title="Permalink to How to Use Cloud-init to Customize New OpenStack VMs">
+                                       How to Use Cloud-init to Customize New OpenStack VMs
+                                    </a>
+                                </h1>
+                            </header>
+                            <div class="entry-content">
+<footer class="post-info">
+    <address class="vcard author">
+        by <a class="url fn" href="./author/arnesundmetno.html">arne.sund@met.no</a>
+    </address>
+
+    in <a href="./category/blog.html">blog</a>
+
+    on 2015-02-05
+
+        |
+        tags:         <a href="./tag/openstack.html">openstack</a>
+        <a href="./tag/cloud-init.html">cloud-init</a>
+        <a href="./tag/bootstrap.html">bootstrap</a>
+        <a href="./tag/nova-boot.html">nova boot</a>
+        <a href="./tag/ubuntu.html">ubuntu</a>
+        <a href="./tag/cloud-config.html">cloud-config</a>
+        <a href="./tag/howto.html">howto</a>
+
+
+
+    
+</footer><!-- /.post-info -->                                <p><em>Originally published on <a href="http://arnesund.com/2015/02/05/how-to-use-cloud-init-to-customize-new-openstack-vms/">arnesund.com</a></em></p>
+<p>When creating a new instance (VM) on OpenStack with one of the standard <a href="http://cloud-images.ubuntu.com/releases/">Ubuntu Cloud images</a>, the next step is typically to install packages and configure applications. Instead of doing that manually every time, OpenStack enables automatic setup of new instances using <a href="http://cloudinit.readthedocs.org/en/latest/">Cloud-init</a>. Cloud-init runs on first boot of every new instance and initializes it according to a provided script or config file. The functionality is part of the Ubuntu image and works the same way regardless of the cloud provider used (Amazon, RackSpace, private OpenStack cloud). Cloud-init is also available for <a href="http://cloudinit.readthedocs.org/en/latest/topics/availability.html">other distributions</a> as well.</p>
+<h2>Creating a customization script</h2>
+<h3>Standard Bash script</h3>
+<p>Perhaps the easiest way to get started is to create a standard Bash script that Cloud-init runs on first boot. Here is a simple example to get Apache2 up and running:</p>
+<div class="highlight"><pre>cat &gt; cloudinit.sh <span class="s">&lt;&lt;EOF</span>
+<span class="s">&gt; #!/bin/bash</span>
+<span class="s">&gt; apt-get update</span>
+<span class="s">&gt; apt-get -y install ...</span></pre></div>
+                                <p class="readmore">
+                                    <a class="btn btn-small btn-info" href="./posts/2015/02/use-cloud-init-to-customize-new-openstack-vms.html">Read more...</a>
+                                </p>
+                            </div><!-- /.entry-content -->
+                            <hr/>
+                        </article>
+                    </li>
+                    <li>
+                        <article>
+                            <header>
+                                <h1 class="entry-title">
                                     <a href="./posts/2015/01/remove-kernel.html" rel="bookmark" title="Permalink to Remove unused kernels">
                                        Remove unused kernels
                                     </a>
@@ -198,12 +245,17 @@ vagrant plugin install vagrant-openstack-plugin-*.gem
             <div>
                 <h2>Tags</h2>
                 <ul id="cloud">
-                     <li class="tag-4"><a href="./tag/kernel.html">kernel</a></li>
+                     <li class="tag-4"><a href="./tag/ubuntu.html">ubuntu</a></li>
+                     <li class="tag-1"><a href="./tag/openstack.html">openstack</a></li>
                      <li class="tag-4"><a href="./tag/oneliner.html">oneliner</a></li>
-                     <li class="tag-4"><a href="./tag/openstack.html">openstack</a></li>
                      <li class="tag-4"><a href="./tag/precise.html">precise</a></li>
+                     <li class="tag-4"><a href="./tag/kernel.html">kernel</a></li>
+                     <li class="tag-4"><a href="./tag/cloud-config.html">cloud-config</a></li>
+                     <li class="tag-4"><a href="./tag/cloud-init.html">cloud-init</a></li>
+                     <li class="tag-1"><a href="./tag/howto.html">howto</a></li>
+                     <li class="tag-4"><a href="./tag/nova-boot.html">nova boot</a></li>
+                     <li class="tag-4"><a href="./tag/bootstrap.html">bootstrap</a></li>
                      <li class="tag-4"><a href="./tag/bash.html">bash</a></li>
-                     <li class="tag-4"><a href="./tag/howto.html">howto</a></li>
                      <li class="tag-4"><a href="./tag/vagrant.html">vagrant</a></li>
                 </ul>
              </div>
