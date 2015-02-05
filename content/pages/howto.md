@@ -38,7 +38,7 @@ Now we are going to add an article to the blog.
 
 ```bash
 cd metno.github.io 
-git branch blog
+git checkout blog
 ```
 
 - Ensure you have the latest updates.
