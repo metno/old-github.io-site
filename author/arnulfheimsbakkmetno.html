@@ -91,7 +91,7 @@
 
     
 </footer><!-- /.post-info -->                                <p>Removes all but current kernel and headers for freeing up disk space. This is a note for internal use and tested for Ubuntu Precise. Use at your own risk :) </p>
-<div class="highlight"><pre>dpkg-query -f <span class="s1">&#39;${Package}\n&#39;</span> -W |  egrep <span class="s1">&#39;linux-(headers|image)-[[:digit:]].*(|-generic)&#39;</span> | grep -v <span class="k">$(</span>uname -r | sed <span class="s1">&#39;s/-generic//&#39;</span><span class="k">)</span> | sudo xargs apt-get -q -q -yy --purge remove
+<div class="highlight"><pre>dpkg-query -f <span class="s1">&#39;${Package}\n&#39;</span> -W <span class="p">|</span>  egrep <span class="s1">&#39;linux-(headers|image)-[[:digit:]].*(|-generic)&#39;</span> <span class="p">|</span> grep -v <span class="k">$(</span>uname -r <span class="p">|</span> sed <span class="s1">&#39;s/-generic//&#39;</span><span class="k">)</span> <span class="p">|</span> sudo xargs apt-get -q -q -yy --purge remove
 </pre></div>
 
 
@@ -198,13 +198,13 @@ vagrant plugin install vagrant-openstack-plugin-*.gem
             <div>
                 <h2>Tags</h2>
                 <ul id="cloud">
+                     <li class="tag-4"><a href="../tag/kernel.html">kernel</a></li>
+                     <li class="tag-4"><a href="../tag/oneliner.html">oneliner</a></li>
+                     <li class="tag-4"><a href="../tag/precise.html">precise</a></li>
+                     <li class="tag-4"><a href="../tag/openstack.html">openstack</a></li>
                      <li class="tag-4"><a href="../tag/bash.html">bash</a></li>
                      <li class="tag-4"><a href="../tag/howto.html">howto</a></li>
-                     <li class="tag-4"><a href="../tag/openstack.html">openstack</a></li>
-                     <li class="tag-4"><a href="../tag/kernel.html">kernel</a></li>
-                     <li class="tag-4"><a href="../tag/precise.html">precise</a></li>
                      <li class="tag-4"><a href="../tag/vagrant.html">vagrant</a></li>
-                     <li class="tag-4"><a href="../tag/oneliner.html">oneliner</a></li>
                 </ul>
              </div>
 <!-- /.Tags -->
