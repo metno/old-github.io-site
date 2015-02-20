@@ -1,8 +1,9 @@
 Title: Kodeklubben
 Date: 2015-02-20
-Tags: visit, code, examples, presentations
+Tags: kode, eksempler, presentasjon
 Slug: kodeklubben
 Author: martin.l.satra@met.no
+Lang: no
 Status: draft
 
 [Kodeklubben]: http://www.kidsakoder.no/kodeklubben/
