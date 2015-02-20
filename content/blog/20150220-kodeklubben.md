@@ -9,9 +9,9 @@ Status: draft
 [http://api.met.no]: http://api.met.no
 [7-Zip]: http://www.7-zip.org/
 [http://ipython.org]: http://ipython.org/
-[Presentasjon av MET]: http://it.met.no/files/itut/met_kodeklubben.pdf
+[Presentasjon av MET]: {filename}/files/itut/met_kodeklubben.pdf
 [IPython Notebook-en med blant annet eksempler på bruk av http://api.met.no]: http://nbviewer.ipython.org/gist/anonymous/bf417150abe1f7dca2c3
-[Presentasjon og kodeeksempler på bruk av kart-tjenestene til MET]: http://it.met.no/files/itut/kodeklubben.tgz
+[Presentasjon og kodeeksempler på bruk av kart-tjenestene til MET]: {filename}/files/itut/kodeklubben.tgz
 
 Her finner du presentasjoner og kodeeksempler fra [Kodeklubben] sitt besøk på Meteorologisk institutt (MET) 18. februar 2015. Vi demonstrerer bruk av [http://api.met.no] og kart-tjenestene til MET for bruk i egne kodeprosjekt.
 
