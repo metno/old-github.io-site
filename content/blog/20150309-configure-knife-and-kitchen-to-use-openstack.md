@@ -127,15 +127,15 @@ cat >> ~/.kitchen/config.yml <<EOF
 ---
 driver:
  name: openstack
- openstack_username: &lt;%= ENV['OS_USERNAME'] %&gt;
- openstack_api_key: &lt;%= ENV['OS_PASSWORD'] %&gt;
- openstack_auth_url: &lt;%= "#{ENV['OS_AUTH_URL']}/tokens" %&gt;
- openstack_tenant: &lt;%= ENV['OS_TENANT_NAME'] %&gt;
+ openstack_username: <%= ENV['OS_USERNAME'] %>
+ openstack_api_key: <%= ENV['OS_PASSWORD'] %>
+ openstack_auth_url: <%= "#{ENV['OS_AUTH_URL']}/tokens" %>
+ openstack_tenant: <%= ENV['OS_TENANT_NAME'] %>
  require_chef_omnibus: true
  image_ref: CentOS 7 GC 2014-09-16
  username: centos
  flavor_ref: m1.medium
- key_name: &lt;%= ENV['OS_USERNAME'] %&gt;
+ key_name: <%= ENV['OS_USERNAME'] %>
  floating_ip_pool: public
  network_ref:
  - net1
