@@ -191,15 +191,15 @@ cat &gt;&gt; ~/.kitchen/config.yml <span class="s">&lt;&lt;EOF</span>
 <span class="s">---</span>
 <span class="s">driver:</span>
 <span class="s"> name: openstack</span>
-<span class="s"> openstack_username: &amp;lt;%= ENV[&#39;OS_USERNAME&#39;] %&amp;gt;</span>
-<span class="s"> openstack_api_key: &amp;lt;%= ENV[&#39;OS_PASSWORD&#39;] %&amp;gt;</span>
-<span class="s"> openstack_auth_url: &amp;lt;%= &quot;#{ENV[&#39;OS_AUTH_URL&#39;]}/tokens&quot; %&amp;gt;</span>
-<span class="s"> openstack_tenant: &amp;lt;%= ENV[&#39;OS_TENANT_NAME&#39;] %&amp;gt;</span>
+<span class="s"> openstack_username: &lt;%= ENV[&#39;OS_USERNAME&#39;] %&gt;</span>
+<span class="s"> openstack_api_key: &lt;%= ENV[&#39;OS_PASSWORD&#39;] %&gt;</span>
+<span class="s"> openstack_auth_url: &lt;%= &quot;#{ENV[&#39;OS_AUTH_URL&#39;]}/tokens&quot; %&gt;</span>
+<span class="s"> openstack_tenant: &lt;%= ENV[&#39;OS_TENANT_NAME&#39;] %&gt;</span>
 <span class="s"> require_chef_omnibus: true</span>
 <span class="s"> image_ref: CentOS 7 GC 2014-09-16</span>
 <span class="s"> username: centos</span>
 <span class="s"> flavor_ref: m1.medium</span>
-<span class="s"> key_name: &amp;lt;%= ENV[&#39;OS_USERNAME&#39;] %&amp;gt;</span>
+<span class="s"> key_name: &lt;%= ENV[&#39;OS_USERNAME&#39;] %&gt;</span>
 <span class="s"> floating_ip_pool: public</span>
 <span class="s"> network_ref:</span>
 <span class="s"> - net1</span>
