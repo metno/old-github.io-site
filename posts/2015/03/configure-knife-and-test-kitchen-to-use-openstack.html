@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Webmaster" />
+    <meta name="robots" content="index, follow"/>
+
+    <meta property="og:title" content="How to Configure Knife and Test Kitchen to use OpenStack"/>
+    <meta property="og:url" content="../../../posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html"/>
+    <meta property="og:site_name" content="IT.met.no"/>
+    <meta property="og:type" content="article"/>
+
+    <link rel="canonical" href="../../../posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html" />
+
+    <title>How to Configure Knife and Test Kitchen to use OpenStack | IT.met.no</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="../../../theme/css/main.css" />
+    <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="IT.met.no Atom Feed" />
+
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">
+        stLight.options({
+            publisher: "",
+            doNotHash: false,
+            doNotCopy: false,
+            hashAddressBar: false
+        });
+    </script>
+</head>
+
+<body id="index">
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <header id="banner" >
+                <h1>
+                    <a href="../../../">IT.met.no </a>
+                </h1>
+                <nav class="navbar">
+                    <div class="navbar-inner">
+                        <ul class="nav">
+                            <li ><a href="/index.html">home</a></li>
+                            <li ><a href="/pages/about.html">about</a></li>
+                            <li ><a href="/pages/howto.html">howto</a></li>
+                            <li ><a href="#">|</a></li>
+                            <li class="active"><a href="../../../category/blog.html">blog</a></li>
+                        </ul>
+
+                    </div>
+                </nav>
+            </header><!-- /#banner -->
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <div class="row-fluid">
+<div class="span10 offset1">
+  <section>
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="../../../posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html" rel="bookmark"
+             title="Permalink to How to Configure Knife and Test Kitchen to use OpenStack">How to Configure Knife and Test Kitchen to use OpenStack</a></h1>
+      </header>
+      <div class="entry-content">
+<footer class="post-info">
+    <address class="vcard author">
+        by <a class="url fn" href="../../../author/arnesundmetno.html">arne.sund@met.no</a>
+    </address>
+
+    in <a href="../../../category/blog.html">blog</a>
+
+    on 2015-03-09
+
+        |
+        tags:         <a href="../../../tag/knife.html">knife</a>
+        <a href="../../../tag/kitchen.html">kitchen</a>
+        <a href="../../../tag/openstack.html">openstack</a>
+        <a href="../../../tag/chef.html">chef</a>
+        <a href="../../../tag/nova.html">nova</a>
+        <a href="../../../tag/neutron.html">neutron</a>
+        <a href="../../../tag/glance.html">glance</a>
+        <a href="../../../tag/tools.html">tools</a>
+        <a href="../../../tag/howto.html">howto</a>
+
+
+
+    
+</footer><!-- /.post-info -->
+
+        <p><em>Originally published on <a href="http://arnesund.com/2015/03/01/how-to-configure-knife-and-test-kitchen-to-use-openstack/">arnesund.com</a></em></p>
+<p>When developing Chef cookbooks, Knife and Test Kitchen (hereafter just "Kitchen") are essential tools in the workflow. Both tools can be set up to use OpenStack to make it easy to create VMs for testing regardless of the capabilities of the workstation used. It's great for testing some new recipe in a cookbook or making sure changes do not break existing cookbook functionality. This post will go through the configuration of both tools to ensure they use OpenStack instead of the default Vagrant drivers.</p>
+<h2>Install software and dependencies</h2>
+<p>First, it is necessary to install the software, plugins and dependencies. Let's start with some basic packages:</p>
+<div class="highlight"><pre>sudo apt-get install ruby1.9 git
+sudo apt-get install make autoconf gcc g++ zlib1g-dev bundler
+</pre></div>
+
+
+<h3>Chef Development Kit</h3>
+<p>The <a href="https://docs.chef.io/#chef-dk-title">Chef Development Kit</a> is a collection of very useful tools for any cookbook developer. It includes tools like Knife, Kitchen, Berkshelf, Foodcritic, and more. Fetch download links for the current release from the <a href="https://downloads.chef.io/chef-dk/">Chef-DK download page</a> and install it, for example like this for Ubuntu:</p>
+<div class="highlight"><pre>wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_0.4.0-1_amd64.deb
+sudo dpkg -i chefdk_0.4.0-1_amd64.deb
+</pre></div>
+
+
+<h3>Kitchen OpenStack driver</h3>
+<p>By default, Kitchen uses Vagrant as the driver to create virtual machines for running tests. To get OpenStack support, install the <a href="https://github.com/test-kitchen/kitchen-openstack">Kitchen OpenStack driver</a>. The recommended way of installing it is to add the Ruby gem to the Gemfile in your cookbook and use Bundler to install it:</p>
+<div class="highlight"><pre><span class="nb">echo</span> <span class="s1">&#39;gem &quot;kitchen-openstack&quot;&#39;</span> &gt;&gt; Gemfile
+sudo bundle
+</pre></div>
+
+
+<h3>Knife OpenStack plugin</h3>
+<p>With the <a href="https://github.com/chef/knife-openstack">OpenStack plugin</a> Knife is able to create new OpenStack VMs and bootstrap them as nodes on your Chef server. It can also list VMs and delete VMs. Install the plugin with:</p>
+<div class="highlight"><pre>gem install knife-openstack
+</pre></div>
+
+
+<h3>OpenStack command line clients</h3>
+<p>The command line clients for OpenStack are very useful for checking values like image IDs, Neutron networks and so on. In addition, they offer one-line access to actions like creating new VMs, allocating new floating IPs and more. Install the clients with:</p>
+<div class="highlight"><pre>sudo apt-get install python-novaclient python-neutronclient python-glanceclient
+</pre></div>
+
+
+<h2>Configure Knife to use OpenStack</h2>
+<p>After installing the plugin to get OpenStack support for Knife, you need to append some lines to the Knife config file <code>~/.chef/knife.rb</code>:</p>
+<div class="highlight"><pre>cat &gt;&gt; ~/.chef/knife.rb <span class="s">&lt;&lt;EOF</span>
+<span class="s"># Knife OpenStack plugin setup</span>
+<span class="s">knife[:openstack_auth_url] = &quot;#{ENV[&#39;OS_AUTH_URL&#39;]}/tokens&quot;</span>
+<span class="s">knife[:openstack_username] = &quot;#{ENV[&#39;OS_USERNAME&#39;]}&quot;</span>
+<span class="s">knife[:openstack_password] = &quot;#{ENV[&#39;OS_PASSWORD&#39;]}&quot;</span>
+<span class="s">knife[:openstack_tenant] = &quot;#{ENV[&#39;OS_TENANT_NAME&#39;]}&quot;</span>
+<span class="s">EOF</span>
+</pre></div>
+
+
+<p>What these lines do is to instruct Knife to use the contents of environment variables to authenticate with OpenStack when needed. The environment variables are the ones you get when you source the OpenStack RC file of your project. The RC file can be downloaded from the OpenStack web UI (Horizon) by navigating to Access &amp; Security -&gt; API Access -&gt; Download OpenStack RC file. Sourcing the file makes sure the environment variables are part of the current shell environment, and is done like this (for an RC file called <code>openstack-rc.sh</code>):</p>
+<div class="highlight"><pre><span class="nv">$ </span>. openstack-rc.sh
+</pre></div>
+
+
+<p>With this config in place Knife now has the power to create new OpenStack VMs in your project, list all active VMs and destroy VMs. In addition, it can be used to list available images, flavors and networks in OpenStack. I do however prefer to use the native OpenStack clients (glance, nova, neutron) for that, since they can perform lots of other valuable tasks like creating new networks and so on.</p>
+<p>Below is an example of VM creation with Knife, using some of the required and optional arguments to the command. Issue <code>knife openstack server create --help</code> to get all available arguments. As a quick summary, the arguments I give Knife are the requested hostname of the server, the flavor (3 = m1.medium in my cluster), image ID of a CentOS 7 image, network ID, SSH key name and the default user account used by the image ("centos").</p>
+<p>With the <code>--openstack-floating-ip</code> argument I tell Knife to allocate a floating IP to the new server. I could have specified a specific floating IP after that argument, which would have been allocated to the new server whether it was in use before or not. The only requirement is that it must be allocated to my OpenStack project before I try to use it.</p>
+<div class="highlight"><pre><span class="nv">$ </span>knife openstack server create -N <span class="nb">test</span>-server -f <span class="m">3</span> -I b206baa3-3a80-41cf-9850-49021b8bb3c1 --network-ids df7cc182-8794-4134-b700-1fb8f1fbf070 --openstack-ssh-key-id arnes --ssh-user centos --openstack-floating-ip --no-host-key-verify
+
+Waiting <span class="k">for</span> server <span class="o">[</span><span class="nb">wait time</span> <span class="o">=</span> 600<span class="o">]</span>.........................
+Instance ID 13493d82-8dc2-4b1d-87e8-3eeefa8defe2
+Name <span class="nb">test</span>-server
+Flavor 3
+Image b206baa3-3a80-41cf-9850-49021b8bb3c1
+Keypair arnes
+State ACTIVE
+Availability Zone nova
+Floating IP Address: 10.0.1.242
+Bootstrapping the server by using bootstrap_protocol: ssh and image_os_type: linux
+
+Waiting <span class="k">for</span> sshd to host <span class="o">(</span>10.0.1.242<span class="o">)</span>....done
+Connecting to 10.0.1.242
+10.0.1.242 Installing Chef Client...
+10.0.1.242 Downloading Chef <span class="m">11</span> <span class="k">for</span> el...
+10.0.1.242 Installing Chef 11
+10.0.1.242 Thank you <span class="k">for</span> installing Chef!
+10.0.1.242 Starting first Chef Client run...
+...
+10.0.1.242 Running handlers <span class="nb">complete</span>
+10.0.1.242 Chef Client finished, 0/0 resources updated in 1.328282722 seconds
+Instance ID 13493d82-8dc2-4b1d-87e8-3eeefa8defe2
+Name <span class="nb">test</span>-server
+Public IP 10.0.1.242
+Flavor 3
+Image b206baa3-3a80-41cf-9850-49021b8bb3c1
+Keypair arnes
+State ACTIVE
+Availability Zone nova
+</pre></div>
+
+
+<p>As an added benefit of creating VMs this way, they are automatically bootstrapped as Chef nodes with your Chef server!</p>
+<h2>Configure Kitchen to use OpenStack</h2>
+<p>Kitchen has a config file <code>~/.kitchen/config.yml</code> where all the config required to use OpenStack should be placed. The config file is "global", meaning it's not part of any cookbook or Chef repository. The advantage of using the global config file is that the Kitchen config in each cookbook is reduced to just one line, which is good since that Kitchen config is commonly committed to the cookbook repository and shared with other developers. Other developers may not have access to the same OpenStack environment as you, so their Kitchen OpenStack config will differ from yours.</p>
+<p>Run the following commands to initialize the necessary config for Kitchen:</p>
+<div class="highlight"><pre>mkdir ~/.kitchen
+cat &gt;&gt; ~/.kitchen/config.yml <span class="s">&lt;&lt;EOF</span>
+<span class="s">---</span>
+<span class="s">driver:</span>
+<span class="s"> name: openstack</span>
+<span class="s"> openstack_username: &amp;lt;%= ENV[&#39;OS_USERNAME&#39;] %&amp;gt;</span>
+<span class="s"> openstack_api_key: &amp;lt;%= ENV[&#39;OS_PASSWORD&#39;] %&amp;gt;</span>
+<span class="s"> openstack_auth_url: &amp;lt;%= &quot;#{ENV[&#39;OS_AUTH_URL&#39;]}/tokens&quot; %&amp;gt;</span>
+<span class="s"> openstack_tenant: &amp;lt;%= ENV[&#39;OS_TENANT_NAME&#39;] %&amp;gt;</span>
+<span class="s"> require_chef_omnibus: true</span>
+<span class="s"> image_ref: CentOS 7 GC 2014-09-16</span>
+<span class="s"> username: centos</span>
+<span class="s"> flavor_ref: m1.medium</span>
+<span class="s"> key_name: &amp;lt;%= ENV[&#39;OS_USERNAME&#39;] %&amp;gt;</span>
+<span class="s"> floating_ip_pool: public</span>
+<span class="s"> network_ref:</span>
+<span class="s"> - net1</span>
+<span class="s"> no_ssh_tcp_check: true</span>
+<span class="s"> no_ssh_tcp_check_sleep: 30</span>
+<span class="s">EOF</span>
+</pre></div>
+
+
+<p>There is quite a bit of config going on here, so I'll go through some of the most important parts. Many of the configuration options rely on environment variables which are set when you source the OpenStack RC file, just like for Knife. In addition, the following options may need to be customized according to your OpenStack environment:</p>
+<ul>
+<li>image_ref: The name of a valid image to use when creating VMs</li>
+<li>username: The username used by the chosen image, in this case "centos"</li>
+<li>flavor_ref: A valid name of a flavor to use when creating VMs</li>
+<li>key_name: Must match the name of your SSH key in OpenStack, here it is set to equal your username</li>
+<li>floating_ip_pool: The name of a valid pool of public IP addresses</li>
+<li>network_ref: A list of existing networks to connect new VMs to</li>
+</ul>
+<p>To determine the correct values for image, flavor and network above, use the command line OpenStack clients. The Glance client can output a list of valid images to choose from:</p>
+<div class="highlight"><pre><span class="nv">$ </span>glance image-list
++--------------------------------------+------------------------+-----+------+------------+--------+
+<span class="p">|</span> ID                                   <span class="p">|</span> Name     <span class="p">|</span> Disk Format <span class="p">|</span> Container Format <span class="p">|</span> Size <span class="p">|</span> Status <span class="p">|</span>
++--------------------------------------+------------------------+-----+------+------------+--------+
+<span class="p">|</span> ee2cc71b-3e2e-4b11-b327-f9cbf73a5694 <span class="p">|</span> CentOS <span class="m">6</span> GC 14-11-12   <span class="p">|</span> raw <span class="p">|</span> bare <span class="p">|</span> <span class="m">8589934592</span> <span class="p">|</span> active <span class="p">|</span>
+<span class="p">|</span> b206baa3-3a80-41cf-9850-49021b8bb3c1 <span class="p">|</span> CentOS <span class="m">7</span> GC 2014-09-16 <span class="p">|</span> raw <span class="p">|</span> bare <span class="p">|</span> <span class="m">8589934592</span> <span class="p">|</span> active <span class="p">|</span>
+...
+</pre></div>
+
+
+<p>Set the image_ref in the Kitchen config to either the ID, the name or a regex matching the name.</p>
+<p>Correspondingly, find the allowed flavors with the Nova client:</p>
+<div class="highlight"><pre><span class="nv">$ </span>nova flavor-list
++----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
+<span class="p">|</span> ID <span class="p">|</span> Name      <span class="p">|</span> Memory_MB <span class="p">|</span> Disk <span class="p">|</span> Ephemeral <span class="p">|</span> Swap <span class="p">|</span> VCPUs <span class="p">|</span> RXTX_Factor <span class="p">|</span> Is_Public <span class="p">|</span>
++----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
+<span class="p">|</span>  <span class="m">2</span> <span class="p">|</span> m1.small  <span class="p">|</span>    <span class="m">2048</span>   <span class="p">|</span>  <span class="m">20</span>  <span class="p">|</span>     <span class="m">0</span>     <span class="p">|</span>      <span class="p">|</span>   <span class="m">1</span>   <span class="p">|</span>     1.0     <span class="p">|</span>    True   <span class="p">|</span>
+<span class="p">|</span>  <span class="m">3</span> <span class="p">|</span> m1.medium <span class="p">|</span>    <span class="m">4096</span>   <span class="p">|</span>  <span class="m">40</span>  <span class="p">|</span>     <span class="m">0</span>     <span class="p">|</span>      <span class="p">|</span>   <span class="m">2</span>   <span class="p">|</span>     1.0     <span class="p">|</span>    True   <span class="p">|</span>
+...
+</pre></div>
+
+
+<p>The network names are available using the neutron client. However, if you haven't created any networks yet, you can create a network, subnet and router like this:</p>
+<div class="highlight"><pre>neutron net-create net1
+neutron subnet-create --name subnet1 net1 10.0.0.0/24
+neutron router-create gw
+neutron router-gateway-set gw public
+neutron router-interface-add gw subnet1
+</pre></div>
+
+
+<p>These commands assume that the external network in your OpenStack cluster is named "public". Assuming the commands complete successfully you may use the network name "net1" in the Kitchen config file. To get the list of available networks, use the Neutron client with the net-list subcommand:</p>
+<div class="highlight"><pre><span class="nv">$ </span>neutron net-list
++--------------------------------------+--------+----------------------------------------------------+
+<span class="p">|</span> id                                   <span class="p">|</span> name   <span class="p">|</span> subnets <span class="p">|</span>
++--------------------------------------+--------+----------------------------------------------------+
+<span class="p">|</span> 2d2b2336-d7b6-4adc-b7f2-c92f98d4ec58 <span class="p">|</span> public <span class="p">|</span> 5ac43f4f-476f-4513-8f6b-67a758aa56e7 <span class="p">|</span>
+<span class="p">|</span> e9dcbda9-cded-4823-a9fe-b03aadf33346 <span class="p">|</span> net1   <span class="p">|</span> 8ba65517-9bf5-46cc-a392-03a0708cd7f3 10.0.0.0/24 <span class="p">|</span>
++--------------------------------------+--------+----------------------------------------------------+
+</pre></div>
+
+
+<p>With all that configured, Kitchen is ready to use OpenStack as the driver instead of Vagrant. All you need to do in a cookbook to make Kitchen use the OpenStack driver, is to change the "driver" statement in the ".kitchen.yml" config file in the cookbook root directory from "vagrant" to "openstack":</p>
+<div class="highlight"><pre>---
+driver:
+ name: openstack
+</pre></div>
+
+
+<p>So, lets take it for a spin:</p>
+<div class="highlight"><pre><span class="nv">$ </span>kitchen create
+-----&gt; Starting Kitchen <span class="o">(</span>v1.2.1<span class="o">)</span>
+-----&gt; Creating &lt;default-ubuntu-1404&gt;...
+ OpenStack instance &lt;c08688f6-a754-4f43-a365-898a38fc06f8&gt; created.
+.........................
+<span class="o">(</span>server ready<span class="o">)</span>
+ Attaching floating IP from &lt;public&gt; pool
+ Attaching floating IP &lt;10.0.1.243&gt;
+ Waiting <span class="k">for</span> 10.0.1.243:22...
+ Waiting <span class="k">for</span> 10.0.1.243:22...
+ Waiting <span class="k">for</span> 10.0.1.243:22...
+ <span class="o">(</span>ssh ready<span class="o">)</span>
+ Using OpenStack keypair &lt;arnes&gt;
+ Using public SSH key &lt;~/.ssh/id_rsa.pub&gt;
+ Using private SSH key &lt;~/.ssh/id_rsa&gt;
+ Adding OpenStack hint <span class="k">for</span> ohai
+net.ssh.transport.server_version<span class="o">[</span>3fe8926c1320<span class="o">]</span>
+net.ssh.transport.algorithms<span class="o">[</span>3fe8926c06b4<span class="o">]</span>
+net.ssh.connection.session<span class="o">[</span>3fe89270b420<span class="o">]</span>
+net.ssh.connection.channel<span class="o">[</span>3fe89270b2cc<span class="o">]</span>
+Finished creating &lt;default-ubuntu-1404&gt; <span class="o">(</span>0m50.68s<span class="o">)</span>.
+-----&gt; Kitchen is finished. <span class="o">(</span>0m52.22s<span class="o">)</span>
+</pre></div>
+
+
+<p>Voil&agrave; :)</p>
+
+      </div><!-- /.entry-content -->
+
+    </article>
+  </section>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="site-footer">
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <address>
+                    <p>
+                        This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                    </p>
+                    <p>
+                        <a href="http://github.com/jsliang/pelican-fresh/">Fresh</a> is a responsive theme designed by <a href="http://jsliang.com/">jsliang</a> and <a href="https://github.com/jsliang/pelican-fresh/graphs/contributors">contributors</a>.
+                        Special thanks to <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a> and <a href="http://getbootstrap.com/">Twitter Bootstrap</a>.
+                    </p>
+                </address>
+            </div>
+        </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+</body>
+</html>

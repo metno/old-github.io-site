@@ -1,5 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>IT.met.no</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2015-02-20T00:00:00+01:00</updated><entry><title>Kodeklubben</title><link href="/posts/2015/02/kodeklubben.html" rel="alternate"></link><updated>2015-02-20T00:00:00+01:00</updated><author><name>martin.l.satra@met.no</name></author><id>tag:,2015-02-20:posts/2015/02/kodeklubben.html</id><summary type="html">&lt;p&gt;Her finner du presentasjoner og kodeeksempler fra &lt;a href="http://www.kidsakoder.no/kodeklubben/"&gt;Kodeklubben&lt;/a&gt; sitt besøk på Meteorologisk institutt (MET) 18. februar 2015. Vi demonstrerer bruk av &lt;a href="http://api.met.no"&gt;http://api.met.no&lt;/a&gt; og kart-tjenestene til MET for bruk i egne kodeprosjekt.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>IT.met.no</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2015-03-09T00:00:00+01:00</updated><entry><title>How to Configure Knife and Test Kitchen to use OpenStack</title><link href="/posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html" rel="alternate"></link><updated>2015-03-09T00:00:00+01:00</updated><author><name>arne.sund@met.no</name></author><id>tag:,2015-03-09:posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html</id><summary type="html">&lt;p&gt;&lt;em&gt;Originally published on &lt;a href="http://arnesund.com/2015/03/01/how-to-configure-knife-and-test-kitchen-to-use-openstack/"&gt;arnesund.com&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;When developing Chef cookbooks, Knife and Test Kitchen (hereafter just "Kitchen") are essential tools in the workflow. Both tools can be set up to use OpenStack to make it easy to create VMs for testing regardless of the capabilities of the workstation used. It's great for testing some new recipe in a cookbook or making sure changes do not break existing cookbook functionality. This post will go through the configuration of both tools to ensure they use OpenStack instead of the default Vagrant drivers.&lt;/p&gt;
+&lt;h2&gt;Install software and dependencies&lt;/h2&gt;
+&lt;p&gt;First, it is necessary to install the software, plugins and dependencies. Let's start with some basic packages:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install ruby1.9 git
+sudo apt-get install make autoconf gcc g++ zlib1g-dev bundler
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Chef Development Kit&lt;/h3&gt;
+&lt;p&gt;The &lt;a href="https://docs.chef.io/#chef-dk-title"&gt;Chef Development Kit&lt;/a&gt; is a collection of very useful tools for any cookbook developer. It includes tools like Knife, Kitchen, Berkshelf, Foodcritic, and more. Fetch download links for the current release from the &lt;a href="https://downloads.chef.io/chef-dk/"&gt;Chef-DK download page&lt;/a&gt; and install it, for example like this for Ubuntu:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;wget https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_0.4.0-1_amd64.deb
+sudo dpkg -i chefdk_0.4.0-1_amd64.deb
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Kitchen OpenStack driver&lt;/h3&gt;
+&lt;p&gt;By default, Kitchen uses Vagrant as the driver to create virtual machines for running tests. To get OpenStack support, install the &lt;a href="https://github.com/test-kitchen/kitchen-openstack"&gt;Kitchen OpenStack driver&lt;/a&gt;. The recommended way of installing it is to add the Ruby gem to the Gemfile in your cookbook and use Bundler to install it:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;gem &amp;quot;kitchen-openstack&amp;quot;&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; Gemfile
+sudo bundle
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Knife OpenStack plugin&lt;/h3&gt;
+&lt;p&gt;With the &lt;a href="https://github.com/chef/knife-openstack"&gt;OpenStack plugin&lt;/a&gt; Knife is able to create new OpenStack VMs and bootstrap them as nodes on your Chef server. It can also list VMs and delete VMs. Install the plugin with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;gem install knife-openstack
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;OpenStack command line clients&lt;/h3&gt;
+&lt;p&gt;The command line clients for OpenStack are very useful for checking values like image IDs, Neutron networks and so on. In addition, they offer one-line access to actions like creating new VMs, allocating new floating IPs and more. Install the clients with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install python-novaclient python-neutronclient python-glanceclient
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Configure Knife to use OpenStack&lt;/h2&gt;
+&lt;p&gt;After installing the plugin to get OpenStack support for Knife, you need to append some lines to the Knife config file &lt;code&gt;~/.chef/knife.rb&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cat &amp;gt;&amp;gt; ~/.chef/knife.rb &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
+&lt;span class="s"&gt;# Knife OpenStack plugin setup&lt;/span&gt;
+&lt;span class="s"&gt;knife[:openstack_auth_url] = &amp;quot;#{ENV[&amp;#39;OS_AUTH_URL&amp;#39;]}/tokens&amp;quot;&lt;/span&gt;
+&lt;span class="s"&gt;knife[:openstack_username] = &amp;quot;#{ENV[&amp;#39;OS_USERNAME&amp;#39;]}&amp;quot;&lt;/span&gt;
+&lt;span class="s"&gt;knife[:openstack_password] = &amp;quot;#{ENV[&amp;#39;OS_PASSWORD&amp;#39;]}&amp;quot;&lt;/span&gt;
+&lt;span class="s"&gt;knife[:openstack_tenant] = &amp;quot;#{ENV[&amp;#39;OS_TENANT_NAME&amp;#39;]}&amp;quot;&lt;/span&gt;
+&lt;span class="s"&gt;EOF&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;What these lines do is to instruct Knife to use the contents of environment variables to authenticate with OpenStack when needed. The environment variables are the ones you get when you source the OpenStack RC file of your project. The RC file can be downloaded from the OpenStack web UI (Horizon) by navigating to Access &amp;amp; Security -&amp;gt; API Access -&amp;gt; Download OpenStack RC file. Sourcing the file makes sure the environment variables are part of the current shell environment, and is done like this (for an RC file called &lt;code&gt;openstack-rc.sh&lt;/code&gt;):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;. openstack-rc.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;With this config in place Knife now has the power to create new OpenStack VMs in your project, list all active VMs and destroy VMs. In addition, it can be used to list available images, flavors and networks in OpenStack. I do however prefer to use the native OpenStack clients (glance, nova, neutron) for that, since they can perform lots of other valuable tasks like creating new networks and so on.&lt;/p&gt;
+&lt;p&gt;Below is an example of VM creation with Knife, using some of the required and optional arguments to the command. Issue &lt;code&gt;knife openstack server create --help&lt;/code&gt; to get all available arguments. As a quick summary, the arguments I give Knife are the requested hostname of the server, the flavor (3 = m1.medium in my cluster), image ID of a CentOS 7 image, network ID, SSH key name and the default user account used by the image ("centos").&lt;/p&gt;
+&lt;p&gt;With the &lt;code&gt;--openstack-floating-ip&lt;/code&gt; argument I tell Knife to allocate a floating IP to the new server. I could have specified a specific floating IP after that argument, which would have been allocated to the new server whether it was in use before or not. The only requirement is that it must be allocated to my OpenStack project before I try to use it.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;knife openstack server create -N &lt;span class="nb"&gt;test&lt;/span&gt;-server -f &lt;span class="m"&gt;3&lt;/span&gt; -I b206baa3-3a80-41cf-9850-49021b8bb3c1 --network-ids df7cc182-8794-4134-b700-1fb8f1fbf070 --openstack-ssh-key-id arnes --ssh-user centos --openstack-floating-ip --no-host-key-verify
+
+Waiting &lt;span class="k"&gt;for&lt;/span&gt; server &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;wait time&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; 600&lt;span class="o"&gt;]&lt;/span&gt;.........................
+Instance ID 13493d82-8dc2-4b1d-87e8-3eeefa8defe2
+Name &lt;span class="nb"&gt;test&lt;/span&gt;-server
+Flavor 3
+Image b206baa3-3a80-41cf-9850-49021b8bb3c1
+Keypair arnes
+State ACTIVE
+Availability Zone nova
+Floating IP Address: 10.0.1.242
+Bootstrapping the server by using bootstrap_protocol: ssh and image_os_type: linux
+
+Waiting &lt;span class="k"&gt;for&lt;/span&gt; sshd to host &lt;span class="o"&gt;(&lt;/span&gt;10.0.1.242&lt;span class="o"&gt;)&lt;/span&gt;....done
+Connecting to 10.0.1.242
+10.0.1.242 Installing Chef Client...
+10.0.1.242 Downloading Chef &lt;span class="m"&gt;11&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; el...
+10.0.1.242 Installing Chef 11
+10.0.1.242 Thank you &lt;span class="k"&gt;for&lt;/span&gt; installing Chef!
+10.0.1.242 Starting first Chef Client run...
+...
+10.0.1.242 Running handlers &lt;span class="nb"&gt;complete&lt;/span&gt;
+10.0.1.242 Chef Client finished, 0/0 resources updated in 1.328282722 seconds
+Instance ID 13493d82-8dc2-4b1d-87e8-3eeefa8defe2
+Name &lt;span class="nb"&gt;test&lt;/span&gt;-server
+Public IP 10.0.1.242
+Flavor 3
+Image b206baa3-3a80-41cf-9850-49021b8bb3c1
+Keypair arnes
+State ACTIVE
+Availability Zone nova
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;As an added benefit of creating VMs this way, they are automatically bootstrapped as Chef nodes with your Chef server!&lt;/p&gt;
+&lt;h2&gt;Configure Kitchen to use OpenStack&lt;/h2&gt;
+&lt;p&gt;Kitchen has a config file &lt;code&gt;~/.kitchen/config.yml&lt;/code&gt; where all the config required to use OpenStack should be placed. The config file is "global", meaning it's not part of any cookbook or Chef repository. The advantage of using the global config file is that the Kitchen config in each cookbook is reduced to just one line, which is good since that Kitchen config is commonly committed to the cookbook repository and shared with other developers. Other developers may not have access to the same OpenStack environment as you, so their Kitchen OpenStack config will differ from yours.&lt;/p&gt;
+&lt;p&gt;Run the following commands to initialize the necessary config for Kitchen:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mkdir ~/.kitchen
+cat &amp;gt;&amp;gt; ~/.kitchen/config.yml &lt;span class="s"&gt;&amp;lt;&amp;lt;EOF&lt;/span&gt;
+&lt;span class="s"&gt;---&lt;/span&gt;
+&lt;span class="s"&gt;driver:&lt;/span&gt;
+&lt;span class="s"&gt; name: openstack&lt;/span&gt;
+&lt;span class="s"&gt; openstack_username: &amp;amp;lt;%= ENV[&amp;#39;OS_USERNAME&amp;#39;] %&amp;amp;gt;&lt;/span&gt;
+&lt;span class="s"&gt; openstack_api_key: &amp;amp;lt;%= ENV[&amp;#39;OS_PASSWORD&amp;#39;] %&amp;amp;gt;&lt;/span&gt;
+&lt;span class="s"&gt; openstack_auth_url: &amp;amp;lt;%= &amp;quot;#{ENV[&amp;#39;OS_AUTH_URL&amp;#39;]}/tokens&amp;quot; %&amp;amp;gt;&lt;/span&gt;
+&lt;span class="s"&gt; openstack_tenant: &amp;amp;lt;%= ENV[&amp;#39;OS_TENANT_NAME&amp;#39;] %&amp;amp;gt;&lt;/span&gt;
+&lt;span class="s"&gt; require_chef_omnibus: true&lt;/span&gt;
+&lt;span class="s"&gt; image_ref: CentOS 7 GC 2014-09-16&lt;/span&gt;
+&lt;span class="s"&gt; username: centos&lt;/span&gt;
+&lt;span class="s"&gt; flavor_ref: m1.medium&lt;/span&gt;
+&lt;span class="s"&gt; key_name: &amp;amp;lt;%= ENV[&amp;#39;OS_USERNAME&amp;#39;] %&amp;amp;gt;&lt;/span&gt;
+&lt;span class="s"&gt; floating_ip_pool: public&lt;/span&gt;
+&lt;span class="s"&gt; network_ref:&lt;/span&gt;
+&lt;span class="s"&gt; - net1&lt;/span&gt;
+&lt;span class="s"&gt; no_ssh_tcp_check: true&lt;/span&gt;
+&lt;span class="s"&gt; no_ssh_tcp_check_sleep: 30&lt;/span&gt;
+&lt;span class="s"&gt;EOF&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;There is quite a bit of config going on here, so I'll go through some of the most important parts. Many of the configuration options rely on environment variables which are set when you source the OpenStack RC file, just like for Knife. In addition, the following options may need to be customized according to your OpenStack environment:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;image_ref: The name of a valid image to use when creating VMs&lt;/li&gt;
+&lt;li&gt;username: The username used by the chosen image, in this case "centos"&lt;/li&gt;
+&lt;li&gt;flavor_ref: A valid name of a flavor to use when creating VMs&lt;/li&gt;
+&lt;li&gt;key_name: Must match the name of your SSH key in OpenStack, here it is set to equal your username&lt;/li&gt;
+&lt;li&gt;floating_ip_pool: The name of a valid pool of public IP addresses&lt;/li&gt;
+&lt;li&gt;network_ref: A list of existing networks to connect new VMs to&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To determine the correct values for image, flavor and network above, use the command line OpenStack clients. The Glance client can output a list of valid images to choose from:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;glance image-list
++--------------------------------------+------------------------+-----+------+------------+--------+
+&lt;span class="p"&gt;|&lt;/span&gt; ID                                   &lt;span class="p"&gt;|&lt;/span&gt; Name     &lt;span class="p"&gt;|&lt;/span&gt; Disk Format &lt;span class="p"&gt;|&lt;/span&gt; Container Format &lt;span class="p"&gt;|&lt;/span&gt; Size &lt;span class="p"&gt;|&lt;/span&gt; Status &lt;span class="p"&gt;|&lt;/span&gt;
++--------------------------------------+------------------------+-----+------+------------+--------+
+&lt;span class="p"&gt;|&lt;/span&gt; ee2cc71b-3e2e-4b11-b327-f9cbf73a5694 &lt;span class="p"&gt;|&lt;/span&gt; CentOS &lt;span class="m"&gt;6&lt;/span&gt; GC 14-11-12   &lt;span class="p"&gt;|&lt;/span&gt; raw &lt;span class="p"&gt;|&lt;/span&gt; bare &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="m"&gt;8589934592&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; active &lt;span class="p"&gt;|&lt;/span&gt;
+&lt;span class="p"&gt;|&lt;/span&gt; b206baa3-3a80-41cf-9850-49021b8bb3c1 &lt;span class="p"&gt;|&lt;/span&gt; CentOS &lt;span class="m"&gt;7&lt;/span&gt; GC 2014-09-16 &lt;span class="p"&gt;|&lt;/span&gt; raw &lt;span class="p"&gt;|&lt;/span&gt; bare &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="m"&gt;8589934592&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; active &lt;span class="p"&gt;|&lt;/span&gt;
+...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Set the image_ref in the Kitchen config to either the ID, the name or a regex matching the name.&lt;/p&gt;
+&lt;p&gt;Correspondingly, find the allowed flavors with the Nova client:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;nova flavor-list
++----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
+&lt;span class="p"&gt;|&lt;/span&gt; ID &lt;span class="p"&gt;|&lt;/span&gt; Name      &lt;span class="p"&gt;|&lt;/span&gt; Memory_MB &lt;span class="p"&gt;|&lt;/span&gt; Disk &lt;span class="p"&gt;|&lt;/span&gt; Ephemeral &lt;span class="p"&gt;|&lt;/span&gt; Swap &lt;span class="p"&gt;|&lt;/span&gt; VCPUs &lt;span class="p"&gt;|&lt;/span&gt; RXTX_Factor &lt;span class="p"&gt;|&lt;/span&gt; Is_Public &lt;span class="p"&gt;|&lt;/span&gt;
++----+-----------+-----------+------+-----------+------+-------+-------------+-----------+
+&lt;span class="p"&gt;|&lt;/span&gt;  &lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; m1.small  &lt;span class="p"&gt;|&lt;/span&gt;    &lt;span class="m"&gt;2048&lt;/span&gt;   &lt;span class="p"&gt;|&lt;/span&gt;  &lt;span class="m"&gt;20&lt;/span&gt;  &lt;span class="p"&gt;|&lt;/span&gt;     &lt;span class="m"&gt;0&lt;/span&gt;     &lt;span class="p"&gt;|&lt;/span&gt;      &lt;span class="p"&gt;|&lt;/span&gt;   &lt;span class="m"&gt;1&lt;/span&gt;   &lt;span class="p"&gt;|&lt;/span&gt;     1.0     &lt;span class="p"&gt;|&lt;/span&gt;    True   &lt;span class="p"&gt;|&lt;/span&gt;
+&lt;span class="p"&gt;|&lt;/span&gt;  &lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; m1.medium &lt;span class="p"&gt;|&lt;/span&gt;    &lt;span class="m"&gt;4096&lt;/span&gt;   &lt;span class="p"&gt;|&lt;/span&gt;  &lt;span class="m"&gt;40&lt;/span&gt;  &lt;span class="p"&gt;|&lt;/span&gt;     &lt;span class="m"&gt;0&lt;/span&gt;     &lt;span class="p"&gt;|&lt;/span&gt;      &lt;span class="p"&gt;|&lt;/span&gt;   &lt;span class="m"&gt;2&lt;/span&gt;   &lt;span class="p"&gt;|&lt;/span&gt;     1.0     &lt;span class="p"&gt;|&lt;/span&gt;    True   &lt;span class="p"&gt;|&lt;/span&gt;
+...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The network names are available using the neutron client. However, if you haven't created any networks yet, you can create a network, subnet and router like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;neutron net-create net1
+neutron subnet-create --name subnet1 net1 10.0.0.0/24
+neutron router-create gw
+neutron router-gateway-set gw public
+neutron router-interface-add gw subnet1
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;These commands assume that the external network in your OpenStack cluster is named "public". Assuming the commands complete successfully you may use the network name "net1" in the Kitchen config file. To get the list of available networks, use the Neutron client with the net-list subcommand:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;neutron net-list
++--------------------------------------+--------+----------------------------------------------------+
+&lt;span class="p"&gt;|&lt;/span&gt; id                                   &lt;span class="p"&gt;|&lt;/span&gt; name   &lt;span class="p"&gt;|&lt;/span&gt; subnets &lt;span class="p"&gt;|&lt;/span&gt;
++--------------------------------------+--------+----------------------------------------------------+
+&lt;span class="p"&gt;|&lt;/span&gt; 2d2b2336-d7b6-4adc-b7f2-c92f98d4ec58 &lt;span class="p"&gt;|&lt;/span&gt; public &lt;span class="p"&gt;|&lt;/span&gt; 5ac43f4f-476f-4513-8f6b-67a758aa56e7 &lt;span class="p"&gt;|&lt;/span&gt;
+&lt;span class="p"&gt;|&lt;/span&gt; e9dcbda9-cded-4823-a9fe-b03aadf33346 &lt;span class="p"&gt;|&lt;/span&gt; net1   &lt;span class="p"&gt;|&lt;/span&gt; 8ba65517-9bf5-46cc-a392-03a0708cd7f3 10.0.0.0/24 &lt;span class="p"&gt;|&lt;/span&gt;
++--------------------------------------+--------+----------------------------------------------------+
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;With all that configured, Kitchen is ready to use OpenStack as the driver instead of Vagrant. All you need to do in a cookbook to make Kitchen use the OpenStack driver, is to change the "driver" statement in the ".kitchen.yml" config file in the cookbook root directory from "vagrant" to "openstack":&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;---
+driver:
+ name: openstack
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;So, lets take it for a spin:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;kitchen create
+-----&amp;gt; Starting Kitchen &lt;span class="o"&gt;(&lt;/span&gt;v1.2.1&lt;span class="o"&gt;)&lt;/span&gt;
+-----&amp;gt; Creating &amp;lt;default-ubuntu-1404&amp;gt;...
+ OpenStack instance &amp;lt;c08688f6-a754-4f43-a365-898a38fc06f8&amp;gt; created.
+.........................
+&lt;span class="o"&gt;(&lt;/span&gt;server ready&lt;span class="o"&gt;)&lt;/span&gt;
+ Attaching floating IP from &amp;lt;public&amp;gt; pool
+ Attaching floating IP &amp;lt;10.0.1.243&amp;gt;
+ Waiting &lt;span class="k"&gt;for&lt;/span&gt; 10.0.1.243:22...
+ Waiting &lt;span class="k"&gt;for&lt;/span&gt; 10.0.1.243:22...
+ Waiting &lt;span class="k"&gt;for&lt;/span&gt; 10.0.1.243:22...
+ &lt;span class="o"&gt;(&lt;/span&gt;ssh ready&lt;span class="o"&gt;)&lt;/span&gt;
+ Using OpenStack keypair &amp;lt;arnes&amp;gt;
+ Using public SSH key &amp;lt;~/.ssh/id_rsa.pub&amp;gt;
+ Using private SSH key &amp;lt;~/.ssh/id_rsa&amp;gt;
+ Adding OpenStack hint &lt;span class="k"&gt;for&lt;/span&gt; ohai
+net.ssh.transport.server_version&lt;span class="o"&gt;[&lt;/span&gt;3fe8926c1320&lt;span class="o"&gt;]&lt;/span&gt;
+net.ssh.transport.algorithms&lt;span class="o"&gt;[&lt;/span&gt;3fe8926c06b4&lt;span class="o"&gt;]&lt;/span&gt;
+net.ssh.connection.session&lt;span class="o"&gt;[&lt;/span&gt;3fe89270b420&lt;span class="o"&gt;]&lt;/span&gt;
+net.ssh.connection.channel&lt;span class="o"&gt;[&lt;/span&gt;3fe89270b2cc&lt;span class="o"&gt;]&lt;/span&gt;
+Finished creating &amp;lt;default-ubuntu-1404&amp;gt; &lt;span class="o"&gt;(&lt;/span&gt;0m50.68s&lt;span class="o"&gt;)&lt;/span&gt;.
+-----&amp;gt; Kitchen is finished. &lt;span class="o"&gt;(&lt;/span&gt;0m52.22s&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Voil&amp;agrave; :)&lt;/p&gt;</summary><category term="knife"></category><category term="kitchen"></category><category term="openstack"></category><category term="chef"></category><category term="nova"></category><category term="neutron"></category><category term="glance"></category><category term="tools"></category><category term="howto"></category></entry><entry><title>Kodeklubben</title><link href="/posts/2015/02/kodeklubben.html" rel="alternate"></link><updated>2015-02-20T00:00:00+01:00</updated><author><name>martin.l.satra@met.no</name></author><id>tag:,2015-02-20:posts/2015/02/kodeklubben.html</id><summary type="html">&lt;p&gt;Her finner du presentasjoner og kodeeksempler fra &lt;a href="http://www.kidsakoder.no/kodeklubben/"&gt;Kodeklubben&lt;/a&gt; sitt besøk på Meteorologisk institutt (MET) 18. februar 2015. Vi demonstrerer bruk av &lt;a href="http://api.met.no"&gt;http://api.met.no&lt;/a&gt; og kart-tjenestene til MET for bruk i egne kodeprosjekt.&lt;/p&gt;
 &lt;h2&gt;IPython Notebook&lt;/h2&gt;
 &lt;p&gt;Du må ha IPython Notebook installert for å kunne jobbe videre på Notebook-en vi laget på tirsdag. Se "Install" på &lt;a href="http://ipython.org/"&gt;http://ipython.org&lt;/a&gt; for informasjon om hvordan IPython Notebook kan installeres på forskjellige plattformer.&lt;/p&gt;
 &lt;h2&gt;Presentasjoner og kodeeksempler&lt;/h2&gt;

@@ -66,6 +66,57 @@
                         <article>
                             <header>
                                 <h1 class="entry-title">
+                                    <a href="./posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html" rel="bookmark" title="Permalink to How to Configure Knife and Test Kitchen to use OpenStack">
+                                       How to Configure Knife and Test Kitchen to use OpenStack
+                                    </a>
+                                </h1>
+                            </header>
+                            <div class="entry-content">
+<footer class="post-info">
+    <address class="vcard author">
+        by <a class="url fn" href="./author/arnesundmetno.html">arne.sund@met.no</a>
+    </address>
+
+    in <a href="./category/blog.html">blog</a>
+
+    on 2015-03-09
+
+        |
+        tags:         <a href="./tag/knife.html">knife</a>
+        <a href="./tag/kitchen.html">kitchen</a>
+        <a href="./tag/openstack.html">openstack</a>
+        <a href="./tag/chef.html">chef</a>
+        <a href="./tag/nova.html">nova</a>
+        <a href="./tag/neutron.html">neutron</a>
+        <a href="./tag/glance.html">glance</a>
+        <a href="./tag/tools.html">tools</a>
+        <a href="./tag/howto.html">howto</a>
+
+
+
+    
+</footer><!-- /.post-info -->                                <p><em>Originally published on <a href="http://arnesund.com/2015/03/01/how-to-configure-knife-and-test-kitchen-to-use-openstack/">arnesund.com</a></em></p>
+<p>When developing Chef cookbooks, Knife and Test Kitchen (hereafter just "Kitchen") are essential tools in the workflow. Both tools can be set up to use OpenStack to make it easy to create VMs for testing regardless of the capabilities of the workstation used. It's great for testing some new recipe in a cookbook or making sure changes do not break existing cookbook functionality. This post will go through the configuration of both tools to ensure they use OpenStack instead of the default Vagrant drivers.</p>
+<h2>Install software and dependencies</h2>
+<p>First, it is necessary to install the software, plugins and dependencies. Let's start with some basic packages:</p>
+<div class="highlight"><pre>sudo apt-get install ruby1.9 git
+sudo apt-get install make autoconf gcc g++ zlib1g-dev bundler
+</pre></div>
+
+
+<h3>Chef Development Kit</h3>
+<p>The <a href="https://docs.chef.io/#chef-dk-title">Chef Development Kit</a> is a collection of very useful tools for any cookbook developer. It includes tools like Knife ...</p>
+                                <p class="readmore">
+                                    <a class="btn btn-small btn-info" href="./posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html">Read more...</a>
+                                </p>
+                            </div><!-- /.entry-content -->
+                            <hr/>
+                        </article>
+                    </li>
+                    <li>
+                        <article>
+                            <header>
+                                <h1 class="entry-title">
                                     <a href="./posts/2015/02/kodeklubben.html" rel="bookmark" title="Permalink to Kodeklubben">
                                        Kodeklubben
                                     </a>
@@ -290,22 +341,29 @@ vagrant plugin install vagrant-openstack-plugin-*.gem
             <div>
                 <h2>Tags</h2>
                 <ul id="cloud">
-                     <li class="tag-4"><a href="./tag/oneliner.html">oneliner</a></li>
-                     <li class="tag-4"><a href="./tag/vagrant.html">vagrant</a></li>
-                     <li class="tag-4"><a href="./tag/presentations.html">presentations</a></li>
-                     <li class="tag-4"><a href="./tag/cloud-config.html">cloud-config</a></li>
-                     <li class="tag-4"><a href="./tag/bootstrap.html">bootstrap</a></li>
-                     <li class="tag-1"><a href="./tag/openstack.html">openstack</a></li>
-                     <li class="tag-4"><a href="./tag/visit.html">visit</a></li>
+                     <li class="tag-4"><a href="./tag/cloud-init.html">cloud-init</a></li>
                      <li class="tag-4"><a href="./tag/nova-boot.html">nova boot</a></li>
                      <li class="tag-4"><a href="./tag/ubuntu.html">ubuntu</a></li>
-                     <li class="tag-4"><a href="./tag/bash.html">bash</a></li>
+                     <li class="tag-4"><a href="./tag/tools.html">tools</a></li>
                      <li class="tag-4"><a href="./tag/examples.html">examples</a></li>
-                     <li class="tag-4"><a href="./tag/precise.html">precise</a></li>
-                     <li class="tag-4"><a href="./tag/cloud-init.html">cloud-init</a></li>
                      <li class="tag-4"><a href="./tag/kernel.html">kernel</a></li>
-                     <li class="tag-1"><a href="./tag/howto.html">howto</a></li>
+                     <li class="tag-4"><a href="./tag/neutron.html">neutron</a></li>
+                     <li class="tag-4"><a href="./tag/oneliner.html">oneliner</a></li>
+                     <li class="tag-4"><a href="./tag/precise.html">precise</a></li>
+                     <li class="tag-4"><a href="./tag/bash.html">bash</a></li>
+                     <li class="tag-4"><a href="./tag/glance.html">glance</a></li>
                      <li class="tag-4"><a href="./tag/code.html">code</a></li>
+                     <li class="tag-1"><a href="./tag/howto.html">howto</a></li>
+                     <li class="tag-4"><a href="./tag/presentations.html">presentations</a></li>
+                     <li class="tag-4"><a href="./tag/vagrant.html">vagrant</a></li>
+                     <li class="tag-4"><a href="./tag/bootstrap.html">bootstrap</a></li>
+                     <li class="tag-1"><a href="./tag/openstack.html">openstack</a></li>
+                     <li class="tag-4"><a href="./tag/nova.html">nova</a></li>
+                     <li class="tag-4"><a href="./tag/visit.html">visit</a></li>
+                     <li class="tag-4"><a href="./tag/chef.html">chef</a></li>
+                     <li class="tag-4"><a href="./tag/knife.html">knife</a></li>
+                     <li class="tag-4"><a href="./tag/cloud-config.html">cloud-config</a></li>
+                     <li class="tag-4"><a href="./tag/kitchen.html">kitchen</a></li>
                 </ul>
              </div>
 <!-- /.Tags -->
