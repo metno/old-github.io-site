@@ -131,7 +131,7 @@ vagrant plugin install vagrant-openstack-plugin-*.gem
     <span class="n">os</span><span class="o">.</span><span class="n">username</span>     <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;OS_USERNAME&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="n">os</span><span class="o">.</span><span class="n">api_key</span>      <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;OS_PASSWORD&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="n">os</span><span class="o">.</span><span class="n">flavor</span>       <span class="o">=</span> <span class="sr">/m1.tiny/</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">image</span>        <span class="o">=</span> <span class="s2">&quot;Ubuntu CI utopic 2014-09-18&quot;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">image</span>        <span class="o">=</span> <span class="s2">&quot;Ubuntu CI trusty 2014-09-22&quot;</span>
     <span class="n">os</span><span class="o">.</span><span class="n">endpoint</span>     <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;OS_AUTH_URL&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">/tokens&quot;</span>
     <span class="n">os</span><span class="o">.</span><span class="n">keypair_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;OS_USERNAME&#39;</span><span class="o">]</span><span class="si">}</span><span class="s2">_ssh_key&quot;</span>
     <span class="n">os</span><span class="o">.</span><span class="n">ssh_username</span> <span class="o">=</span> <span class="s2">&quot;ubuntu&quot;</span>
@@ -168,7 +168,7 @@ vagrant plugin install vagrant-openstack-plugin-*.gem
 <h2>Running Vagrant</h2>
 <p>Remember to source your OpenStack RC file before you run Vagrant up. You need to do that in each shell windows you are going to run Vagrant in.</p>
 <div class="highlight"><pre><span class="nb">source</span> ~/<span class="nv">$USER</span>-openrc.sh
-vagrant up
+vagrant up --provider openstack
 </pre></div>
 
 
