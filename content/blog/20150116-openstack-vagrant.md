@@ -3,7 +3,7 @@ Date: 2015-01-16
 Tags: howto, openstack, vagrant
 Slug: vagrant-openstack
 Author: arnulf.heimsbakk@met.no
-Modified: 2015-01-23
+Modified: 2015-03-12
 
 [Vagrant]: https://www.vagrantup.com
 [OpenStack]: http://www.openstack.org
@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
     os.username     = "#{ENV['OS_USERNAME']}"
     os.api_key      = "#{ENV['OS_PASSWORD']}"
     os.flavor       = /m1.tiny/
-    os.image        = "Ubuntu CI utopic 2014-09-18"
+    os.image        = "Ubuntu CI trusty 2014-09-22"
     os.endpoint     = "#{ENV['OS_AUTH_URL']}/tokens"
     os.keypair_name = "#{ENV['OS_USERNAME']}_ssh_key"
     os.ssh_username = "ubuntu"
@@ -103,7 +103,7 @@ Remember to source your OpenStack RC file before you run Vagrant up. You need to
 
 ```bash
 source ~/$USER-openrc.sh
-vagrant up
+vagrant up --provider openstack
 ```
 
 ###### vim: set syn=markdown spell spl=en:
