@@ -3,6 +3,7 @@ Date: 2015-01-16
 Tags: howto, blog
 Slug: howto
 Author: arnulf.heimsbakk@met.no
+Modified: 2015-03-12
 
 [Pelican]: http://docs.getpelican.com/en/3.5.0/content.html
 [github]: https://github.io
@@ -19,7 +20,7 @@ Start with installing latest version of the Pelican blog engine.
 
 ```bash
 sudo apt-get install python-pip git 
-sudo pip install pelican markdown ghp-import
+sudo pip install pelican markdown ghp-import docutils pygments feedgenerator unidecode
 ```
 
 ### Check out the blog
