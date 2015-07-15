@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Webmaster" />
+    <meta name="robots" content="index, follow"/>
+
+    <meta property="og:title" content="fio - flexible I/O tester"/>
+    <meta property="og:url" content="../../../posts/2015/07/20150715-fio.html"/>
+    <meta property="og:site_name" content="IT.met.no"/>
+    <meta property="og:type" content="article"/>
+
+    <link rel="canonical" href="../../../posts/2015/07/20150715-fio.html" />
+
+    <title>fio - flexible I/O tester | IT.met.no</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="../../../theme/css/main.css" />
+    <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="IT.met.no Atom Feed" />
+
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">
+        stLight.options({
+            publisher: "",
+            doNotHash: false,
+            doNotCopy: false,
+            hashAddressBar: false
+        });
+    </script>
+</head>
+
+<body id="index">
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <header id="banner" >
+                <h1>
+                    <a href="../../../">IT.met.no </a>
+                </h1>
+                <nav class="navbar">
+                    <div class="navbar-inner">
+                        <ul class="nav">
+                            <li ><a href="/index.html">home</a></li>
+                            <li ><a href="/pages/about.html">about</a></li>
+                            <li ><a href="/pages/howto.html">howto</a></li>
+                            <li ><a href="#">|</a></li>
+                            <li class="active"><a href="../../../category/blog.html">blog</a></li>
+                        </ul>
+
+                    </div>
+                </nav>
+            </header><!-- /#banner -->
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <div class="row-fluid">
+<div class="span10 offset1">
+  <section>
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="../../../posts/2015/07/20150715-fio.html" rel="bookmark"
+             title="Permalink to fio - flexible I/O tester">fio - flexible I/O tester</a></h1>
+      </header>
+      <div class="entry-content">
+<footer class="post-info">
+    <address class="vcard author">
+        by <a class="url fn" href="../../../author/arnulfheimsbakkmetno.html">arnulf.heimsbakk@met.no</a>
+    </address>
+
+    in <a href="../../../category/blog.html">blog</a>
+
+    on 2015-07-15
+
+        |
+        tags:         <a href="../../../tag/storage.html">storage</a>
+        <a href="../../../tag/io.html">io</a>
+        <a href="../../../tag/test.html">test</a>
+
+
+
+    
+</footer><!-- /.post-info -->
+
+        <p>From man page: <code>fio</code> <em>is a tool that will spawn a number of threads or processes doing a particular type of I/O action as specified by the user. The typical use of fio is to write a job file matching the I/O load one wants to simulate.</em></p>
+<p>This example only show how to use <code>fio</code> to make reproducible test on a file system. It's been useful to catch changes in I/O throughput before and after a system has gone into production. Buy running the same tests on all systems the numbers are comparable.</p>
+<p>All parameter numbers are examples, define your own test according to what you want to measure.</p>
+<h2>Installing fio and gnuplot</h2>
+<p><code>fio</code> is the main program. Gnuplot is used to visualize the result.</p>
+<div class="highlight"><pre>apt-get install fio gnuplot
+</pre></div>
+
+
+<h2>Run fio to test I/O</h2>
+<ul>
+<li>Change <code>bsrange</code> to the block size range you want to test.</li>
+<li><code>numjobs</code> is the number of simultaneous read/write threads.</li>
+<li><code>size</code> is the working file size.</li>
+<li>If you want to test a read heavy load, use <code>rwmixread</code> with a percentage of reads versus writes..</li>
+</ul>
+<div class="highlight"><pre><span class="k">for</span> i in <span class="nb">read </span>write readwrite randread randwrite randrw<span class="p">;</span> <span class="k">do</span> fio --name<span class="o">=</span>fio  --write_bw_log<span class="o">=</span><span class="nv">$i</span> --write_iops_log<span class="o">=</span><span class="nv">$i</span> --write_lat_log<span class="o">=</span><span class="nv">$i</span> --ioengine<span class="o">=</span>sync --size<span class="o">=</span>1G --runtime<span class="o">=</span><span class="m">60</span> --rw<span class="o">=</span><span class="nv">$i</span> --norandommap --refill_buffers --randrepeat<span class="o">=</span><span class="m">0</span>  --iodepth<span class="o">=</span><span class="m">1</span> --direct<span class="o">=</span><span class="m">1</span> --time_based --numjobs<span class="o">=</span><span class="m">8</span> --group_reporting --bsrange<span class="o">=</span>4k-4k<span class="p">;</span> <span class="k">done</span>
+</pre></div>
+
+
+<h3>Generating I/O plot</h3>
+<div class="highlight"><pre>fio2gnuplot -i -g
+</pre></div>
+
+
+<p>For me is the most interesting plot is <strong>compare-result-2Dsmooth.png</strong>.</p>
+<h2>Run fio to test speed</h2>
+<p>Testing bandwidth is better to do with a larger block size. I usually set a block size between 64k to 1m.</p>
+<div class="highlight"><pre><span class="k">for</span> i in <span class="nb">read </span>write readwrite randread randwrite randrw<span class="p">;</span> <span class="k">do</span> fio --name<span class="o">=</span>fio  --write_bw_log<span class="o">=</span><span class="nv">$i</span> --write_iops_log<span class="o">=</span><span class="nv">$i</span> --write_lat_log<span class="o">=</span><span class="nv">$i</span> --ioengine<span class="o">=</span>sync --size<span class="o">=</span>1G --runtime<span class="o">=</span><span class="m">60</span> --rw<span class="o">=</span><span class="nv">$i</span> --norandommap --refill_buffers --randrepeat<span class="o">=</span><span class="m">0</span>  --iodepth<span class="o">=</span><span class="m">1</span> --direct<span class="o">=</span><span class="m">1</span> --time_based --numjobs<span class="o">=</span><span class="m">8</span> --group_reporting --bsrange<span class="o">=</span>64k-1M<span class="p">;</span> <span class="k">done</span>
+</pre></div>
+
+
+<h3>Generating bandwidth plot</h3>
+<div class="highlight"><pre>fio2gnuplot -b -g
+</pre></div>
+
+
+<p>Again the interesting plot is <strong>compare-result-2Dsmooth.png</strong>.</p>
+<h6>vim: set syn=markdown spell spl=en:</h6>
+
+      </div><!-- /.entry-content -->
+
+    </article>
+  </section>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="site-footer">
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <address>
+                    <p>
+                        This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                    </p>
+                    <p>
+                        <a href="http://github.com/jsliang/pelican-fresh/">Fresh</a> is a responsive theme designed by <a href="http://jsliang.com/">jsliang</a> and <a href="https://github.com/jsliang/pelican-fresh/graphs/contributors">contributors</a>.
+                        Special thanks to <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a> and <a href="http://getbootstrap.com/">Twitter Bootstrap</a>.
+                    </p>
+                </address>
+            </div>
+        </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+</body>
+</html>
