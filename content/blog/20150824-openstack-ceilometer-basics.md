@@ -24,14 +24,16 @@ How to do it could be better documented. This is basics:
 
 Get a token:
 
-```. openrc    # openrc sets a number of useful variables
+```bash
+. openrc    # openrc sets a number of useful variables
 echo $OS_AUTH_URL
 http://localhost:5000/v2.0
 ```
 
 Store the adminURL in the ADMIN_URL variable (this is a quick and dirty method):
 
-```ADMIN_URL=`curl -s -X POST $OS_AUTH_URL/tokens -H "Content-Type: application/json" -d '{"auth": {"tenantName": "'"$OS_TENANT_NAME"'", "passwordCredentials": {"username": "'"$OS_USERNAME"'", "password": "'"$OS_PASSWORD"'"}}}' | python -c 'import sys, json; print json.load(sys.stdin)["access"]["serviceCatalog"][3]["endpoints"][0]["adminURL"]'`v$OS_VOLUME_API_VERSION/
+```bash
+ADMIN_URL=`curl -s -X POST $OS_AUTH_URL/tokens -H "Content-Type: application/json" -d '{"auth": {"tenantName": "'"$OS_TENANT_NAME"'", "passwordCredentials": {"username": "'"$OS_USERNAME"'", "password": "'"$OS_PASSWORD"'"}}}' | python -c 'import sys, json; print json.load(sys.stdin)["access"]["serviceCatalog"][3]["endpoints"][0]["adminURL"]'`v$OS_VOLUME_API_VERSION/
 echo $ADMIN_URL
 http://localhost:8777/v2/
 
@@ -45,7 +47,8 @@ Please note that the tests below will not output anything useful if you have a n
 
 Quick test listing of meters:
 
-```$ curl -H X-Auth-Token:$TOKEN "${ADMIN_URL}meters" | python -m json.tool|grep name|head -3
+```bash
+curl -H X-Auth-Token:$TOKEN "${ADMIN_URL}meters" | python -m json.tool|grep name|head -3
     	"name": "network.incoming.packets",
     	"name": "network.outgoing.bytes",
     	"name": "network.outgoing.packets",
@@ -53,7 +56,8 @@ Quick test listing of meters:
 
 Query list of instances: 
 
-```curl -H X-Auth-Token:$TOKEN "${ADMIN_URL}meters/instance?q.field=metadata.event_type&q.value=compute.instance.exists" | python -m json.tool | head
+```bash
+curl -H X-Auth-Token:$TOKEN "${ADMIN_URL}meters/instance?q.field=metadata.event_type&q.value=compute.instance.exists" | python -m json.tool | head
 [
 	{
     	"counter_name": "instance",
@@ -74,7 +78,8 @@ Query list of instances where timestamp is newer than a date:
 
 A last example to help you along:
 
-```curl -X GET -H X-Auth-Token:$TOKEN -H "Content-Type: application/json" -d '{"q": [{"field": "timestamp", "op": "ge", "value": "2014-04-01T13:34:17"}, {"field": "resource_id", "op": "eq", "value": "82a1371d-a1a3-4f98-9781-8663b262ee7e"}]}' ${ADMIN_URL}meters/instance
+```bash
+curl -X GET -H X-Auth-Token:$TOKEN -H "Content-Type: application/json" -d '{"q": [{"field": "timestamp", "op": "ge", "value": "2014-04-01T13:34:17"}, {"field": "resource_id", "op": "eq", "value": "82a1371d-a1a3-4f98-9781-8663b262ee7e"}]}' ${ADMIN_URL}meters/instance
 ```
 
 See this link for examples of how to use the API:
@@ -84,7 +89,8 @@ http://docs.openstack.org/developer/ceilometer/webapi/v2.html#api-queries
 See OpenStack command-line clients for detail on how to install command line clients and getting credentials:
 http://docs.openstack.org/api/quick-start/content/index.html#getting-credentials-a00665
 
-```nova image-list
+```bash
+nova image-list
 nova flavor-list
 etc
 ```
