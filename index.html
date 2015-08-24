@@ -66,52 +66,6 @@
                         <article>
                             <header>
                                 <h1 class="entry-title">
-                                    <a href="./posts/2015/07/20150715-fio.html" rel="bookmark" title="Permalink to fio - flexible I/O tester">
-                                       fio - flexible I/O tester
-                                    </a>
-                                </h1>
-                            </header>
-                            <div class="entry-content">
-<footer class="post-info">
-    <address class="vcard author">
-        by <a class="url fn" href="./author/arnulfheimsbakkmetno.html">arnulf.heimsbakk@met.no</a>
-    </address>
-
-    in <a href="./category/blog.html">blog</a>
-
-    on 2015-07-15
-
-        |
-        tags:         <a href="./tag/storage.html">storage</a>
-        <a href="./tag/io.html">io</a>
-        <a href="./tag/test.html">test</a>
-
-
-
-    
-</footer><!-- /.post-info -->                                <p>From man page: <code>fio</code> <em>is a tool that will spawn a number of threads or processes doing a particular type of I/O action as specified by the user. The typical use of fio is to write a job file matching the I/O load one wants to simulate.</em></p>
-<p>This example only show how to use <code>fio</code> to make reproducible test on a file system. It's been useful to catch changes in I/O throughput before and after a system has gone into production. Buy running the same tests on all systems the numbers are comparable.</p>
-<p>All parameter numbers are examples, define your own test according to what you want to measure.</p>
-<h2>Installing fio and gnuplot</h2>
-<p><code>fio</code> is the main program. Gnuplot is used to visualize the result.</p>
-<div class="highlight"><pre>apt-get install fio gnuplot
-</pre></div>
-
-
-<h2>Run fio to test I/O</h2>
-<ul>
-<li>Change <code>bsrange</code> to the block size range you want to test ...</li></ul>
-                                <p class="readmore">
-                                    <a class="btn btn-small btn-info" href="./posts/2015/07/20150715-fio.html">Read more...</a>
-                                </p>
-                            </div><!-- /.entry-content -->
-                            <hr/>
-                        </article>
-                    </li>
-                    <li>
-                        <article>
-                            <header>
-                                <h1 class="entry-title">
                                     <a href="./posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html" rel="bookmark" title="Permalink to How to Configure Knife and Test Kitchen to use OpenStack">
                                        How to Configure Knife and Test Kitchen to use OpenStack
                                     </a>
@@ -280,7 +234,7 @@ sudo apt-get install make autoconf gcc g++ zlib1g-dev bundler
 
     
 </footer><!-- /.post-info -->                                <p>Removes all but current kernel and headers for freeing up disk space. This is a note for internal use and tested for Ubuntu Precise. Use at your own risk :) </p>
-<div class="highlight"><pre>dpkg-query -f <span class="s1">&#39;${Package}\n&#39;</span> -W |  egrep <span class="s1">&#39;linux-(headers|image)-[[:digit:]].*(|-generic)&#39;</span> | grep -v <span class="k">$(</span>uname -r | sed <span class="s1">&#39;s/-generic//&#39;</span><span class="k">)</span> | sudo xargs apt-get -q -q -yy --purge remove
+<div class="highlight"><pre>dpkg-query -f <span class="s1">&#39;${Package}\n&#39;</span> -W <span class="p">|</span>  egrep <span class="s1">&#39;linux-(headers|image)-[[:digit:]].*(|-generic)&#39;</span> <span class="p">|</span> grep -v <span class="k">$(</span>uname -r <span class="p">|</span> sed <span class="s1">&#39;s/-generic//&#39;</span><span class="k">)</span> <span class="p">|</span> sudo xargs apt-get -q -q -yy --purge remove
 </pre></div>
 
 
@@ -387,32 +341,6 @@ vagrant plugin install vagrant-openstack-plugin-*.gem
             <div>
                 <h2>Tags</h2>
                 <ul id="cloud">
-                     <li class="tag-4"><a href="./tag/cloud-config.html">cloud-config</a></li>
-                     <li class="tag-4"><a href="./tag/cloud-init.html">cloud-init</a></li>
-                     <li class="tag-4"><a href="./tag/neutron.html">neutron</a></li>
-                     <li class="tag-4"><a href="./tag/examples.html">examples</a></li>
-                     <li class="tag-4"><a href="./tag/tools.html">tools</a></li>
-                     <li class="tag-4"><a href="./tag/oneliner.html">oneliner</a></li>
-                     <li class="tag-4"><a href="./tag/vagrant.html">vagrant</a></li>
-                     <li class="tag-4"><a href="./tag/storage.html">storage</a></li>
-                     <li class="tag-4"><a href="./tag/knife.html">knife</a></li>
-                     <li class="tag-1"><a href="./tag/openstack.html">openstack</a></li>
-                     <li class="tag-4"><a href="./tag/presentations.html">presentations</a></li>
-                     <li class="tag-1"><a href="./tag/howto.html">howto</a></li>
-                     <li class="tag-4"><a href="./tag/nova.html">nova</a></li>
-                     <li class="tag-4"><a href="./tag/chef.html">chef</a></li>
-                     <li class="tag-4"><a href="./tag/kitchen.html">kitchen</a></li>
-                     <li class="tag-4"><a href="./tag/bash.html">bash</a></li>
-                     <li class="tag-4"><a href="./tag/ubuntu.html">ubuntu</a></li>
-                     <li class="tag-4"><a href="./tag/glance.html">glance</a></li>
-                     <li class="tag-4"><a href="./tag/io.html">io</a></li>
-                     <li class="tag-4"><a href="./tag/visit.html">visit</a></li>
-                     <li class="tag-4"><a href="./tag/kernel.html">kernel</a></li>
-                     <li class="tag-4"><a href="./tag/code.html">code</a></li>
-                     <li class="tag-4"><a href="./tag/nova-boot.html">nova boot</a></li>
-                     <li class="tag-4"><a href="./tag/test.html">test</a></li>
-                     <li class="tag-4"><a href="./tag/precise.html">precise</a></li>
-                     <li class="tag-4"><a href="./tag/bootstrap.html">bootstrap</a></li>
                 </ul>
              </div>
 <!-- /.Tags -->

@@ -1,43 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>IT.met.no</title><link href="/" rel="alternate"></link><link href="/feeds/blog.atom.xml" rel="self"></link><id>/</id><updated>2015-07-15T00:00:00+02:00</updated><entry><title>fio - flexible I/O tester</title><link href="/posts/2015/07/20150715-fio.html" rel="alternate"></link><updated>2015-07-15T00:00:00+02:00</updated><author><name>arnulf.heimsbakk@met.no</name></author><id>tag:,2015-07-15:posts/2015/07/20150715-fio.html</id><summary type="html">&lt;p&gt;From man page: &lt;code&gt;fio&lt;/code&gt; &lt;em&gt;is a tool that will spawn a number of threads or processes doing a particular type of I/O action as specified by the user. The typical use of fio is to write a job file matching the I/O load one wants to simulate.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;This example only show how to use &lt;code&gt;fio&lt;/code&gt; to make reproducible test on a file system. It's been useful to catch changes in I/O throughput before and after a system has gone into production. Buy running the same tests on all systems the numbers are comparable.&lt;/p&gt;
-&lt;p&gt;All parameter numbers are examples, define your own test according to what you want to measure.&lt;/p&gt;
-&lt;h2&gt;Installing fio and gnuplot&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;fio&lt;/code&gt; is the main program. Gnuplot is used to visualize the result.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;apt-get install fio gnuplot
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2&gt;Run fio to test I/O&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Change &lt;code&gt;bsrange&lt;/code&gt; to the block size range you want to test.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;numjobs&lt;/code&gt; is the number of simultaneous read/write threads.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;size&lt;/code&gt; is the working file size.&lt;/li&gt;
-&lt;li&gt;If you want to test a read heavy load, use &lt;code&gt;rwmixread&lt;/code&gt; with a percentage of reads versus writes..&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;for&lt;/span&gt; i in &lt;span class="nb"&gt;read &lt;/span&gt;write readwrite randread randwrite randrw&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; fio --name&lt;span class="o"&gt;=&lt;/span&gt;fio  --write_bw_log&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt; --write_iops_log&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt; --write_lat_log&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt; --ioengine&lt;span class="o"&gt;=&lt;/span&gt;sync --size&lt;span class="o"&gt;=&lt;/span&gt;1G --runtime&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;30&lt;/span&gt; --rw&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt; --norandommap --refill_buffers --randrepeat&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;  --iodepth&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; --direct&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; --time_based --numjobs&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt; --group_reporting --bsrange&lt;span class="o"&gt;=&lt;/span&gt;4k-4k&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h3&gt;Generating I/O plot&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;fio2gnuplot -i -g
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;For me is the most interesting plot is &lt;strong&gt;compare-result-2Dsmooth.png&lt;/strong&gt;.&lt;/p&gt;
-&lt;h2&gt;Run fio to test speed&lt;/h2&gt;
-&lt;p&gt;Testing bandwidth is better to do with a larger block size. I usually set a block size between 64k to 1m.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;for&lt;/span&gt; i in &lt;span class="nb"&gt;read &lt;/span&gt;write readwrite randread randwrite randrw&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; fio --name&lt;span class="o"&gt;=&lt;/span&gt;fio  --write_bw_log&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt; --write_iops_log&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt; --write_lat_log&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt; --ioengine&lt;span class="o"&gt;=&lt;/span&gt;sync --size&lt;span class="o"&gt;=&lt;/span&gt;1G --runtime&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;30&lt;/span&gt; --rw&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$i&lt;/span&gt; --norandommap --refill_buffers --randrepeat&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;  --iodepth&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; --direct&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt; --time_based --numjobs&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt; --group_reporting --bsrange&lt;span class="o"&gt;=&lt;/span&gt;64k-1M&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h3&gt;Generating bandwidth plot&lt;/h3&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;fio2gnuplot -b -g
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Again the interesting plot is &lt;strong&gt;compare-result-2Dsmooth.png&lt;/strong&gt;.&lt;/p&gt;
-&lt;h6&gt;vim: set syn=markdown spell spl=en:&lt;/h6&gt;</summary><category term="storage"></category><category term="io"></category><category term="test"></category></entry><entry><title>How to Configure Knife and Test Kitchen to use OpenStack</title><link href="/posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html" rel="alternate"></link><updated>2015-03-09T00:00:00+01:00</updated><author><name>arne.sund@met.no</name></author><id>tag:,2015-03-09:posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html</id><summary type="html">&lt;p&gt;&lt;em&gt;Originally published on &lt;a href="http://arnesund.com/2015/03/01/how-to-configure-knife-and-test-kitchen-to-use-openstack/"&gt;arnesund.com&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>IT.met.no</title><link href="/" rel="alternate"></link><link href="/feeds/blog.atom.xml" rel="self"></link><id>/</id><updated>2015-03-12T00:00:00+01:00</updated><entry><title>How to Configure Knife and Test Kitchen to use OpenStack</title><link href="/posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html" rel="alternate"></link><updated>2015-03-09T00:00:00+01:00</updated><author><name>arne.sund@met.no</name></author><id>tag:,2015-03-09:posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html</id><summary type="html">&lt;p&gt;&lt;em&gt;Originally published on &lt;a href="http://arnesund.com/2015/03/01/how-to-configure-knife-and-test-kitchen-to-use-openstack/"&gt;arnesund.com&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;When developing Chef cookbooks, Knife and Test Kitchen (hereafter just "Kitchen") are essential tools in the workflow. Both tools can be set up to use OpenStack to make it easy to create VMs for testing regardless of the capabilities of the workstation used. It's great for testing some new recipe in a cookbook or making sure changes do not break existing cookbook functionality. This post will go through the configuration of both tools to ensure they use OpenStack instead of the default Vagrant drivers.&lt;/p&gt;
 &lt;h2&gt;Install software and dependencies&lt;/h2&gt;
 &lt;p&gt;First, it is necessary to install the software, plugins and dependencies. Let's start with some basic packages:&lt;/p&gt;
@@ -344,7 +306,7 @@ Cloud-init v. 0.7.5 finished at Thu, 05 Feb 2015 12:35:49 +0000. Datasource Data
 &lt;p&gt;This also reveals that the command "a2ensite 000-default" is not needed since the default site is enabled already. However, it’s included here as an example of how to run shell commands using cloud-config statements.&lt;/p&gt;
 &lt;h2&gt;Testing vs Production&lt;/h2&gt;
 &lt;p&gt;Using Cloud-init to get new instances to the desired state is nice when testing and a necessary step when deploying production instances. In a production context, one would probably use Cloud-init to initialize the instance as a Chef or Puppet client. From there, Chef/Puppet takes over the configuration task and will make sure the instance is set up according to the desired role it should fill. Cloud-init makes the initial bootstrapping of the instance easy.&lt;/p&gt;</summary><category term="openstack"></category><category term="cloud-init"></category><category term="bootstrap"></category><category term="nova boot"></category><category term="ubuntu"></category><category term="cloud-config"></category><category term="howto"></category></entry><entry><title>Remove unused kernels</title><link href="/posts/2015/01/remove-kernel.html" rel="alternate"></link><updated>2015-01-20T00:00:00+01:00</updated><author><name>arnulf.heimsbakk@met.no</name></author><id>tag:,2015-01-20:posts/2015/01/remove-kernel.html</id><summary type="html">&lt;p&gt;Removes all but current kernel and headers for freeing up disk space. This is a note for internal use and tested for Ubuntu Precise. Use at your own risk :) &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;dpkg-query -f &lt;span class="s1"&gt;&amp;#39;${Package}\n&amp;#39;&lt;/span&gt; -W |  egrep &lt;span class="s1"&gt;&amp;#39;linux-(headers|image)-[[:digit:]].*(|-generic)&amp;#39;&lt;/span&gt; | grep -v &lt;span class="k"&gt;$(&lt;/span&gt;uname -r | sed &lt;span class="s1"&gt;&amp;#39;s/-generic//&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; | sudo xargs apt-get -q -q -yy --purge remove
+&lt;div class="highlight"&gt;&lt;pre&gt;dpkg-query -f &lt;span class="s1"&gt;&amp;#39;${Package}\n&amp;#39;&lt;/span&gt; -W &lt;span class="p"&gt;|&lt;/span&gt;  egrep &lt;span class="s1"&gt;&amp;#39;linux-(headers|image)-[[:digit:]].*(|-generic)&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; grep -v &lt;span class="k"&gt;$(&lt;/span&gt;uname -r &lt;span class="p"&gt;|&lt;/span&gt; sed &lt;span class="s1"&gt;&amp;#39;s/-generic//&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; sudo xargs apt-get -q -q -yy --purge remove
 &lt;/pre&gt;&lt;/div&gt;
 
 
