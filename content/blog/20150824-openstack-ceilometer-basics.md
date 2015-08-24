@@ -1,6 +1,6 @@
 Title: OpenStack Ceilometer basics
 Date: 2015-08-24
-Tags: openstack, ceilometer
+Tags: openstack, ceilometer, telemetry, api, devstack, nova, contribute
 Slug: openstack-ceilometer-basics
 Author: morten.hanshaugen@met.no
 Status: draft
