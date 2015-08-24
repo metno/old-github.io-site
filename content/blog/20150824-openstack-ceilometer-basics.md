@@ -19,9 +19,9 @@ Getting telemetry from OpenStack quickly changed from optimism to frustration.
 OpenStack has all of these really nice APIs you can use to query all kinds of information, but there is no mature project for setting it in a system - and we really do not want to start writing a Cloud accounting system from scratch.
 
 #### Simple start - the API
-How to do it could be better documented. Let's walk through the basics.
+How to utilize the API could be better documented. Let's walk through the basics.
 
-iFirst we need to get a token:
+First we need to get a token:
 
 ```bash
 . openrc    # openrc sets a number of useful variables
