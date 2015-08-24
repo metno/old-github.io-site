@@ -66,6 +66,64 @@
                         <article>
                             <header>
                                 <h1 class="entry-title">
+                                    <a href="./posts/2015/08/openstack-ceilometer-basics.html" rel="bookmark" title="Permalink to OpenStack Ceilometer basics">
+                                       OpenStack Ceilometer basics
+                                    </a>
+                                </h1>
+                            </header>
+                            <div class="entry-content">
+<footer class="post-info">
+    <address class="vcard author">
+        by <a class="url fn" href="./author/mortenhanshaugenmetno.html">morten.hanshaugen@met.no</a>
+    </address>
+
+    in <a href="./category/blog.html">blog</a>
+
+    on 2015-08-24
+
+        |
+        tags:         <a href="./tag/openstack.html">openstack</a>
+        <a href="./tag/ceilometer.html">ceilometer</a>
+        <a href="./tag/telemetry.html">telemetry</a>
+        <a href="./tag/api.html">api</a>
+        <a href="./tag/devstack.html">devstack</a>
+        <a href="./tag/nova.html">nova</a>
+        <a href="./tag/contribute.html">contribute</a>
+
+
+
+    
+</footer><!-- /.post-info -->                                <div style="float:right;margin:0 10px 10px 0">
+<p><img alt="The Ceilometer" src="./images/Single_Lens_Ceilometer.JPG" /></p>
+</div>
+<h2>Ceilometer - OpenStack Telemetry</h2>
+<p>OpenStack uses Ceilometer to measure Cloud usage.</p>
+<p>Telemetry is nice, as infrastructure utilization gets visible to users, developers, project leaders, management and to the IT department for utilization and budgetary purposes.</p>
+<h3>Telemetry for OpenStack</h3>
+<p>Getting telemetry from OpenStack quickly changed from optimism to frustration. 
+OpenStack has all of these really nice APIs you can use to query all kinds of information, but there is no mature project for setting it in a system - and we really did not want to start writing a Cloud accounting system from scratch.</p>
+<h4>Simple start - the API</h4>
+<p>How to do it could be better documented. Let's walk through the basics.</p>
+<p>iFirst we need to get a token:</p>
+<div class="highlight"><pre>. openrc    <span class="c"># openrc sets a number of useful variables</span>
+<span class="nb">echo</span> <span class="nv">$OS_AUTH_URL</span>
+http://localhost:5000/v2.0
+</pre></div>
+
+
+<p>Get and store the adminURL in the ADMIN_URL variable (using quick and dirty method):</p>
+<div class="highlight"><pre><span class="nv">ADMIN_URL</span><span class="o">=</span><span class="sb">`</span>curl -s -X POST ...</pre></div>
+                                <p class="readmore">
+                                    <a class="btn btn-small btn-info" href="./posts/2015/08/openstack-ceilometer-basics.html">Read more...</a>
+                                </p>
+                            </div><!-- /.entry-content -->
+                            <hr/>
+                        </article>
+                    </li>
+                    <li>
+                        <article>
+                            <header>
+                                <h1 class="entry-title">
                                     <a href="./posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html" rel="bookmark" title="Permalink to How to Configure Knife and Test Kitchen to use OpenStack">
                                        How to Configure Knife and Test Kitchen to use OpenStack
                                     </a>

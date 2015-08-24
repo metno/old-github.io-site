@@ -1,5 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>IT.met.no</title><link href="/" rel="alternate"></link><link href="/feeds/blog.atom.xml" rel="self"></link><id>/</id><updated>2015-03-12T00:00:00+01:00</updated><entry><title>How to Configure Knife and Test Kitchen to use OpenStack</title><link href="/posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html" rel="alternate"></link><updated>2015-03-09T00:00:00+01:00</updated><author><name>arne.sund@met.no</name></author><id>tag:,2015-03-09:posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html</id><summary type="html">&lt;p&gt;&lt;em&gt;Originally published on &lt;a href="http://arnesund.com/2015/03/01/how-to-configure-knife-and-test-kitchen-to-use-openstack/"&gt;arnesund.com&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>IT.met.no</title><link href="/" rel="alternate"></link><link href="/feeds/blog.atom.xml" rel="self"></link><id>/</id><updated>2015-08-24T00:00:00+02:00</updated><entry><title>OpenStack Ceilometer basics</title><link href="/posts/2015/08/openstack-ceilometer-basics.html" rel="alternate"></link><updated>2015-08-24T00:00:00+02:00</updated><author><name>morten.hanshaugen@met.no</name></author><id>tag:,2015-08-24:posts/2015/08/openstack-ceilometer-basics.html</id><summary type="html">&lt;div style="float:right;margin:0 10px 10px 0"&gt;
+&lt;p&gt;&lt;img alt="The Ceilometer" src="/images/Single_Lens_Ceilometer.JPG" /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;h2&gt;Ceilometer - OpenStack Telemetry&lt;/h2&gt;
+&lt;p&gt;OpenStack uses Ceilometer to measure Cloud usage.&lt;/p&gt;
+&lt;p&gt;Telemetry is nice, as infrastructure utilization gets visible to users, developers, project leaders, management and to the IT department for utilization and budgetary purposes.&lt;/p&gt;
+&lt;h3&gt;Telemetry for OpenStack&lt;/h3&gt;
+&lt;p&gt;Getting telemetry from OpenStack quickly changed from optimism to frustration. 
+OpenStack has all of these really nice APIs you can use to query all kinds of information, but there is no mature project for setting it in a system - and we really did not want to start writing a Cloud accounting system from scratch.&lt;/p&gt;
+&lt;h4&gt;Simple start - the API&lt;/h4&gt;
+&lt;p&gt;How to do it could be better documented. Let's walk through the basics.&lt;/p&gt;
+&lt;p&gt;iFirst we need to get a token:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;. openrc    &lt;span class="c"&gt;# openrc sets a number of useful variables&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$OS_AUTH_URL&lt;/span&gt;
+http://localhost:5000/v2.0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Get and store the adminURL in the ADMIN_URL variable (using quick and dirty method):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;ADMIN_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;curl -s -X POST &lt;span class="nv"&gt;$OS_AUTH_URL&lt;/span&gt;/tokens -H &lt;span class="s2"&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -d &lt;span class="s1"&gt;&amp;#39;{&amp;quot;auth&amp;quot;: {&amp;quot;tenantName&amp;quot;: &amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$OS_TENANT_NAME&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;, &amp;quot;passwordCredentials&amp;quot;: {&amp;quot;username&amp;quot;: &amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$OS_USERNAME&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$OS_PASSWORD&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;}}}&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; python -c &lt;span class="s1"&gt;&amp;#39;import sys, json; print json.load(sys.stdin)[&amp;quot;access&amp;quot;][&amp;quot;serviceCatalog&amp;quot;][3][&amp;quot;endpoints&amp;quot;][0][&amp;quot;adminURL&amp;quot;]&amp;#39;&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;v&lt;span class="nv"&gt;$OS_VOLUME_API_VERSION&lt;/span&gt;/
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$ADMIN_URL&lt;/span&gt;
+http://localhost:8777/v2/
+
+&lt;span class="nv"&gt;TOKEN&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;curl -s -X POST &lt;span class="nv"&gt;$OS_AUTH_URL&lt;/span&gt;/tokens -H &lt;span class="s2"&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -d &lt;span class="s1"&gt;&amp;#39;{&amp;quot;auth&amp;quot;: {&amp;quot;tenantName&amp;quot;: &amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$OS_TENANT_NAME&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;, &amp;quot;passwordCredentials&amp;quot;: {&amp;quot;username&amp;quot;: &amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$OS_USERNAME&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;, &amp;quot;password&amp;quot;: &amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$OS_PASSWORD&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;}}}&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; python -c &lt;span class="s1"&gt;&amp;#39;import sys, json; print json.load(sys.stdin)[&amp;quot;access&amp;quot;][&amp;quot;token&amp;quot;][&amp;quot;id&amp;quot;]&amp;#39;&lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$TOKEN&lt;/span&gt;
+3df105345ada4460b16ee11c06617cf7
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Please note that the tests below will not output anything useful if you have a newly installed OpenStack/Devstack with no data / instances in the database.&lt;/p&gt;
+&lt;p&gt;Run a quick test listing of available meters:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;curl -H X-Auth-Token:&lt;span class="nv"&gt;$TOKEN&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ADMIN_URL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;meters&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; python -m json.tool&lt;span class="p"&gt;|&lt;/span&gt;grep name&lt;span class="p"&gt;|&lt;/span&gt;head -3
+        &lt;span class="s2"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;network.incoming.packets&amp;quot;&lt;/span&gt;,
+        &lt;span class="s2"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;network.outgoing.bytes&amp;quot;&lt;/span&gt;,
+        &lt;span class="s2"&gt;&amp;quot;name&amp;quot;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;network.outgoing.packets&amp;quot;&lt;/span&gt;,
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Query the list of instances: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;curl -H X-Auth-Token:&lt;span class="nv"&gt;$TOKEN&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ADMIN_URL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;meters/instance?q.field=metadata.event_type&amp;amp;q.value=compute.instance.exists&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; python -m json.tool &lt;span class="p"&gt;|&lt;/span&gt; head
+&lt;span class="o"&gt;[&lt;/span&gt;
+    &lt;span class="o"&gt;{&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;counter_name&amp;quot;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;instance&amp;quot;&lt;/span&gt;,
+        &lt;span class="s2"&gt;&amp;quot;counter_type&amp;quot;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;gauge&amp;quot;&lt;/span&gt;,
+        &lt;span class="s2"&gt;&amp;quot;counter_unit&amp;quot;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;instance&amp;quot;&lt;/span&gt;,
+        &lt;span class="s2"&gt;&amp;quot;counter_volume&amp;quot;&lt;/span&gt;: 1.0,
+        &lt;span class="s2"&gt;&amp;quot;message_id&amp;quot;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;132e401a-26e2-11e5-8ca8-fef0e2547b3a&amp;quot;&lt;/span&gt;,
+        &lt;span class="s2"&gt;&amp;quot;project_id&amp;quot;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;08b96944c51e45cc847b2a1901ec58c0&amp;quot;&lt;/span&gt;,
+        &lt;span class="s2"&gt;&amp;quot;recorded_at&amp;quot;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;2015-07-10T09:00:13.117000&amp;quot;&lt;/span&gt;,
+        &lt;span class="s2"&gt;&amp;quot;resource_id&amp;quot;&lt;/span&gt;: &lt;span class="s2"&gt;&amp;quot;ca3a8684-f406-464d-8ae4-10982613db0e&amp;quot;&lt;/span&gt;,
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Query the list of instances where timestamp is newer than a date: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;curl -X GET -H X-Auth-Token:&lt;span class="nv"&gt;$TOKEN&lt;/span&gt; -H &lt;span class="s2"&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -d &lt;span class="s1"&gt;&amp;#39;{&amp;quot;q&amp;quot;: [{&amp;quot;field&amp;quot;: &amp;quot;timestamp&amp;quot;, &amp;quot;op&amp;quot;: &amp;quot;ge&amp;quot;, &amp;quot;value&amp;quot;: &amp;quot;2014-04-01T13:34:17&amp;quot;}]}&amp;#39;&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ADMIN_URL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;meters/instance &lt;span class="p"&gt;|&lt;/span&gt; python -m json.tool
+&amp;lt;the same as above&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A last example to help you along:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;curl -X GET -H X-Auth-Token:&lt;span class="nv"&gt;$TOKEN&lt;/span&gt; -H &lt;span class="s2"&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -d &lt;span class="s1"&gt;&amp;#39;{&amp;quot;q&amp;quot;: [{&amp;quot;field&amp;quot;: &amp;quot;timestamp&amp;quot;, &amp;quot;op&amp;quot;: &amp;quot;ge&amp;quot;, &amp;quot;value&amp;quot;: &amp;quot;2014-04-01T13:34:17&amp;quot;}, {&amp;quot;field&amp;quot;: &amp;quot;resource_id&amp;quot;, &amp;quot;op&amp;quot;: &amp;quot;eq&amp;quot;, &amp;quot;value&amp;quot;: &amp;quot;82a1371d-a1a3-4f98-9781-8663b262ee7e&amp;quot;}]}&amp;#39;&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ADMIN_URL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;meters/instance
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;See this link for examples of how to use the API:
+&lt;a href="http://docs.openstack.org/developer/ceilometer/webapi/v2.html#api-queries"&gt;http://docs.openstack.org/developer/ceilometer/webapi/v2.html#api-queries&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Command line clients&lt;/h4&gt;
+&lt;p&gt;See OpenStack command-line clients for detail on how to install command line clients and getting credentials:
+&lt;a href="http://docs.openstack.org/api/quick-start/content/index.html#getting-credentials-a00665"&gt;http://docs.openstack.org/api/quick-start/content/index.html#getting-credentials-a00665&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;nova image-list
+nova flavor-list
+etc
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;In need of a Ceilometer project to contribute to&lt;/h3&gt;
+&lt;p&gt;We master the basics. How to find an OpenStack Ceilometer project to adapt and contribute to?&lt;/p&gt;</summary><category term="openstack"></category><category term="ceilometer"></category><category term="telemetry"></category><category term="api"></category><category term="devstack"></category><category term="nova"></category><category term="contribute"></category></entry><entry><title>How to Configure Knife and Test Kitchen to use OpenStack</title><link href="/posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html" rel="alternate"></link><updated>2015-03-09T00:00:00+01:00</updated><author><name>arne.sund@met.no</name></author><id>tag:,2015-03-09:posts/2015/03/configure-knife-and-test-kitchen-to-use-openstack.html</id><summary type="html">&lt;p&gt;&lt;em&gt;Originally published on &lt;a href="http://arnesund.com/2015/03/01/how-to-configure-knife-and-test-kitchen-to-use-openstack/"&gt;arnesund.com&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;When developing Chef cookbooks, Knife and Test Kitchen (hereafter just "Kitchen") are essential tools in the workflow. Both tools can be set up to use OpenStack to make it easy to create VMs for testing regardless of the capabilities of the workstation used. It's great for testing some new recipe in a cookbook or making sure changes do not break existing cookbook functionality. This post will go through the configuration of both tools to ensure they use OpenStack instead of the default Vagrant drivers.&lt;/p&gt;
 &lt;h2&gt;Install software and dependencies&lt;/h2&gt;
 &lt;p&gt;First, it is necessary to install the software, plugins and dependencies. Let's start with some basic packages:&lt;/p&gt;
