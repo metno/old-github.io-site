@@ -3,7 +3,6 @@ Date: 2015-08-24
 Tags: openstack, ceilometer, telemetry, api, devstack, nova, contribute
 Slug: openstack-ceilometer-basics
 Author: morten.hanshaugen@met.no
-Status: draft
 
 <div style="float:right;margin:0 10px 10px 0" markdown="1">
 ![The Ceilometer]({filename}/images/Single_Lens_Ceilometer.JPG)
