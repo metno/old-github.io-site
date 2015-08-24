@@ -103,8 +103,8 @@
 <p>Getting telemetry from OpenStack quickly changed from optimism to frustration. 
 OpenStack has all of these really nice APIs you can use to query all kinds of information, but there is no mature project for setting it in a system - and we really do not want to start writing a Cloud accounting system from scratch.</p>
 <h4>Simple start - the API</h4>
-<p>How to do it could be better documented. Let's walk through the basics.</p>
-<p>iFirst we need to get a token:</p>
+<p>How to utilize the API could be better documented. Let's walk through the basics.</p>
+<p>First we need to get a token:</p>
 <div class="highlight"><pre>. openrc    <span class="c"># openrc sets a number of useful variables</span>
 <span class="nb">echo</span> <span class="nv">$OS_AUTH_URL</span>
 http://localhost:5000/v2.0
@@ -112,7 +112,7 @@ http://localhost:5000/v2.0
 
 
 <p>Get and store the adminURL in the ADMIN_URL variable (using quick and dirty method):</p>
-<div class="highlight"><pre><span class="nv">ADMIN_URL</span><span class="o">=</span><span class="sb">`</span>curl -s -X POST ...</pre></div>
+<div class="highlight"><pre><span class="nv">ADMIN_URL</span><span class="o">=</span><span class="sb">`</span>curl -s -X ...</pre></div>
                                 <p class="readmore">
                                     <a class="btn btn-small btn-info" href="../posts/2015/08/openstack-ceilometer-basics.html">Read more...</a>
                                 </p>
