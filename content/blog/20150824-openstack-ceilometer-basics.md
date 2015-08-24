@@ -7,7 +7,7 @@ Status: draft
 
 ## Ceilometer - OpenStack Telemetry
 
-![The Ceilometer]({filename}/images/Single_Lens_Ceilometer.JPG)
+| | ![The Ceilometer]({filename}/images/Single_Lens_Ceilometer.JPG) |
 
 OpenStack uses Ceilometer to measure Cloud usage.
 
