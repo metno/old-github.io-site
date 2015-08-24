@@ -97,11 +97,12 @@
 OpenStack has all of these really nice APIs you can use to query all kinds of information, but there is no mature project for setting it in a system - and we really did not want to start writing a Cloud accounting system from scratch.</p>
 <h4>Simple start - the API</h4>
 <p>How to do it could be better documented. This is basics:</p>
-<p>Get a token:
-```. openrc    # openrc sets a number of useful variables
+<p>Get a token:</p>
+<p>```. openrc    # openrc sets a number of useful variables
 echo $OS_AUTH_URL
 http://localhost:5000/v2.0</p>
 <div class="highlight"><pre><span class="n">Store</span> <span class="n">the</span> <span class="n">adminURL</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">ADMIN_URL</span> <span class="n">variable</span> <span class="p">(</span><span class="n">this</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">quick</span> <span class="ow">and</span> <span class="n">dirty</span> <span class="n">method</span><span class="p">):</span>
+
 <span class="sb">```ADMIN_URL=`</span><span class="n">curl</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">X</span> <span class="n">POST</span> <span class="err">$</span><span class="n">OS_AUTH_URL</span><span class="o">/</span><span class="n">tokens</span> <span class="o">-</span><span class="n">H</span> <span class="s">&quot;Content-Type: application/json&quot;</span> <span class="o">-</span><span class="n">d</span> <span class="s">&#39;{&quot;auth&quot;: {&quot;tenantName&quot;: &quot;&#39;&quot;$OS_TENANT_NAME&quot;&#39;&quot;, &quot;passwordCredentials&quot;: {&quot;username&quot;: &quot;&#39;&quot;$OS_USERNAME&quot;&#39;&quot;, &quot;password&quot;: &quot;&#39;&quot;$OS_PASSWORD&quot;&#39;&quot;}}}&#39;</span> <span class="o">|</span> <span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s">&#39;import sys, json; print json.load(sys.stdin)[&quot;access&quot;][&quot;serviceCatalog&quot;][3][&quot;endpoints&quot;][0][&quot;adminURL&quot;]&#39;</span><span class="err">`</span><span class="n">v</span><span class="err">$</span><span class="n">OS_VOLUME_API_VERSION</span><span class="o">/</span>
 <span class="n">echo</span> <span class="err">$</span><span class="n">ADMIN_URL</span>
 <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8777</span><span class="o">/</span><span class="n">v2</span><span class="o">/</span>
@@ -114,12 +115,13 @@ http://localhost:5000/v2.0</p>
 
 
 <p>Please note that the tests below will not output anything useful if you have a newly installed OpenStack/Devstack with no data or instances in the database.</p>
-<p>Quick test listing of meters:
-```$ curl -H X-Auth-Token:$TOKEN "${ADMIN_URL}meters" | python -m json.tool|grep name|head -3
+<p>Quick test listing of meters:</p>
+<p>```$ curl -H X-Auth-Token:$TOKEN "${ADMIN_URL}meters" | python -m json.tool|grep name|head -3
         "name": "network.incoming.packets",
         "name": "network.outgoing.bytes",
         "name": "network.outgoing.packets",</p>
 <div class="highlight"><pre>Query list of instances: 
+
 ```curl -H X-Auth-Token:<span class="nv">$TOKEN</span> &quot;<span class="cp">${</span><span class="n">ADMIN_URL</span><span class="cp">}</span>meters/instance?q.field=metadata.event_type<span class="err">&amp;</span>q.value=compute.instance.exists&quot; | python -m json.tool | head
 [
     {
@@ -134,10 +136,11 @@ http://localhost:5000/v2.0</p>
 </pre></div>
 
 
-<p>Query list of instances where timestamp is newer than a date: 
-```curl -X GET -H X-Auth-Token:$TOKEN -H "Content-Type: application/json" -d '{"q": [{"field": "timestamp", "op": "ge", "value": "2014-04-01T13:34:17"}]}' ${ADMIN_URL}meters/instance | python -m json.tool
+<p>Query list of instances where timestamp is newer than a date: </p>
+<p>```curl -X GET -H X-Auth-Token:$TOKEN -H "Content-Type: application/json" -d '{"q": [{"field": "timestamp", "op": "ge", "value": "2014-04-01T13:34:17"}]}' ${ADMIN_URL}meters/instance | python -m json.tool
 <the same as above></p>
 <div class="highlight"><pre>A last example to help you along:
+
 ```curl -X GET -H X-Auth-Token:<span class="nv">$TOKEN</span> -H &quot;Content-Type: application/json&quot; -d &#39;{&quot;q&quot;: [{&quot;field&quot;: &quot;timestamp&quot;, &quot;op&quot;: &quot;ge&quot;, &quot;value&quot;: &quot;2014-04-01T13:34:17&quot;}, {&quot;field&quot;: &quot;resource_id&quot;, &quot;op&quot;: &quot;eq&quot;, &quot;value&quot;: &quot;82a1371d-a1a3-4f98-9781-8663b262ee7e&quot;}]}&#39; <span class="cp">${</span><span class="n">ADMIN_URL</span><span class="cp">}</span>meters/instance
 </pre></div>
 
@@ -146,8 +149,8 @@ http://localhost:5000/v2.0</p>
 http://docs.openstack.org/developer/ceilometer/webapi/v2.html#api-queries</p>
 <h4>Command line clients</h4>
 <p>See OpenStack command-line clients for detail on how to install command line clients and getting credentials:
-http://docs.openstack.org/api/quick-start/content/index.html#getting-credentials-a00665
-<code>nova image-list
+http://docs.openstack.org/api/quick-start/content/index.html#getting-credentials-a00665</p>
+<p><code>nova image-list
 nova flavor-list
 etc</code></p>
 <p>In need of a Ceilometer project to contribute to
