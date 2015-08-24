@@ -84,11 +84,11 @@ curl -X GET -H X-Auth-Token:$TOKEN -H "Content-Type: application/json" -d '{"q":
 ```
 
 See this link for examples of how to use the API:
-(http://docs.openstack.org/developer/ceilometer/webapi/v2.html#api-queries)
+[http://docs.openstack.org/developer/ceilometer/webapi/v2.html#api-queries](http://docs.openstack.org/developer/ceilometer/webapi/v2.html#api-queries)
 
 #### Command line clients
 See OpenStack command-line clients for detail on how to install command line clients and getting credentials:
-(http://docs.openstack.org/api/quick-start/content/index.html#getting-credentials-a00665)
+[http://docs.openstack.org/api/quick-start/content/index.html#getting-credentials-a00665](http://docs.openstack.org/api/quick-start/content/index.html#getting-credentials-a00665)
 
 ```bash
 nova image-list
