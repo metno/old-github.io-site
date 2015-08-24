@@ -96,15 +96,15 @@
 <p>Getting telemetry from OpenStack quickly changed from optimism to frustration. 
 OpenStack has all of these really nice APIs you can use to query all kinds of information, but there is no mature project for setting it in a system - and we really did not want to start writing a Cloud accounting system from scratch.</p>
 <h4>Simple start - the API</h4>
-<p>How to do it could be better documented. This is basics:</p>
-<p>Get a token:</p>
+<p>How to do it could be better documented. Let's walk through the basics.</p>
+<p>iFirst we need to get a token:</p>
 <div class="highlight"><pre>. openrc    <span class="c"># openrc sets a number of useful variables</span>
 <span class="nb">echo</span> <span class="nv">$OS_AUTH_URL</span>
 http://localhost:5000/v2.0
 </pre></div>
 
 
-<p>Store the adminURL in the ADMIN_URL variable (this is a quick and dirty method):</p>
+<p>Get and store the adminURL in the ADMIN_URL variable (using quick and dirty method):</p>
 <div class="highlight"><pre><span class="nv">ADMIN_URL</span><span class="o">=</span><span class="sb">`</span>curl -s -X POST <span class="nv">$OS_AUTH_URL</span>/tokens -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;auth&quot;: {&quot;tenantName&quot;: &quot;&#39;</span><span class="s2">&quot;</span><span class="nv">$OS_TENANT_NAME</span><span class="s2">&quot;</span><span class="s1">&#39;&quot;, &quot;passwordCredentials&quot;: {&quot;username&quot;: &quot;&#39;</span><span class="s2">&quot;</span><span class="nv">$OS_USERNAME</span><span class="s2">&quot;</span><span class="s1">&#39;&quot;, &quot;password&quot;: &quot;&#39;</span><span class="s2">&quot;</span><span class="nv">$OS_PASSWORD</span><span class="s2">&quot;</span><span class="s1">&#39;&quot;}}}&#39;</span> <span class="p">|</span> python -c <span class="s1">&#39;import sys, json; print json.load(sys.stdin)[&quot;access&quot;][&quot;serviceCatalog&quot;][3][&quot;endpoints&quot;][0][&quot;adminURL&quot;]&#39;</span><span class="sb">`</span>v<span class="nv">$OS_VOLUME_API_VERSION</span>/
 <span class="nb">echo</span> <span class="nv">$ADMIN_URL</span>
 http://localhost:8777/v2/
@@ -116,8 +116,8 @@ http://localhost:8777/v2/
 </pre></div>
 
 
-<p>Please note that the tests below will not output anything useful if you have a newly installed OpenStack/Devstack with no data or instances in the database.</p>
-<p>Quick test listing of meters:</p>
+<p>Please note that the tests below will not output anything useful if you have a newly installed OpenStack/Devstack with no data / instances in the database.</p>
+<p>Run a quick test listing of available meters:</p>
 <div class="highlight"><pre>curl -H X-Auth-Token:<span class="nv">$TOKEN</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">ADMIN_URL</span><span class="si">}</span><span class="s2">meters&quot;</span> <span class="p">|</span> python -m json.tool<span class="p">|</span>grep name<span class="p">|</span>head -3
         <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;network.incoming.packets&quot;</span>,
         <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;network.outgoing.bytes&quot;</span>,
@@ -125,7 +125,7 @@ http://localhost:8777/v2/
 </pre></div>
 
 
-<p>Query list of instances: </p>
+<p>Query the list of instances: </p>
 <div class="highlight"><pre>curl -H X-Auth-Token:<span class="nv">$TOKEN</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">ADMIN_URL</span><span class="si">}</span><span class="s2">meters/instance?q.field=metadata.event_type&amp;q.value=compute.instance.exists&quot;</span> <span class="p">|</span> python -m json.tool <span class="p">|</span> head
 <span class="o">[</span>
     <span class="o">{</span>
@@ -140,7 +140,7 @@ http://localhost:8777/v2/
 </pre></div>
 
 
-<p>Query list of instances where timestamp is newer than a date: </p>
+<p>Query the list of instances where timestamp is newer than a date: </p>
 <div class="highlight"><pre>curl -X GET -H X-Auth-Token:<span class="nv">$TOKEN</span> -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;q&quot;: [{&quot;field&quot;: &quot;timestamp&quot;, &quot;op&quot;: &quot;ge&quot;, &quot;value&quot;: &quot;2014-04-01T13:34:17&quot;}]}&#39;</span> <span class="si">${</span><span class="nv">ADMIN_URL</span><span class="si">}</span>meters/instance <span class="p">|</span> python -m json.tool
 &lt;the same as above&gt;
 </pre></div>
@@ -152,10 +152,10 @@ http://localhost:8777/v2/
 
 
 <p>See this link for examples of how to use the API:
-http://docs.openstack.org/developer/ceilometer/webapi/v2.html#api-queries</p>
+(http://docs.openstack.org/developer/ceilometer/webapi/v2.html#api-queries)</p>
 <h4>Command line clients</h4>
 <p>See OpenStack command-line clients for detail on how to install command line clients and getting credentials:
-http://docs.openstack.org/api/quick-start/content/index.html#getting-credentials-a00665</p>
+(http://docs.openstack.org/api/quick-start/content/index.html#getting-credentials-a00665)</p>
 <div class="highlight"><pre>nova image-list
 nova flavor-list
 etc
