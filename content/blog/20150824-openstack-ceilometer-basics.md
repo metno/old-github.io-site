@@ -20,9 +20,9 @@ Getting telemetry from OpenStack quickly changed from optimism to frustration.
 OpenStack has all of these really nice APIs you can use to query all kinds of information, but there is no mature project for setting it in a system - and we really did not want to start writing a Cloud accounting system from scratch.
 
 #### Simple start - the API
-How to do it could be better documented. This is basics:
+How to do it could be better documented. Let's walk through the basics.
 
-Get a token:
+iFirst we need to get a token:
 
 ```bash
 . openrc    # openrc sets a number of useful variables
@@ -30,7 +30,7 @@ echo $OS_AUTH_URL
 http://localhost:5000/v2.0
 ```
 
-Store the adminURL in the ADMIN_URL variable (this is a quick and dirty method):
+Get and store the adminURL in the ADMIN_URL variable (using quick and dirty method):
 
 ```bash
 ADMIN_URL=`curl -s -X POST $OS_AUTH_URL/tokens -H "Content-Type: application/json" -d '{"auth": {"tenantName": "'"$OS_TENANT_NAME"'", "passwordCredentials": {"username": "'"$OS_USERNAME"'", "password": "'"$OS_PASSWORD"'"}}}' | python -c 'import sys, json; print json.load(sys.stdin)["access"]["serviceCatalog"][3]["endpoints"][0]["adminURL"]'`v$OS_VOLUME_API_VERSION/
@@ -43,9 +43,9 @@ echo $TOKEN
 3df105345ada4460b16ee11c06617cf7
 ```
 
-Please note that the tests below will not output anything useful if you have a newly installed OpenStack/Devstack with no data or instances in the database.
+Please note that the tests below will not output anything useful if you have a newly installed OpenStack/Devstack with no data / instances in the database.
 
-Quick test listing of meters:
+Run a quick test listing of available meters:
 
 ```bash
 curl -H X-Auth-Token:$TOKEN "${ADMIN_URL}meters" | python -m json.tool|grep name|head -3
@@ -54,7 +54,7 @@ curl -H X-Auth-Token:$TOKEN "${ADMIN_URL}meters" | python -m json.tool|grep name
     	"name": "network.outgoing.packets",
 ```
 
-Query list of instances: 
+Query the list of instances: 
 
 ```bash
 curl -H X-Auth-Token:$TOKEN "${ADMIN_URL}meters/instance?q.field=metadata.event_type&q.value=compute.instance.exists" | python -m json.tool | head
@@ -70,7 +70,7 @@ curl -H X-Auth-Token:$TOKEN "${ADMIN_URL}meters/instance?q.field=metadata.event_
     	"resource_id": "ca3a8684-f406-464d-8ae4-10982613db0e",
 ```
 
-Query list of instances where timestamp is newer than a date: 
+Query the list of instances where timestamp is newer than a date: 
 
 ```bash
 curl -X GET -H X-Auth-Token:$TOKEN -H "Content-Type: application/json" -d '{"q": [{"field": "timestamp", "op": "ge", "value": "2014-04-01T13:34:17"}]}' ${ADMIN_URL}meters/instance | python -m json.tool
@@ -84,11 +84,11 @@ curl -X GET -H X-Auth-Token:$TOKEN -H "Content-Type: application/json" -d '{"q":
 ```
 
 See this link for examples of how to use the API:
-http://docs.openstack.org/developer/ceilometer/webapi/v2.html#api-queries
+(http://docs.openstack.org/developer/ceilometer/webapi/v2.html#api-queries)
 
 #### Command line clients
 See OpenStack command-line clients for detail on how to install command line clients and getting credentials:
-http://docs.openstack.org/api/quick-start/content/index.html#getting-credentials-a00665
+(http://docs.openstack.org/api/quick-start/content/index.html#getting-credentials-a00665)
 
 ```bash
 nova image-list
