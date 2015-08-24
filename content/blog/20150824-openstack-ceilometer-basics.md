@@ -21,7 +21,7 @@ OpenStack has all of these really nice APIs you can use to query all kinds of in
 #### Simple start - the API
 How to utilize the API could be better documented. Let's walk through the basics.
 
-First we need to get a token:
+First you need to get a token:
 
 ```bash
 . openrc    # openrc sets a number of useful variables
