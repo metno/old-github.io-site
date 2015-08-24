@@ -7,11 +7,9 @@ Status: draft
 
 ## Ceilometer - OpenStack Telemetry
 
-| | ![The Ceilometer]({filename}/images/Single_Lens_Ceilometer.JPG) |
+| OpenStack uses Ceilometer to measure Cloud usage.
 
-OpenStack uses Ceilometer to measure Cloud usage.
-
-Telemetry is nice, as infrastructure utilization gets visible to users, developers, project leaders, management and to the IT department for utilization and budgetary purposes.
+Telemetry is nice, as infrastructure utilization gets visible to users, developers, project leaders, management and to the IT department for utilization and budgetary purposes. | ![The Ceilometer]({filename}/images/Single_Lens_Ceilometer.JPG) |
 
 ### Telemetry for OpenStack
 Getting telemetry from OpenStack quickly changed from optimism to frustration. 
