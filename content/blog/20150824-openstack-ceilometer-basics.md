@@ -72,7 +72,8 @@ curl -H X-Auth-Token:$TOKEN "${ADMIN_URL}meters/instance?q.field=metadata.event_
 
 Query list of instances where timestamp is newer than a date: 
 
-```curl -X GET -H X-Auth-Token:$TOKEN -H "Content-Type: application/json" -d '{"q": [{"field": "timestamp", "op": "ge", "value": "2014-04-01T13:34:17"}]}' ${ADMIN_URL}meters/instance | python -m json.tool
+```bash
+curl -X GET -H X-Auth-Token:$TOKEN -H "Content-Type: application/json" -d '{"q": [{"field": "timestamp", "op": "ge", "value": "2014-04-01T13:34:17"}]}' ${ADMIN_URL}meters/instance | python -m json.tool
 <the same as above>
 ```
 
