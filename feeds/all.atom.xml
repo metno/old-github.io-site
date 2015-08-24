@@ -7,7 +7,7 @@
 &lt;p&gt;Telemetry is nice, as infrastructure utilization gets visible to users, developers, project leaders, management and to the IT department for utilization and budgetary purposes.&lt;/p&gt;
 &lt;h3&gt;Telemetry for OpenStack&lt;/h3&gt;
 &lt;p&gt;Getting telemetry from OpenStack quickly changed from optimism to frustration. 
-OpenStack has all of these really nice APIs you can use to query all kinds of information, but there is no mature project for setting it in a system - and we really did not want to start writing a Cloud accounting system from scratch.&lt;/p&gt;
+OpenStack has all of these really nice APIs you can use to query all kinds of information, but there is no mature project for setting it in a system - and we really do not want to start writing a Cloud accounting system from scratch.&lt;/p&gt;
 &lt;h4&gt;Simple start - the API&lt;/h4&gt;
 &lt;p&gt;How to do it could be better documented. Let's walk through the basics.&lt;/p&gt;
 &lt;p&gt;iFirst we need to get a token:&lt;/p&gt;
