@@ -141,12 +141,13 @@ http://localhost:8777/v2/
 
 
 <p>Query list of instances where timestamp is newer than a date: </p>
-<p>```curl -X GET -H X-Auth-Token:$TOKEN -H "Content-Type: application/json" -d '{"q": [{"field": "timestamp", "op": "ge", "value": "2014-04-01T13:34:17"}]}' ${ADMIN_URL}meters/instance | python -m json.tool
-<the same as above></p>
-<div class="highlight"><pre>A last example to help you along:
+<div class="highlight"><pre>curl -X GET -H X-Auth-Token:<span class="nv">$TOKEN</span> -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;q&quot;: [{&quot;field&quot;: &quot;timestamp&quot;, &quot;op&quot;: &quot;ge&quot;, &quot;value&quot;: &quot;2014-04-01T13:34:17&quot;}]}&#39;</span> <span class="si">${</span><span class="nv">ADMIN_URL</span><span class="si">}</span>meters/instance <span class="p">|</span> python -m json.tool
+&lt;the same as above&gt;
+</pre></div>
 
-```bash
-curl -X GET -H X-Auth-Token:<span class="nv">$TOKEN</span> -H &quot;Content-Type: application/json&quot; -d &#39;{&quot;q&quot;: [{&quot;field&quot;: &quot;timestamp&quot;, &quot;op&quot;: &quot;ge&quot;, &quot;value&quot;: &quot;2014-04-01T13:34:17&quot;}, {&quot;field&quot;: &quot;resource_id&quot;, &quot;op&quot;: &quot;eq&quot;, &quot;value&quot;: &quot;82a1371d-a1a3-4f98-9781-8663b262ee7e&quot;}]}&#39; <span class="cp">${</span><span class="n">ADMIN_URL</span><span class="cp">}</span>meters/instance
+
+<p>A last example to help you along:</p>
+<div class="highlight"><pre>curl -X GET -H X-Auth-Token:<span class="nv">$TOKEN</span> -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -d <span class="s1">&#39;{&quot;q&quot;: [{&quot;field&quot;: &quot;timestamp&quot;, &quot;op&quot;: &quot;ge&quot;, &quot;value&quot;: &quot;2014-04-01T13:34:17&quot;}, {&quot;field&quot;: &quot;resource_id&quot;, &quot;op&quot;: &quot;eq&quot;, &quot;value&quot;: &quot;82a1371d-a1a3-4f98-9781-8663b262ee7e&quot;}]}&#39;</span> <span class="si">${</span><span class="nv">ADMIN_URL</span><span class="si">}</span>meters/instance
 </pre></div>
 
 
