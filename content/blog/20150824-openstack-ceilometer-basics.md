@@ -5,12 +5,11 @@ Slug: openstack-ceilometer-basics
 Author: morten.hanshaugen@met.no
 Status: draft
 
-## Ceilometer - OpenStack Telemetry
-
-Test
 <div style="float:right;margin:0 10px 10px 0" markdown="1">
 ![The Ceilometer]({filename}/images/Single_Lens_Ceilometer.JPG)
 </div>
+
+## Ceilometer - OpenStack Telemetry
 
 OpenStack uses Ceilometer to measure Cloud usage.
 
