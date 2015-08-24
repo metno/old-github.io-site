@@ -99,3 +99,4 @@ etc
 ###In need of a Ceilometer project to contribute to
 
 We master the basics. How to find an OpenStack Ceilometer project to adapt and contribute to?
+
