@@ -3,8 +3,6 @@ Date: 2015-08-29
 Tags: google, web, app, spreadsheet
 Slug: google-web-app-using-spreadsheet
 Author: morten.hanshaugen@met.no
-Status: draft
-
 
 ## Best of both worlds (Spreadsheet and dynamic Web interface)
 
