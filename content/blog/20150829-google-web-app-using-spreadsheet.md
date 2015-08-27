@@ -1,5 +1,5 @@
 Title: Google Web App using Spreadsheet
-Date: 2015-08-29
+Date: 2015-08-27
 Tags: google, web, app, spreadsheet
 Slug: google-web-app-using-spreadsheet
 Author: morten.hanshaugen@met.no
