@@ -88,18 +88,18 @@
     
 </footer><!-- /.post-info -->
 
-        <h2>Ceilometer - OpenStack Telemetry</h2>
-<p>Managing information is a challenge. Often times you end up pasting the information into a Spreadsheet, you try to make a system out of the madness. Then Google comes along and offers you an online Google Spreadsheet - and you can share your spreadsheet with colleges! Your co-workers can help you out, thats nice, but you risk ending up with a mess! You might be better off limiting full access to the Google Spreadsheet data to a small group of colleges, combined with simple Web based user interfaces for less involved colleges? As Google Spreadsheets are Web based, attaching a Web interface is not far away. This is how you do it:</p>
+        <h2>Best of both worlds (Spreadsheet and dynamic Web interface)</h2>
+<p>Managing information is a challenge. Often times you end up pasting information into a Spreadsheet, you try to make a system out of the madness.. Google comes along offering you an online (Google) Spreadsheet - so you can share your Spreadsheet with colleges! Your co-workers can help you out, thats nice, but you risk ending up with a mess! Just maybe you are better off limiting access to messing up the somewhat valuable Google Spreadsheet data to a smaller group of colleges, while less involved colleagues collaborate via a simple Web based user interface? As Google Spreadsheets are Web based by nature, attaching a Web interface is not far away. This is how you do it:</p>
 <h2>Create a Google Spreadsheet</h2>
 <p>This one you will have to figure out yourself :)
-(drive.google.com -&gt; New -&gt; Sheets)</p>
-<h2>Create a Script</h2>
-<p>After naming your Google Spreadsheet, click Tools -&gt; Script editor.. . From the Google Apps Script popup you select Web App.
-Four files are provided for you:
-  * index.hml - Template HTML
-  * Stylesheet.html - Style statements
-  * Code.gs - JavaScript code that will be executed server side
-  * JavaScript.html - Client side JavaScript making required server side calls</p>
+(drive.google.com -&gt; "New" -&gt; "Sheets")</p>
+<h2>Create a Web interface (a "Script")</h2>
+<p>After naming your Google Spreadsheet, click "Tools" -&gt; "Script editor.." . Then, from the "Google Apps Script" popup, you select "Web App".</p>
+<p>Four files are provided for you:
+<em> index.hml - Template HTML
+</em> Stylesheet.html - Style statements
+<em> Code.gs - JavaScript code that will be executed server side
+</em> JavaScript.html - Client side JavaScript making required server side calls</p>
 <p>The first thing to do is to replace "Untitled project" with a real project name, i.e "Web App Test 1".</p>
 <p>You can play with the displayed example code, or you can move right on to interact with your Google Spreadsheet:</p>
 <p>In the Spreadsheet, add some text to the upper left most cell, i.e "Cell One" - this is the text we will retrieve in the Web App shortly.</p>
