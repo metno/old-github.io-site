@@ -1,5 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>IT.met.no</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2015-08-24T00:00:00+02:00</updated><entry><title>OpenStack Ceilometer basics</title><link href="/posts/2015/08/openstack-ceilometer-basics.html" rel="alternate"></link><updated>2015-08-24T00:00:00+02:00</updated><author><name>morten.hanshaugen@met.no</name></author><id>tag:,2015-08-24:posts/2015/08/openstack-ceilometer-basics.html</id><summary type="html">&lt;div style="float:right;margin:0 10px 10px 0"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>IT.met.no</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2015-08-29T00:00:00+02:00</updated><entry><title>Google Web App using Spreadsheet</title><link href="/posts/2015/08/google-web-app-using-spreadsheet.html" rel="alternate"></link><updated>2015-08-29T00:00:00+02:00</updated><author><name>morten.hanshaugen@met.no</name></author><id>tag:,2015-08-29:posts/2015/08/google-web-app-using-spreadsheet.html</id><summary type="html">&lt;h2&gt;Best of both worlds (Spreadsheet and dynamic Web interface)&lt;/h2&gt;
+&lt;p&gt;Managing information is a challenge. Often times you end up pasting information into a Spreadsheet, you try to make a system out of the madness.. Google comes along offering you an online (Google) Spreadsheet - so you can share your Spreadsheet with colleges! Your co-workers can help you out, thats nice, but you risk ending up with a mess! Just maybe you are better off limiting access to messing up the somewhat valuable Google Spreadsheet data to a smaller group of colleges, while less involved colleagues collaborate via a simple Web based user interface? As Google Spreadsheets are Web based by nature, attaching a Web interface is not far away. This is how you do it:&lt;/p&gt;
+&lt;h2&gt;Create a Google Spreadsheet&lt;/h2&gt;
+&lt;p&gt;This one you will have to figure out yourself :)
+(drive.google.com -&amp;gt; "New" -&amp;gt; "Sheets")&lt;/p&gt;
+&lt;h2&gt;Create a Web interface (a "Script")&lt;/h2&gt;
+&lt;p&gt;After naming your Google Spreadsheet, click "Tools" -&amp;gt; "Script editor.." . Then, from the "Google Apps Script" popup, you select "Web App".&lt;/p&gt;
+&lt;p&gt;Four files are provided for you:
+ * index.hml - Template HTML
+ * Stylesheet.html - Style statements
+ * Code.gs - JavaScript code that will be executed server side
+ * JavaScript.html - Client side JavaScript making required server side calls&lt;/p&gt;
+&lt;p&gt;The first thing to do is to replace "Untitled project" with a real project name, i.e "Web App Test 1".&lt;/p&gt;
+&lt;p&gt;You can play with the displayed example code, or you can move right on to interact with your Google Spreadsheet:&lt;/p&gt;
+&lt;p&gt;In the Spreadsheet, add some text to the upper left most cell, i.e "Cell One" - this is the text we will retrieve in the Web App shortly.&lt;/p&gt;
+&lt;p&gt;Replace the contents of Index.html with this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;lt;!--&lt;/span&gt; &lt;span class="nx"&gt;Use&lt;/span&gt; &lt;span class="nx"&gt;a&lt;/span&gt; &lt;span class="nx"&gt;templated&lt;/span&gt; &lt;span class="nx"&gt;HTML&lt;/span&gt; &lt;span class="nx"&gt;printing&lt;/span&gt; &lt;span class="nx"&gt;scriptlet&lt;/span&gt; &lt;span class="nx"&gt;to&lt;/span&gt; &lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;common&lt;/span&gt; &lt;span class="nx"&gt;stylesheet&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;?!=&lt;/span&gt; &lt;span class="nx"&gt;HtmlService&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createHtmlOutputFromFile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Stylesheet&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;getContent&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="o"&gt;?&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;html&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;body&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;h1&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nx"&gt;Reading&lt;/span&gt; &lt;span class="nx"&gt;data&lt;/span&gt; &lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="nx"&gt;the&lt;/span&gt; &lt;span class="nx"&gt;Google&lt;/span&gt; &lt;span class="nx"&gt;Spreadsheet&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="err"&gt;/h1&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;h1&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;main-heading&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="nx"&gt;Loading&lt;/span&gt;&lt;span class="p"&gt;...&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="err"&gt;/h1&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;div&lt;/span&gt; &lt;span class="kr"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;block result-display&amp;quot;&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;results&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;div&lt;/span&gt; &lt;span class="kr"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;hidden&amp;quot;&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;error-message&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="nx"&gt;Verify&lt;/span&gt; &lt;span class="nx"&gt;that&lt;/span&gt; &lt;span class="nx"&gt;you&lt;/span&gt; &lt;span class="nx"&gt;have&lt;/span&gt; &lt;span class="nx"&gt;permission&lt;/span&gt; &lt;span class="nx"&gt;to&lt;/span&gt; &lt;span class="nx"&gt;access&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt; &lt;span class="nx"&gt;spreadsheet&lt;/span&gt;&lt;span class="p"&gt;..&lt;/span&gt;
+      &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="err"&gt;/div&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="err"&gt;/div&amp;gt;&lt;/span&gt;
+  &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="err"&gt;/body&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="err"&gt;/html&amp;gt;&lt;/span&gt;
+
+&lt;span class="c"&gt;&amp;lt;!--&lt;/span&gt; &lt;span class="nx"&gt;Store&lt;/span&gt; &lt;span class="nx"&gt;data&lt;/span&gt; &lt;span class="nx"&gt;passed&lt;/span&gt; &lt;span class="nx"&gt;to&lt;/span&gt; &lt;span class="nx"&gt;template&lt;/span&gt; &lt;span class="nx"&gt;here&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;so&lt;/span&gt; &lt;span class="nx"&gt;it&lt;/span&gt; &lt;span class="nx"&gt;is&lt;/span&gt; &lt;span class="nx"&gt;available&lt;/span&gt; &lt;span class="nx"&gt;to&lt;/span&gt; &lt;span class="nx"&gt;the&lt;/span&gt;
+     &lt;span class="nx"&gt;imported&lt;/span&gt; &lt;span class="nx"&gt;JavaScript&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;script&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="err"&gt;/script&amp;gt;&lt;/span&gt;
+
+&lt;span class="c"&gt;&amp;lt;!--&lt;/span&gt; &lt;span class="nx"&gt;Use&lt;/span&gt; &lt;span class="nx"&gt;a&lt;/span&gt; &lt;span class="nx"&gt;templated&lt;/span&gt; &lt;span class="nx"&gt;HTML&lt;/span&gt; &lt;span class="nx"&gt;printing&lt;/span&gt; &lt;span class="nx"&gt;scriptlet&lt;/span&gt; &lt;span class="nx"&gt;to&lt;/span&gt; &lt;span class="kr"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;JavaScript&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;?!=&lt;/span&gt; &lt;span class="nx"&gt;HtmlService&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createHtmlOutputFromFile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;JavaScript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;getContent&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="o"&gt;?&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Replace the contents of JavaScript.html with this: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;script&lt;/span&gt; &lt;span class="nx"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="err"&gt;/script&amp;gt;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;script&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="cm"&gt;/**&lt;/span&gt;
+&lt;span class="cm"&gt;   * Run initializations on web app load.&lt;/span&gt;
+&lt;span class="cm"&gt;   */&lt;/span&gt;
+  &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// Call the server here to retrieve any information needed to build the page.&lt;/span&gt;
+    &lt;span class="nx"&gt;google&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;script&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;run&lt;/span&gt;
+       &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;withSuccessHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;contents&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="c1"&gt;// Respond to success conditions here.&lt;/span&gt;
+            &lt;span class="nx"&gt;updateCellDisplay&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;contents&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+          &lt;span class="p"&gt;})&lt;/span&gt;
+       &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;withFailureHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="c1"&gt;// Respond to failure conditions here.&lt;/span&gt;
+            &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;#main-heading&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;msg&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;#main-heading&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;addClass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;error&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;#error-message&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;show&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+          &lt;span class="p"&gt;})&lt;/span&gt;
+          &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getCellContents&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+  &lt;span class="p"&gt;});&lt;/span&gt;
+
+  &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;updateCellDisplay&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;contents&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;headingText&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Displaying contents for cell &amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;contents&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;cellCoords&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;#main-heading&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;headingText&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;#results&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;div&amp;gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;contents&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;value&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;lt;/div&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="err"&gt;/script&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Replace the contents of Code.gs with this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cm"&gt;/**&lt;/span&gt;
+&lt;span class="cm"&gt; * Serves HTML of the application for HTTP GET requests.&lt;/span&gt;
+&lt;span class="cm"&gt; *&lt;/span&gt;
+&lt;span class="cm"&gt; * @param {Object} e event parameter that can contain information&lt;/span&gt;
+&lt;span class="cm"&gt; *     about any URL parameters provided.&lt;/span&gt;
+&lt;span class="cm"&gt; */&lt;/span&gt;
+&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;doGet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;e&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;// The original example code:&lt;/span&gt;
+  &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;template&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;HtmlService&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createTemplateFromFile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Index&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// Build and return HTML in IFRAME sandbox mode.&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;template&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;evaluate&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+      &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setTitle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Web App Window Title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setSandboxMode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;HtmlService&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;SandboxMode&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;IFRAME&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;getCellContents&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;contents&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{};&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// Get hold of the spreadsheet.&lt;/span&gt;
+  &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;ns&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;SpreadsheetApp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;openById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;lt;the id of the spreadsheet&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// Named spreadsheet&lt;/span&gt;
+  &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;nt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;ns&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getSheetByName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Sheet1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// Named Tab&lt;/span&gt;
+  &lt;span class="nx"&gt;contents&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;cellCoords&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;1, 1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// Static info text&lt;/span&gt;
+  &lt;span class="nx"&gt;contents&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;nt&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getRange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;getValue&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="c1"&gt;// Get value of the cell&lt;/span&gt;
+
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;contents&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Please note that "&amp;lt;the id if the spreadsheet&amp;gt;" will be "xyzabc" if the URL of the spreadsheet is "https://docs.google.com/spreadsheets/d/xyzabc/edit#gid=0".&lt;/p&gt;
+&lt;p&gt;Make sure you save all the "files" (press the small floppy disc icon or press Control-S).&lt;/p&gt;
+&lt;h3&gt;Publish as a Web app&lt;/h3&gt;
+&lt;p&gt;Click on Menu choice "Publish" -&amp;gt; "Deploy as web app...".
+Fill in a comment about the app, and leave the rest to default values (the app will run as your user, only you have access to the app (at least as long as you are just testing, right?)). Press "Deploy".&lt;/p&gt;
+&lt;p&gt;What immediately happens, is that Google notifies you that this App has to be Authenticated: "Authorization required. This app needs authorization to run.". Continue and press "Accept", and you get the message: "This project is now deployed as a web app." and you get a link to the Web page: "https://script.google.com/macros/s/FOOBARBAZ/exec", and you get the choice to "Test web app for your latest code.". Go on and press the link. If you did exactly as specified, a new browser tab opens and you will see the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Reading data from the Google Spreadsheet:
+
+Displaying contents for cell 1, 1
+
+Cell One
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Ground work is in place&lt;/h2&gt;
+&lt;p&gt;The Web application has retrieved information from our Google Spreadsheet! The app has full access to insert data into the spreadsheet, to present data from the spreadsheet, to create sums, insert new tabs, etc, making it possible for you to tailor what data in the spreadsheet other users should be allowed to manipulate.&lt;/p&gt;
+&lt;h1&gt;Go on write your App!&lt;/h1&gt;
+&lt;p&gt;Good luck writing your application!&lt;/p&gt;</summary><category term="google"></category><category term="web"></category><category term="app"></category><category term="spreadsheet"></category></entry><entry><title>OpenStack Ceilometer basics</title><link href="/posts/2015/08/openstack-ceilometer-basics.html" rel="alternate"></link><updated>2015-08-24T00:00:00+02:00</updated><author><name>morten.hanshaugen@met.no</name></author><id>tag:,2015-08-24:posts/2015/08/openstack-ceilometer-basics.html</id><summary type="html">&lt;div style="float:right;margin:0 10px 10px 0"&gt;
 &lt;p&gt;&lt;img alt="The Ceilometer" src="/images/Single_Lens_Ceilometer.JPG" /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;h2&gt;Ceilometer - OpenStack Telemetry&lt;/h2&gt;
