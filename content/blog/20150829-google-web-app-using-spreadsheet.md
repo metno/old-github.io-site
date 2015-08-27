@@ -125,7 +125,7 @@ Make sure you save all the "files" (press the small floppy disc icon or press Co
 Click on Menu choice "Publish" -> "Deploy as web app...".
 Fill in a comment about the app, and leave the rest to default values (the app will run as your user, only you have access to the app (at least as long as you are just testing, right?)). Press "Deploy".
 
-What immediately happens, is that Google notices you that this App has to be Authenticated: "Authorization required. This app needs authorization to run.". Continue and press "Accept", and you get the message: "This project is now deployed as a web app." and you get a link to the Web page: "https://script.google.com/macros/s/FOOBARBAZ/exec", and you get the choice to "Test web app for your latest code.". Go on and press the link. If you did exactly as specified, a new browser tab opens and you will see the following:
+What immediately happens, is that Google notifies you that this App has to be Authenticated: "Authorization required. This app needs authorization to run.". Continue and press "Accept", and you get the message: "This project is now deployed as a web app." and you get a link to the Web page: "https://script.google.com/macros/s/FOOBARBAZ/exec", and you get the choice to "Test web app for your latest code.". Go on and press the link. If you did exactly as specified, a new browser tab opens and you will see the following:
 
 ```text
 Reading data from the Google Spreadsheet:
