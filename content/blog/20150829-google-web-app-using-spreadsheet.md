@@ -6,22 +6,22 @@ Author: morten.hanshaugen@met.no
 Status: draft
 
 
-## Ceilometer - OpenStack Telemetry
+## Best of both worlds (Spreadsheet and dynamic Web interface)
 
-Managing information is a challenge. Often times you end up pasting the information into a Spreadsheet, you try to make a system out of the madness. Then Google comes along and offers you an online Google Spreadsheet - and you can share your spreadsheet with colleges! Your co-workers can help you out, thats nice, but you risk ending up with a mess! You might be better off limiting full access to the Google Spreadsheet data to a small group of colleges, combined with simple Web based user interfaces for less involved colleges? As Google Spreadsheets are Web based, attaching a Web interface is not far away. This is how you do it:
-
-
+Managing information is a challenge. Often times you end up pasting information into a Spreadsheet, you try to make a system out of the madness.. Google comes along offering you an online (Google) Spreadsheet - so you can share your Spreadsheet with colleges! Your co-workers can help you out, thats nice, but you risk ending up with a mess! Just maybe you are better off limiting access to messing up the somewhat valuable Google Spreadsheet data to a smaller group of colleges, while less involved colleagues collaborate via a simple Web based user interface? As Google Spreadsheets are Web based by nature, attaching a Web interface is not far away. This is how you do it:
 
 ## Create a Google Spreadsheet
 This one you will have to figure out yourself :)
-(drive.google.com -> New -> Sheets)
-## Create a Script
-After naming your Google Spreadsheet, click Tools -> Script editor.. . From the Google Apps Script popup you select Web App.
+(drive.google.com -> "New" -> "Sheets")
+
+## Create a Web interface (a "Script")
+After naming your Google Spreadsheet, click "Tools" -> "Script editor.." . Then, from the "Google Apps Script" popup, you select "Web App".
+
 Four files are provided for you:
-  * index.hml - Template HTML
-  * Stylesheet.html - Style statements
-  * Code.gs - JavaScript code that will be executed server side
-  * JavaScript.html - Client side JavaScript making required server side calls
+* index.hml - Template HTML
+* Stylesheet.html - Style statements
+* Code.gs - JavaScript code that will be executed server side
+* JavaScript.html - Client side JavaScript making required server side calls
 
 The first thing to do is to replace "Untitled project" with a real project name, i.e "Web App Test 1".
 
