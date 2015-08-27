@@ -127,7 +127,7 @@ Fill in a comment about the app, and leave the rest to default values (the app w
 
 What immediately happens, is that Google notices you that this App has to be Authenticated: "Authorization required. This app needs authorization to run.". Continue and press "Accept", and you get the message: "This project is now deployed as a web app." and you get a link to the Web page: "https://script.google.com/macros/s/FOOBARBAZ/exec", and you get the choice to "Test web app for your latest code.". Go on and press the link. If you did exactly as specified, a new browser tab opens and you will see the following:
 
-```bash
+```text
 Reading data from the Google Spreadsheet:
 
 Displaying contents for cell 1, 1
