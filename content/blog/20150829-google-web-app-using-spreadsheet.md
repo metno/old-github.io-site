@@ -117,7 +117,7 @@ function getCellContents() {
   return contents;
 }
 ```
-Please note that "&lt;the id if the spreadsheet&gt;" will be "xyzabc" if the URL of the spreadsheet is "https://docs.google.com/spreadsheets/d/xyzabc/edit#gid=0".
+<super>Please note that "&lt;the id if the spreadsheet&gt;" will be "xyzabc" if the URL of the spreadsheet is "https://docs.google.com/spreadsheets/d/xyzabc/edit#gid=0".</super>
 
 Make sure you save all the "files" (press the small floppy disc icon or press Control-S).
 
