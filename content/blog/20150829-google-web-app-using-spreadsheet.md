@@ -135,7 +135,8 @@ Displaying contents for cell 1, 1
 Cell One
 ```
 
-## Ground work is in place, write your App
+## Ground work is in place
 The Web application has retrieved information from our Google Spreadsheet! The app has full access to insert data into the spreadsheet, to present data from the spreadsheet, to create sums, insert new tabs, etc, making it possible for you to tailor what spreadsheet data other users are allowed to manipulate.
 
+# Go on write your App!
 Good luck writing your application!
