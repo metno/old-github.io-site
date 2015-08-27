@@ -136,6 +136,6 @@ Cell One
 ```
 
 ## Ground work is in place, write your App
-The Web application has retrieved information from our Google Spreadsheet. The app has full access to insert data into the spreadsheet, to present data from the spreadsheet, to create sums, insert new tabs, etc, making it possible for you to tailor what spreadsheet data other users are allowed to manipulate.
+The Web application has retrieved information from our Google Spreadsheet! The app has full access to insert data into the spreadsheet, to present data from the spreadsheet, to create sums, insert new tabs, etc, making it possible for you to tailor what spreadsheet data other users are allowed to manipulate.
 
 Good luck writing your application!
