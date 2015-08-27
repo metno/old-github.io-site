@@ -18,11 +18,10 @@ This one you will have to figure out yourself :)
 After naming your Google Spreadsheet, click "Tools" -> "Script editor.." . Then, from the "Google Apps Script" popup, you select "Web App".
 
 Four files are provided for you:
-
-* index.hml - Template HTML
-* Stylesheet.html - Style statements
-* Code.gs - JavaScript code that will be executed server side
-* JavaScript.html - Client side JavaScript making required server side calls
+ * index.hml - Template HTML
+ * Stylesheet.html - Style statements
+ * Code.gs - JavaScript code that will be executed server side
+ * JavaScript.html - Client side JavaScript making required server side calls
 
 The first thing to do is to replace "Untitled project" with a real project name, i.e "Web App Test 1".
 
