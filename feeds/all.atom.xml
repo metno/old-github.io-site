@@ -7,13 +7,11 @@
 &lt;p&gt;Name the spreadsheet (replace "Untitled project" with a real project name, i.e "Web App Test 1"i).&lt;/p&gt;
 &lt;h2&gt;Create a Web interface (a "Script")&lt;/h2&gt;
 &lt;p&gt;After naming your Google Spreadsheet, click "Tools" -&amp;gt; "Script editor.." . Then, from the "Google Apps Script" popup, you select "Web App".&lt;/p&gt;
-&lt;p&gt;Four files are provided for you:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;index.hml - Template HTML&lt;/li&gt;
-&lt;li&gt;Stylesheet.html - Style statements&lt;/li&gt;
-&lt;li&gt;Code.gs - JavaScript code that will be executed server side&lt;/li&gt;
-&lt;li&gt;JavaScript.html - Client side JavaScript making required server side calls&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;Four files are provided for you:
+&lt;em&gt; index.hml - Template HTML
+&lt;/em&gt; Stylesheet.html - Style statements
+&lt;em&gt; Code.gs - JavaScript code that will be executed server side
+&lt;/em&gt; JavaScript.html - Client side JavaScript making required server side calls&lt;/p&gt;
 &lt;p&gt;You can either play with the displayed example code for a while, or you can move right on to creating a Web App interacting with your Google Spreadsheet:&lt;/p&gt;
 &lt;p&gt;In the Spreadsheet, add some text to the upper left most cell, i.e "Cell One" - this is the cell/text we will retrieve in the Web App shortly.&lt;/p&gt;
 &lt;p&gt;Replace the contents of Index.html with this:&lt;/p&gt;
