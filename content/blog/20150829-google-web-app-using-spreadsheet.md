@@ -12,6 +12,8 @@ Managing information is a challenge. Often times you end up pasting information 
 This one you will have to figure out yourself :)
 (drive.google.com -> "New" -> "Sheets")
 
+Name the spreadsheet (replace "Untitled project" with a real project name, i.e "Web App Test 1"i).
+
 ## Create a Web interface (a "Script")
 After naming your Google Spreadsheet, click "Tools" -> "Script editor.." . Then, from the "Google Apps Script" popup, you select "Web App".
 
@@ -21,11 +23,9 @@ Four files are provided for you:
  * Code.gs - JavaScript code that will be executed server side
  * JavaScript.html - Client side JavaScript making required server side calls
 
-The first thing to do is to replace "Untitled project" with a real project name, i.e "Web App Test 1".
+You can either play with the displayed example code for a while, or you can move right on to creating a Web App interacting with your Google Spreadsheet:
 
-You can play with the displayed example code, or you can move right on to interact with your Google Spreadsheet:
-
-In the Spreadsheet, add some text to the upper left most cell, i.e "Cell One" - this is the text we will retrieve in the Web App shortly.
+In the Spreadsheet, add some text to the upper left most cell, i.e "Cell One" - this is the cell/text we will retrieve in the Web App shortly.
 
 Replace the contents of Index.html with this:
 ```javascript
@@ -115,7 +115,7 @@ function getCellContents() {
   return contents;
 }
 ```
-Please note that "&lt;the id if the spreadsheet&gt;" will be "xyzabc" if the URL of the spreadsheet is "https://docs.google.com/spreadsheets/d/xyzabc/edit#gid=0".
+Please note that "&lt;the id of the spreadsheet&gt;" will be "xyzabc" if the URL of the spreadsheet is "https://docs.google.com/spreadsheets/d/xyzabc/edit#gid=0".
 
 Make sure you save all the "files" (press the small floppy disc icon or press Control-S).
 
