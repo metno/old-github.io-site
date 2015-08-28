@@ -93,6 +93,7 @@
 <h2>Create a Google Spreadsheet</h2>
 <p>This one you will have to figure out yourself :)
 (drive.google.com -&gt; "New" -&gt; "Sheets")</p>
+<p>Name the spreadsheet (replace "Untitled project" with a real project name, i.e "Web App Test 1"i).</p>
 <h2>Create a Web interface (a "Script")</h2>
 <p>After naming your Google Spreadsheet, click "Tools" -&gt; "Script editor.." . Then, from the "Google Apps Script" popup, you select "Web App".</p>
 <p>Four files are provided for you:
@@ -100,9 +101,8 @@
  * Stylesheet.html - Style statements
  * Code.gs - JavaScript code that will be executed server side
  * JavaScript.html - Client side JavaScript making required server side calls</p>
-<p>The first thing to do is to replace "Untitled project" with a real project name, i.e "Web App Test 1".</p>
-<p>You can play with the displayed example code, or you can move right on to interact with your Google Spreadsheet:</p>
-<p>In the Spreadsheet, add some text to the upper left most cell, i.e "Cell One" - this is the text we will retrieve in the Web App shortly.</p>
+<p>You can either play with the displayed example code for a while, or you can move right on to creating a Web App interacting with your Google Spreadsheet:</p>
+<p>In the Spreadsheet, add some text to the upper left most cell, i.e "Cell One" - this is the cell/text we will retrieve in the Web App shortly.</p>
 <p>Replace the contents of Index.html with this:</p>
 <div class="highlight"><pre><span class="c">&lt;!--</span> <span class="nx">Use</span> <span class="nx">a</span> <span class="nx">templated</span> <span class="nx">HTML</span> <span class="nx">printing</span> <span class="nx">scriptlet</span> <span class="nx">to</span> <span class="kr">import</span> <span class="nx">common</span> <span class="nx">stylesheet</span><span class="p">.</span> <span class="o">--&gt;</span>
 <span class="o">&lt;?!=</span> <span class="nx">HtmlService</span><span class="p">.</span><span class="nx">createHtmlOutputFromFile</span><span class="p">(</span><span class="s1">&#39;Stylesheet&#39;</span><span class="p">).</span><span class="nx">getContent</span><span class="p">();</span> <span class="o">?&gt;</span>
@@ -192,7 +192,7 @@
 </pre></div>
 
 
-<p>Please note that "&lt;the id if the spreadsheet&gt;" will be "xyzabc" if the URL of the spreadsheet is "https://docs.google.com/spreadsheets/d/xyzabc/edit#gid=0".</p>
+<p>Please note that "&lt;the id of the spreadsheet&gt;" will be "xyzabc" if the URL of the spreadsheet is "https://docs.google.com/spreadsheets/d/xyzabc/edit#gid=0".</p>
 <p>Make sure you save all the "files" (press the small floppy disc icon or press Control-S).</p>
 <h3>Publish as a Web app</h3>
 <p>Click on Menu choice "Publish" -&gt; "Deploy as web app...".
