@@ -139,7 +139,7 @@ The Web application has retrieved information from our Google Spreadsheet! The a
 # Go on write your App!
 Good luck writing your application!
 
-Fore more help, please have a look at these two articles:
+Fore more help, have a look at these two articles:
 
 * [https://developers.google.com/apps-script/articles/charts_dashboard](https://developers.google.com/apps-script/articles/charts_dashboard)
 * [https://mogsdad.wordpress.com/2015/07/19/converting-from-uiapp-chart-service-to-html-service-google-visualization-api/](https://mogsdad.wordpress.com/2015/07/19/converting-from-uiapp-chart-service-to-html-service-google-visualization-api/)
