@@ -121,9 +121,11 @@ Cell One
 &lt;p&gt;The Web application has retrieved information from our Google Spreadsheet! The app has full access to insert data into the spreadsheet, to present data from the spreadsheet, to create sums, insert new tabs, etc, making it possible for you to tailor what data in the spreadsheet other users should be allowed to manipulate.&lt;/p&gt;
 &lt;h1&gt;Go on write your App!&lt;/h1&gt;
 &lt;p&gt;Good luck writing your application!&lt;/p&gt;
-&lt;p&gt;Fore more help, please have a look at these two articles:
-&lt;em&gt; &lt;a href="https://developers.google.com/apps-script/articles/charts_dashboard"&gt;https://developers.google.com/apps-script/articles/charts_dashboard&lt;/a&gt;
-&lt;/em&gt; &lt;a href="https://mogsdad.wordpress.com/2015/07/19/converting-from-uiapp-chart-service-to-html-service-google-visualization-api/"&gt;https://mogsdad.wordpress.com/2015/07/19/converting-from-uiapp-chart-service-to-html-service-google-visualization-api/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Fore more help, please have a look at these two articles:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/apps-script/articles/charts_dashboard"&gt;https://developers.google.com/apps-script/articles/charts_dashboard&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://mogsdad.wordpress.com/2015/07/19/converting-from-uiapp-chart-service-to-html-service-google-visualization-api/"&gt;https://mogsdad.wordpress.com/2015/07/19/converting-from-uiapp-chart-service-to-html-service-google-visualization-api/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;They are really useful!&lt;/p&gt;</summary><category term="google"></category><category term="web"></category><category term="app"></category><category term="spreadsheet"></category></entry><entry><title>OpenStack Ceilometer basics</title><link href="/posts/2015/08/openstack-ceilometer-basics.html" rel="alternate"></link><updated>2015-08-24T00:00:00+02:00</updated><author><name>morten.hanshaugen@met.no</name></author><id>tag:,2015-08-24:posts/2015/08/openstack-ceilometer-basics.html</id><summary type="html">&lt;div style="float:right;margin:0 10px 10px 0"&gt;
 &lt;p&gt;&lt;img alt="The Ceilometer" src="/images/Single_Lens_Ceilometer.JPG" /&gt;&lt;/p&gt;
 &lt;/div&gt;
