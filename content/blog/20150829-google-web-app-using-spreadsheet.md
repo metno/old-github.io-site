@@ -18,10 +18,11 @@ Name the spreadsheet (replace "Untitled project" with a real project name, i.e "
 After naming your Google Spreadsheet, click "Tools" -> "Script editor.." . Then, from the "Google Apps Script" popup, you select "Web App".
 
 Four files are provided for you:
- * index.hml - Template HTML
- * Stylesheet.html - Style statements
- * Code.gs - JavaScript code that will be executed server side
- * JavaScript.html - Client side JavaScript making required server side calls
+
+* index.hml - Template HTML
+* Stylesheet.html - Style statements
+* Code.gs - JavaScript code that will be executed server side
+* JavaScript.html - Client side JavaScript making required server side calls
 
 You can either play with the displayed example code for a while, or you can move right on to creating a Web App interacting with your Google Spreadsheet:
 
@@ -138,3 +139,5 @@ The Web application has retrieved information from our Google Spreadsheet! The a
 
 # Go on write your App!
 Good luck writing your application!
+
+Fore more help, please have a look at this article: [https://mogsdad.wordpress.com/2015/07/19/converting-from-uiapp-chart-service-to-html-service-google-visualization-api/](https://mogsdad.wordpress.com/2015/07/19/converting-from-uiapp-chart-service-to-html-service-google-visualization-api/), it is really useful.
