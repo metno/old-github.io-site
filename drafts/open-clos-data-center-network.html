@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Webmaster" />
+    <meta name="robots" content="index, follow"/>
+
+    <meta property="og:title" content="Google Web App using Spreadsheet"/>
+    <meta property="og:url" content="../drafts/open-clos-data-center-network.html"/>
+    <meta property="og:site_name" content="IT.met.no"/>
+    <meta property="og:type" content="article"/>
+
+    <link rel="canonical" href="../drafts/open-clos-data-center-network.html" />
+
+    <title>Google Web App using Spreadsheet | IT.met.no</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="../theme/css/main.css" />
+    <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="IT.met.no Atom Feed" />
+
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">
+        stLight.options({
+            publisher: "",
+            doNotHash: false,
+            doNotCopy: false,
+            hashAddressBar: false
+        });
+    </script>
+</head>
+
+<body id="index">
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <header id="banner" >
+                <h1>
+                    <a href="../">IT.met.no </a>
+                </h1>
+                <nav class="navbar">
+                    <div class="navbar-inner">
+                        <ul class="nav">
+                            <li ><a href="/index.html">home</a></li>
+                            <li ><a href="/pages/about.html">about</a></li>
+                            <li ><a href="/pages/howto.html">howto</a></li>
+                            <li ><a href="#">|</a></li>
+                            <li class="active"><a href="../category/blog.html">blog</a></li>
+                        </ul>
+
+                    </div>
+                </nav>
+            </header><!-- /#banner -->
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <div class="row-fluid">
+<div class="span10 offset1">
+  <section>
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="../drafts/open-clos-data-center-network.html" rel="bookmark"
+             title="Permalink to Google Web App using Spreadsheet">Google Web App using Spreadsheet</a></h1>
+      </header>
+      <div class="entry-content">
+<footer class="post-info">
+    <address class="vcard author">
+        by <a class="url fn" href="../author/mortenhanshaugenmetno-erlendrosokmetno.html">morten.hanshaugen@met.no, erlend.rosok@met.no</a>
+    </address>
+
+    in <a href="../category/blog.html">blog</a>
+
+    on 2015-12-14
+
+        |
+        tags:         <a href="../tag/network.html">network</a>
+        <a href="../tag/sdn.html">sdn</a>
+        <a href="../tag/clos.html">clos</a>
+        <a href="../tag/open.html">open</a>
+        <a href="../tag/switch-10gbits.html">switch 10Gbits</a>
+        <a href="../tag/40gbits.html">40Gbits</a>
+
+
+
+    
+</footer><!-- /.post-info -->
+
+        <h2>Open Clos Data Center Network</h2>
+<p>In 2015, MET Norway needed to replace the existing core switch based network. Instead of replacing it, we defined the network as legacy infrastructure, and we invested in an open Clos leaf/spine network to be ready for SDN in connection to the OpenStack based production MET Cloud.</p>
+<p>MET Norway purchased 14 Juniper QFX5100-24Q 40Gbit switches with 1.2Tbits aggregate backbone capacity. The new data center network is pure layer 3, L2 does not extend outside each leaf switch.</p>
+<h3>EBGP</h3>
+<p>EBGP is used between all leafs and spines. EBGP is also used between the border leafs and GWs. BGP peers are configured to only accept specific routes, they will also only send specified routes.</p>
+<h3>OSPF</h3>
+<p>We're using OSPF between leafs and zone switches (see illustration). This is redistributed into bgp in order to connected the openstack network with the rest of the cloud.</p>
+<h3>LLDP</h3>
+<p>LLDP is enabled on all physical ports in order to exchange neighbor information between servers and switches. This is used to map cloud servers physical location.</p>
+<h3>VXLAN</h3>
+<p>vxlan is used to tunnel layer 2 subnet over the layer 3 links.</p>
+<p><img alt="MET Data Center Network" src="../images/Data-Center-Network.png" /></p>
+
+      </div><!-- /.entry-content -->
+
+    </article>
+  </section>
+</div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="site-footer">
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <address>
+                    <p>
+                        This blog is proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                    </p>
+                    <p>
+                        <a href="http://github.com/jsliang/pelican-fresh/">Fresh</a> is a responsive theme designed by <a href="http://jsliang.com/">jsliang</a> and <a href="https://github.com/jsliang/pelican-fresh/graphs/contributors">contributors</a>.
+                        Special thanks to <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a> and <a href="http://getbootstrap.com/">Twitter Bootstrap</a>.
+                    </p>
+                </address>
+            </div>
+        </div>
+    </footer>
+
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+</body>
+</html>
