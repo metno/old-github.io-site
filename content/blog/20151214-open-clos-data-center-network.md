@@ -3,7 +3,6 @@ Date: 2015-12-14
 Tags: network, sdn, clos, open, switch, 10Gbits, 40Gbits
 Slug: open-clos-data-center-network
 Authors: erlend.rosok@met.no, morten.hanshaugen@met.no
-Status: draft
 
 ## Open Clos Data Center Network 
 
