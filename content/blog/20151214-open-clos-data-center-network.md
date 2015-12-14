@@ -1,6 +1,6 @@
 Title: Google Web App using Spreadsheet
 Date: 2015-12-14
-Tags: network, sdn, clos, open, switch 10Gbits, 40Gbits
+Tags: network, sdn, clos, open, switch, 10Gbits, 40Gbits
 Slug: open-clos-data-center-network
 Author: erlend.rosok@met.no, morten.hanshaugen@met.no
 Status: draft
