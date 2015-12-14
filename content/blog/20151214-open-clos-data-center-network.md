@@ -9,7 +9,7 @@ Status: draft
 
 In 2015, MET Norway needed to replace an old core switch based network. Instead of replacing it, we defined the network as legacy infrastructure, and we invested in an open Clos leaf/spine network to be ready for SDN in connection to the OpenStack based production MET Cloud.
 
-MET Norway purchased 14 Juniper QFX5100-24Q 40Gbit switches with 1.2Tbits aggregate backbone capacity. The new data center network is pure layer 3, L2 does not extend outside each leaf switch.
+MET Norway purchased 14 Juniper QFX5100-24Q 40Gbit switches with aggregate backbone capacity of 1.2Tbits. The new data center network is pure layer 3, L2 does not extend outside each leaf switch.
 
 ### EBGP
 EBGP is used between all leafs and spines. EBGP is also used between the border leafs and GWs. BGP peers are configured to only accept specific routes, they will also only send specified routes.
