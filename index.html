@@ -66,6 +66,51 @@
                         <article>
                             <header>
                                 <h1 class="entry-title">
+                                    <a href="./posts/2015/12/open-clos-data-center-network.html" rel="bookmark" title="Permalink to Google Web App using Spreadsheet">
+                                       Google Web App using Spreadsheet
+                                    </a>
+                                </h1>
+                            </header>
+                            <div class="entry-content">
+<footer class="post-info">
+    <address class="vcard author">
+        by <a class="url fn" href="./author/erlendrosokmetno.html">erlend.rosok@met.no</a>
+    </address>
+
+    in <a href="./category/blog.html">blog</a>
+
+    on 2015-12-14
+
+        |
+        tags:         <a href="./tag/network.html">network</a>
+        <a href="./tag/sdn.html">sdn</a>
+        <a href="./tag/clos.html">clos</a>
+        <a href="./tag/open.html">open</a>
+        <a href="./tag/switch.html">switch</a>
+        <a href="./tag/10gbits.html">10Gbits</a>
+        <a href="./tag/40gbits.html">40Gbits</a>
+
+
+
+    
+</footer><!-- /.post-info -->                                <h2>Open Clos Data Center Network</h2>
+<p>In 2015, MET Norway needed to replace an old core switch based network. Instead of replacing it, we defined the network as legacy infrastructure, and we invested in an open Clos leaf/spine network to be ready for SDN in connection to the OpenStack based production MET Cloud.</p>
+<p>MET Norway purchased 14 Juniper QFX5100-24Q 40Gbit switches with aggregate backbone capacity of 1.2Tbits. The new data center network is pure layer 3, L2 does not extend outside each leaf switch.</p>
+<h3>EBGP</h3>
+<p>EBGP is used between all leafs and spines. EBGP is also used between the border leafs and GWs. BGP peers are configured to only accept specific routes, they will also only send specified routes.</p>
+<h3>OSPF</h3>
+<p>We're using OSPF between leafs and zone switches (see illustration). This is redistributed into bgp in order to connected the openstack network with the rest of the cloud ...</p>
+                                <p class="readmore">
+                                    <a class="btn btn-small btn-info" href="./posts/2015/12/open-clos-data-center-network.html">Read more...</a>
+                                </p>
+                            </div><!-- /.entry-content -->
+                            <hr/>
+                        </article>
+                    </li>
+                    <li>
+                        <article>
+                            <header>
+                                <h1 class="entry-title">
                                     <a href="./posts/2015/08/google-web-app-using-spreadsheet.html" rel="bookmark" title="Permalink to Google Web App using Spreadsheet">
                                        Google Web App using Spreadsheet
                                     </a>
