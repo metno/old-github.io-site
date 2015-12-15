@@ -1,5 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>IT.met.no</title><link href="/" rel="alternate"></link><link href="/feeds/blog.atom.xml" rel="self"></link><id>/</id><updated>2015-12-14T00:00:00+01:00</updated><entry><title>MET Norway open Clos Data Center Network</title><link href="/posts/2015/12/open-clos-data-center-network.html" rel="alternate"></link><updated>2015-12-14T00:00:00+01:00</updated><author><name>erlend.rosok@met.no</name></author><id>tag:,2015-12-14:posts/2015/12/open-clos-data-center-network.html</id><summary type="html">&lt;h2&gt;Open Clos Data Center Network&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>IT.met.no</title><link href="/" rel="alternate"></link><link href="/feeds/blog.atom.xml" rel="self"></link><id>/</id><updated>2015-12-15T00:00:00+01:00</updated><entry><title>Production OpenStack</title><link href="/posts/2015/12/OpenStack.html" rel="alternate"></link><updated>2015-12-15T00:00:00+01:00</updated><author><name>sverrest@met.no</name></author><id>tag:,2015-12-15:posts/2015/12/OpenStack.html</id><summary type="html">&lt;h2&gt;Requirements&lt;/h2&gt;
+&lt;p&gt;The requirement of this OpenStack setup is to have a highly available
+cloud spread over two or more data centers. It will replace the current
+solution where a user is requesting a VM from the infrastructure
+group, which is ineffective and time consuming.&lt;/p&gt;
+&lt;p&gt;The aim of the setup is to be able to lose one data center, without
+affecting production. The use of containers makes it easier to scale
+the services by adding more servers, and to set up an identical
+staging environment to test upgrades or develop new services. &lt;/p&gt;
+&lt;p&gt;It was also a good opportunity to introduce new technology and when
+you setup an OpenStack service as a container from scratch, you get
+pretty familiar with the service.&lt;/p&gt;
+&lt;p&gt;We are not using &lt;a href="https://docs.docker.com/engine/userguide/networking/get-started-overlay/"&gt;docker overlay network&lt;/a&gt; at the moment, but it would
+be nice to have it in the future, so we don't have to expose too many
+internal services.&lt;/p&gt;
+&lt;h3&gt;Basic building blocks&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.centos.org/"&gt;centos&lt;/a&gt; The OS used of most containers and on the physical hosts&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://consul.io/"&gt;consul&lt;/a&gt; Service discovery&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/gliderlabs/registrator"&gt;registrator&lt;/a&gt; Feeds consul with info about containers&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.docker.com/machine/"&gt;docker-machine&lt;/a&gt; Install &lt;a href="https://docker.io/"&gt;docker&lt;/a&gt; and &lt;a href="https://github.com/docker/swarm"&gt;swarm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docker.io/"&gt;docker&lt;/a&gt; The container manager &lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/docker/swarm"&gt;swarm&lt;/a&gt; Manage containers on many hosts&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.docker.com/compose/"&gt;docker-compose&lt;/a&gt; Start and stop containers&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.ansible.com/"&gt;ansible&lt;/a&gt; Configuration management&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Cluster services&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://consul.io/"&gt;consul&lt;/a&gt; Service discovery&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/docker/swarm"&gt;swarm&lt;/a&gt; Unifying docker on different physical hosts&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.percona.com/software/mysql-database/percona-xtradb-cluster"&gt;percona-XtraDB&lt;/a&gt; Clustered mysql database&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.rabbitmq.com/"&gt;rabbitmq&lt;/a&gt; Messagequeue&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.haproxy.org/"&gt;haproxy&lt;/a&gt; Loadbalancing api between datacenters, and terminate SSL&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://code.google.com/p/moxi/"&gt;moxi&lt;/a&gt; Clustered &lt;a href="http://memcached.org/"&gt;memcached&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.keepalived.org/"&gt;keepalived&lt;/a&gt; Handeling shared ip address between datacenters.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Other services used&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://ceph.com/"&gt;ceph&lt;/a&gt; Block storage&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://sensuapp.org/"&gt;sensu&lt;/a&gt; Service monitoring&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://influxdata.com/"&gt;influxdb&lt;/a&gt; time series database&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://grafana.org/"&gt;grafana&lt;/a&gt; Graphing from &lt;a href="https://influxdata.com/"&gt;influxdb&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/influxdb/telegraf"&gt;telegraf&lt;/a&gt; Feeding &lt;a href="https://influxdata.com/"&gt;influxdb&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/pklaus/docker-deployments/tree/master/whatsmyip"&gt;whatsmyip&lt;/a&gt; Used by containers to discover what ip address the host they run on has.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Example: nova container&lt;/h2&gt;
+&lt;h3&gt;Docker file&lt;/h3&gt;
+&lt;p&gt;Here we make a container image, that can run all openstack nova
+services, depending on how it is started. It get password and special
+configuration from an environment file.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="s"&gt; centos&lt;/span&gt;
+
+&lt;span class="k"&gt;RUN&lt;/span&gt; yum install -y http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm &lt;span class="se"&gt;\&lt;/span&gt;
+    yum install -y epel-release &lt;span class="se"&gt;\&lt;/span&gt;
+    yum install -y http://buildlogs.centos.org/centos/7/cloud/openstack-liberty/centos-release-openstack-liberty-1-3.el7.noarch.rpm
+
+&lt;span class="k"&gt;RUN&lt;/span&gt; yum install -y &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="nb"&gt;bind&lt;/span&gt;-utils &lt;span class="se"&gt;\&lt;/span&gt;
+    crudini &lt;span class="se"&gt;\&lt;/span&gt;
+    mysql-client &lt;span class="se"&gt;\&lt;/span&gt;
+    openstack-nova-api &lt;span class="se"&gt;\&lt;/span&gt;
+    openstack-nova-api &lt;span class="se"&gt;\&lt;/span&gt;
+    openstack-nova-cert &lt;span class="se"&gt;\&lt;/span&gt;
+    openstack-nova-common &lt;span class="se"&gt;\&lt;/span&gt;
+    openstack-nova-conductor &lt;span class="se"&gt;\&lt;/span&gt;
+    openstack-nova-console &lt;span class="se"&gt;\&lt;/span&gt;
+    openstack-nova-novncproxy &lt;span class="se"&gt;\&lt;/span&gt;
+    openstack-nova-scheduler &lt;span class="se"&gt;\&lt;/span&gt;
+    python-openstackclient &lt;span class="se"&gt;\&lt;/span&gt;
+    python-pip
+
+&lt;span class="k"&gt;ADD&lt;/span&gt;&lt;span class="s"&gt; entrypoint.sh /entrypoint.sh&lt;/span&gt;
+
+&lt;span class="k"&gt;ENTRYPOINT&lt;/span&gt;&lt;span class="s"&gt; [&amp;quot;/entrypoint.sh&amp;quot;]&lt;/span&gt;
+
+&lt;span class="k"&gt;CMD&lt;/span&gt;&lt;span class="s"&gt; [&amp;quot;/bin/bash&amp;quot;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;entrypoint.sh&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash &lt;/span&gt;
+
+&lt;span class="c"&gt;# need to disable iptables-save and restore, at least for nova-api&lt;/span&gt;
+rm -f /usr/sbin/iptables-save
+ln -s /bin/true /usr/sbin/iptables-save
+rm -f /usr/sbin/iptables-restore
+ln -s /bin/true /usr/sbin/iptables-restore
+
+&lt;span class="c"&gt;# Set verbose and job control&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt; -v -m 
+
+rm /etc/nova/nova.conf
+touch /etc/nova/nova.conf
+chown root.nova /etc/nova/nova.conf
+chown &lt;span class="m"&gt;640&lt;/span&gt; /etc/nova/nova.conf
+
+&lt;span class="nv"&gt;CONF&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;crudini --set /etc/nova/nova.conf&amp;quot;&lt;/span&gt;
+
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; database connection mysql://&lt;span class="nv"&gt;$NOVA_DBUSER&lt;/span&gt;:&lt;span class="nv"&gt;$NOVA_DBPASS&lt;/span&gt;@&lt;span class="nv"&gt;$MYSQL_HOST&lt;/span&gt;/nova?charset&lt;span class="o"&gt;=&lt;/span&gt;utf8
+
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT verbose &lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT debug &lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT logfile &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT auth_strategy keystone
+
+&lt;span class="c"&gt;#availability zones&lt;/span&gt;
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT default_availability_zone &lt;span class="nv"&gt;$DATACENTER&lt;/span&gt;
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT default_schedule_zone &lt;span class="nv"&gt;$DATACENTER&lt;/span&gt;
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT cross_az_attach False
+
+&lt;span class="c"&gt;# rabbit&lt;/span&gt;
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT rpc_backend rabbit
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT rabbit_host &lt;span class="nv"&gt;$RABBIT_HOST&lt;/span&gt;
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT rabbit_userid &lt;span class="nv"&gt;$RABBIT_USER&lt;/span&gt;
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT rabbit_password &lt;span class="nv"&gt;$RABBIT_PASS&lt;/span&gt;
+
+&lt;span class="c"&gt;# Legacy networking http://docs.openstack.org/icehouse/install-guide/install/yum/content/section_nova-networking.html&lt;/span&gt;
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT network_api_class nova.network.api.API
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT security_group_api nova
+
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT network_manager nova.network.manager.VlanManager
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT vlan_start 400
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; DEFAULT vlan_interface br0
+
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; glance host &lt;span class="nv"&gt;$ENDPOINT_IP&lt;/span&gt;
+&lt;span class="nv"&gt;$CONF&lt;/span&gt; oslo_concurrency lock_path /var/lib/nova/tmp
+
+&lt;span class="c"&gt;# Check if the keystone database exist, if not create&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; ! mysql -h&lt;span class="nv"&gt;$MYSQL_HOST&lt;/span&gt; -u&lt;span class="nv"&gt;$MYSQL_DBUSER&lt;/span&gt; -p&lt;span class="nv"&gt;$MYSQL_DBPASS&lt;/span&gt; nova -e &lt;span class="s1"&gt;&amp;#39;QUIT&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    mysql -h&lt;span class="nv"&gt;$MYSQL_HOST&lt;/span&gt; -u&lt;span class="nv"&gt;$MYSQL_DBUSER&lt;/span&gt; -p&lt;span class="nv"&gt;$MYSQL_DBPASS&lt;/span&gt; mysql -e &lt;span class="s2"&gt;&amp;quot;CREATE DATABASE nova;&amp;quot;&lt;/span&gt;
+    mysql -h&lt;span class="nv"&gt;$MYSQL_HOST&lt;/span&gt; -u&lt;span class="nv"&gt;$MYSQL_DBUSER&lt;/span&gt; -p&lt;span class="nv"&gt;$MYSQL_DBPASS&lt;/span&gt; mysql -e &lt;span class="s2"&gt;&amp;quot;GRANT ALL ON nova.* TO &amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;$NOVA_DBUSER&lt;/span&gt;&lt;span class="s2"&gt;&amp;#39;@&amp;#39;%&amp;#39; IDENTIFIED BY &amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;$NOVA_DBPASS&lt;/span&gt;&lt;span class="s2"&gt;&amp;#39;;&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+nova-manage db sync
+
+&lt;span class="nv"&gt;OS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;openstack --os-token=&lt;/span&gt;&lt;span class="nv"&gt;$ADMIN_TOKEN&lt;/span&gt;&lt;span class="s2"&gt; --os-url=&lt;/span&gt;&lt;span class="nv"&gt;$KEYSTONE_ADMIN_ENDPOINT&lt;/span&gt;&lt;span class="s2"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;$KEYSTONE_ENDPOINT_VERSION&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+
+&lt;span class="c"&gt;# Create a nova service&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; ! &lt;span class="nv"&gt;$OS&lt;/span&gt; service show nova &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nv"&gt;$OS&lt;/span&gt; service create --name nova --description &lt;span class="s2"&gt;&amp;quot;OpenStack Compute&amp;quot;&lt;/span&gt; compute
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="c"&gt;# Create nova endpoints&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; ! &lt;span class="nv"&gt;$OS&lt;/span&gt; endpoint show compute &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nv"&gt;$OS&lt;/span&gt; endpoint create --region &lt;span class="nv"&gt;$ENDPOINT_REGION&lt;/span&gt; --publicurl &lt;span class="nv"&gt;$NOVA_ENDPOINT&lt;/span&gt; --internalurl &lt;span class="nv"&gt;$NOVA_ENDPOINT&lt;/span&gt; --adminurl &lt;span class="nv"&gt;$NOVA_ENDPOINT&lt;/span&gt; compute
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="c"&gt;# Create service project&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; ! &lt;span class="nv"&gt;$OS&lt;/span&gt; project show service &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nv"&gt;$OS&lt;/span&gt; project create --description &lt;span class="s2"&gt;&amp;quot;Service Project&amp;quot;&lt;/span&gt; service
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="c"&gt;# Create service role&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; ! &lt;span class="nv"&gt;$OS&lt;/span&gt; role show service &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nv"&gt;$OS&lt;/span&gt; role create service
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="c"&gt;# give nova admin role in service project&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; ! &lt;span class="nv"&gt;$OS&lt;/span&gt; user role list &lt;span class="p"&gt;|&lt;/span&gt; grep &lt;span class="s2"&gt;&amp;quot;service.*nova&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="c"&gt;# Add the admin role to the admin project and user&lt;/span&gt;
+    &lt;span class="nv"&gt;$OS&lt;/span&gt; role add --project service --user nova admin
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="nb"&gt;exec&lt;/span&gt; &lt;span class="nv"&gt;$@&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;docker-compose.yml&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="l-Scalar-Plain"&gt;nova-api&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt;
+  &lt;span class="l-Scalar-Plain"&gt;image&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l-Scalar-Plain"&gt;157.249.186.12:50000/nova&lt;/span&gt;
+  &lt;span class="l-Scalar-Plain"&gt;hostname&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l-Scalar-Plain"&gt;nova-api&lt;/span&gt;
+  &lt;span class="l-Scalar-Plain"&gt;restart&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l-Scalar-Plain"&gt;always&lt;/span&gt;
+  &lt;span class="l-Scalar-Plain"&gt;env_file&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l-Scalar-Plain"&gt;openstack.env&lt;/span&gt;
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l-Scalar-Plain"&gt;openstack-endpoints.env&lt;/span&gt;
+  &lt;span class="l-Scalar-Plain"&gt;ports&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;58773:8773&amp;quot;&lt;/span&gt;
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;58774:8774&amp;quot;&lt;/span&gt;
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;58775:8775&amp;quot;&lt;/span&gt;
+  &lt;span class="l-Scalar-Plain"&gt;expose&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;8773&amp;quot;&lt;/span&gt;
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;8774&amp;quot;&lt;/span&gt;
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;8775&amp;quot;&lt;/span&gt;
+  &lt;span class="l-Scalar-Plain"&gt;environment&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt; 
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;constraint:node==/ares-[ab][0-9]/&amp;quot;&lt;/span&gt;
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l-Scalar-Plain"&gt;SERVICE_NAME=nova-api&lt;/span&gt;
+  &lt;span class="l-Scalar-Plain"&gt;dns&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt;
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;172.17.0.1&amp;quot;&lt;/span&gt;
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;157.249.16.22&amp;quot;&lt;/span&gt;
+    &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;157.249.16.20&amp;quot;&lt;/span&gt;
+  &lt;span class="l-Scalar-Plain"&gt;command&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l-Scalar-Plain"&gt;su -s /bin/bash -c /usr/bin/nova-api nova&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="private cloud"></category><category term="OpenStack"></category></entry><entry><title>MET Norway open Clos Data Center Network</title><link href="/posts/2015/12/open-clos-data-center-network.html" rel="alternate"></link><updated>2015-12-14T00:00:00+01:00</updated><author><name>erlend.rosok@met.no</name></author><id>tag:,2015-12-14:posts/2015/12/open-clos-data-center-network.html</id><summary type="html">&lt;h2&gt;Open Clos Data Center Network&lt;/h2&gt;
 &lt;p&gt;In 2015, MET Norway needed to replace an old core switch based network. Instead of replacing it, we defined the network as legacy infrastructure, and we invested in an open Clos leaf/spine network to be ready for SDN in connection to the OpenStack based production MET Cloud.&lt;/p&gt;
 &lt;p&gt;MET Norway purchased 14 Juniper QFX5100-24Q 40Gbit switches with aggregate backbone capacity of 1.2Tbits. The new data center network is pure layer 3, L2 does not extend outside each leaf switch.&lt;/p&gt;
 &lt;h3&gt;EBGP&lt;/h3&gt;

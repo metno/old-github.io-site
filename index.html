@@ -66,6 +66,53 @@
                         <article>
                             <header>
                                 <h1 class="entry-title">
+                                    <a href="./posts/2015/12/OpenStack.html" rel="bookmark" title="Permalink to Production OpenStack">
+                                       Production OpenStack
+                                    </a>
+                                </h1>
+                            </header>
+                            <div class="entry-content">
+<footer class="post-info">
+    <address class="vcard author">
+        by <a class="url fn" href="./author/sverrestmetno.html">sverrest@met.no</a>
+    </address>
+
+    in <a href="./category/blog.html">blog</a>
+
+    on 2015-12-15
+
+        |
+        tags:         <a href="./tag/private-cloud.html">private cloud</a>
+        <a href="./tag/openstack.html">OpenStack</a>
+
+
+
+    
+</footer><!-- /.post-info -->                                <h2>Requirements</h2>
+<p>The requirement of this OpenStack setup is to have a highly available
+cloud spread over two or more data centers. It will replace the current
+solution where a user is requesting a VM from the infrastructure
+group, which is ineffective and time consuming.</p>
+<p>The aim of the setup is to be able to lose one data center, without
+affecting production. The use of containers makes it easier to scale
+the services by adding more servers, and to set up an identical
+staging environment to test upgrades or develop new services. </p>
+<p>It was also a good opportunity to introduce new technology and when
+you setup an OpenStack service as a container from scratch, you get
+pretty familiar with the service.</p>
+<p>We are not using <a href="https://docs.docker.com/engine/userguide/networking/get-started-overlay/">docker overlay network</a> at the moment, but it would
+be nice to have it in the future, so we don't have to expose too many ...</p>
+                                <p class="readmore">
+                                    <a class="btn btn-small btn-info" href="./posts/2015/12/OpenStack.html">Read more...</a>
+                                </p>
+                            </div><!-- /.entry-content -->
+                            <hr/>
+                        </article>
+                    </li>
+                    <li>
+                        <article>
+                            <header>
+                                <h1 class="entry-title">
                                     <a href="./posts/2015/12/open-clos-data-center-network.html" rel="bookmark" title="Permalink to MET Norway open Clos Data Center Network">
                                        MET Norway open Clos Data Center Network
                                     </a>
