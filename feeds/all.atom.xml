@@ -137,7 +137,7 @@ chown &lt;span class="m"&gt;640&lt;/span&gt; /etc/nova/nova.conf
 &lt;span class="nv"&gt;$CONF&lt;/span&gt; glance host &lt;span class="nv"&gt;$ENDPOINT_IP&lt;/span&gt;
 &lt;span class="nv"&gt;$CONF&lt;/span&gt; oslo_concurrency lock_path /var/lib/nova/tmp
 
-&lt;span class="c"&gt;# Check if the keystone database exist, if not create&lt;/span&gt;
+&lt;span class="c"&gt;# Check if the novadatabase exist, if not create&lt;/span&gt;
 &lt;span class="k"&gt;if&lt;/span&gt; ! mysql -h&lt;span class="nv"&gt;$MYSQL_HOST&lt;/span&gt; -u&lt;span class="nv"&gt;$MYSQL_DBUSER&lt;/span&gt; -p&lt;span class="nv"&gt;$MYSQL_DBPASS&lt;/span&gt; nova -e &lt;span class="s1"&gt;&amp;#39;QUIT&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
     mysql -h&lt;span class="nv"&gt;$MYSQL_HOST&lt;/span&gt; -u&lt;span class="nv"&gt;$MYSQL_DBUSER&lt;/span&gt; -p&lt;span class="nv"&gt;$MYSQL_DBPASS&lt;/span&gt; mysql -e &lt;span class="s2"&gt;&amp;quot;CREATE DATABASE nova;&amp;quot;&lt;/span&gt;
     mysql -h&lt;span class="nv"&gt;$MYSQL_HOST&lt;/span&gt; -u&lt;span class="nv"&gt;$MYSQL_DBUSER&lt;/span&gt; -p&lt;span class="nv"&gt;$MYSQL_DBPASS&lt;/span&gt; mysql -e &lt;span class="s2"&gt;&amp;quot;GRANT ALL ON nova.* TO &amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;$NOVA_DBUSER&lt;/span&gt;&lt;span class="s2"&gt;&amp;#39;@&amp;#39;%&amp;#39; IDENTIFIED BY &amp;#39;&lt;/span&gt;&lt;span class="nv"&gt;$NOVA_DBPASS&lt;/span&gt;&lt;span class="s2"&gt;&amp;#39;;&amp;quot;&lt;/span&gt;

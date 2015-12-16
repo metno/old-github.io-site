@@ -213,7 +213,7 @@ chown <span class="m">640</span> /etc/nova/nova.conf
 <span class="nv">$CONF</span> glance host <span class="nv">$ENDPOINT_IP</span>
 <span class="nv">$CONF</span> oslo_concurrency lock_path /var/lib/nova/tmp
 
-<span class="c"># Check if the keystone database exist, if not create</span>
+<span class="c"># Check if the novadatabase exist, if not create</span>
 <span class="k">if</span> ! mysql -h<span class="nv">$MYSQL_HOST</span> -u<span class="nv">$MYSQL_DBUSER</span> -p<span class="nv">$MYSQL_DBPASS</span> nova -e <span class="s1">&#39;QUIT&#39;</span> <span class="p">;</span> <span class="k">then</span>
     mysql -h<span class="nv">$MYSQL_HOST</span> -u<span class="nv">$MYSQL_DBUSER</span> -p<span class="nv">$MYSQL_DBPASS</span> mysql -e <span class="s2">&quot;CREATE DATABASE nova;&quot;</span>
     mysql -h<span class="nv">$MYSQL_HOST</span> -u<span class="nv">$MYSQL_DBUSER</span> -p<span class="nv">$MYSQL_DBPASS</span> mysql -e <span class="s2">&quot;GRANT ALL ON nova.* TO &#39;</span><span class="nv">$NOVA_DBUSER</span><span class="s2">&#39;@&#39;%&#39; IDENTIFIED BY &#39;</span><span class="nv">$NOVA_DBPASS</span><span class="s2">&#39;;&quot;</span>
