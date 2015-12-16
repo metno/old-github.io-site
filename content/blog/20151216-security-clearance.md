@@ -10,6 +10,7 @@ Status: draft
 As part of the public administration, some MET positions require a security clarence. Please read more about clarence at [NSM Web pages](https://www.nsm.stat.no), especially the [frequently asked questions page](http://goo.gl/0QCFBH) - Google translated for your convenience.
 
 Short summary:
+
 1. Norwegian citizens are eligible for security clearance
 2. Citizens of NATO countries, and citizens of countries Norway extends a great deal of trust are eligible for a security clearance
 3. Citizens of countries where person inquiry responses does not in general meet with required standards of trust, an applicant might never obtain a Norwegian security clearance, or the clarence process may take several years to conclude
