@@ -3,6 +3,7 @@ Date: 2015-12-16
 Tags: Security clearance
 Slug: security-clearance
 Authors: morten.hanshaugen@met.no
+Status: draft
 
 ## Security clearance
 
