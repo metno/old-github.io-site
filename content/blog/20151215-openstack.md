@@ -165,7 +165,7 @@ $CONF DEFAULT vlan_interface br0
 $CONF glance host $ENDPOINT_IP
 $CONF oslo_concurrency lock_path /var/lib/nova/tmp
   
-# Check if the keystone database exist, if not create
+# Check if the novadatabase exist, if not create
 if ! mysql -h$MYSQL_HOST -u$MYSQL_DBUSER -p$MYSQL_DBPASS nova -e 'QUIT' ; then
     mysql -h$MYSQL_HOST -u$MYSQL_DBUSER -p$MYSQL_DBPASS mysql -e "CREATE DATABASE nova;"
     mysql -h$MYSQL_HOST -u$MYSQL_DBUSER -p$MYSQL_DBPASS mysql -e "GRANT ALL ON nova.* TO '$NOVA_DBUSER'@'%' IDENTIFIED BY '$NOVA_DBPASS';"
