@@ -1,7 +1,7 @@
-Title: Security clarence
+Title: Security clearance
 Date: 2015-12-16
-Tags: Security clarence
-Slug: security-clarence
+Tags: Security clearance
+Slug: security-clearance
 Authors: morten.hanshaugen@met.no
 
 ## Security clearance
