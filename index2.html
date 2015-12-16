@@ -5,14 +5,14 @@
     <meta name="author" content="Webmaster" />
     <meta name="robots" content="index, follow"/>
 
-    <meta property="og:title" content="Categories for IT.met.no"/>
-    <meta property="og:url" content="./categories.html"/>
+    <meta property="og:title" content="IT.met.no"/>
+    <meta property="og:url" content="."/>
     <meta property="og:site_name" content="IT.met.no"/>
     <meta property="og:type" content="website"/>
 
-    <link rel="canonical" href="./categories.html" />
+    <link rel="canonical" href="." />
 
-    <title>Categories for IT.met.no</title>
+    <title>IT.met.no</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
@@ -60,13 +60,74 @@
         <div class="span10 offset1">
             <div class="row-fluid">
 <div class="span9">
-    <section>
-    <h1>Categories for IT.met.no</h1>
+                <section>
+                    <ol id="posts-list" class="hfeed" start="9">
+                    <li>
+                        <article>
+                            <header>
+                                <h1 class="entry-title">
+                                    <a href="./posts/2015/01/vagrant-openstack.html" rel="bookmark" title="Permalink to Vagrant with OpenStack">
+                                       Vagrant with OpenStack
+                                    </a>
+                                </h1>
+                            </header>
+                            <div class="entry-content">
+<footer class="post-info">
+    <address class="vcard author">
+        by <a class="url fn" href="./author/arnulfheimsbakkmetno.html">arnulf.heimsbakk@met.no</a>
+    </address>
 
-    <dl>
-        <dd><a href="./category/blog.html">blog (11)</a></dd>
-    </dl>
-    </section>
+    in <a href="./category/blog.html">blog</a>
+
+    on 2015-01-16
+
+        |
+        tags:         <a href="./tag/howto.html">howto</a>
+        <a href="./tag/openstack.html">openstack</a>
+        <a href="./tag/vagrant.html">vagrant</a>
+
+
+
+    
+</footer><!-- /.post-info -->                                <p>If you want to use <a href="https://www.vagrantup.com">Vagrant</a> with <a href="http://www.openstack.org">OpenStack</a>, you need to prepare <a href="https://www.vagrantup.com">Vagrant</a> with installing the <a href="https://github.com/cloudbau/vagrant-openstack-plugin">vagrant-openstack-plugin</a>. I had some problems installing it directly through <code>vagrant plugin install</code>. I had to clone it from <a href="https://github.com">Github</a> and install it manually. </p>
+<h2>One time configuration</h2>
+<h3>Install OpenStack plugin in Vagrant</h3>
+<div class="highlight"><pre>sudo apt-get install ruby1.9.1 git virtualbox
+<span class="nb">cd</span> /tmp
+<span class="c"># At writing moment the latest version of Vagrant is the following version.</span>
+wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb
+sudo dpkg -i vagrant_1.7.2_x86_64.deb
+git clone https://github.com/cloudbau/vagrant-openstack-plugin
+<span class="nb">cd </span>vagrant-openstack-plugin
+gem build vagrant-openstack-plugin.gemspec
+vagrant plugin install vagrant-openstack-plugin-*.gem
+</pre></div>
+
+
+<p>Add a dummy box to <a href="https://www.vagrantup.com">Vagrant</a> thats needed by the plugin.</p>
+<div class="highlight"><pre>vagrant box add dummy https://github.com/cloudbau/vagrant-openstack-plugin/raw/master/dummy.box
+</pre></div>
+
+
+<h3>Download OpenStack RC file</h3>
+<ul>
+<li>Log into OpenStack</li>
+<li>Download OpenStack API RC file</li>
+<li>Go to <code>Project</code> -&gt; <code>Compute</code> -&gt; <code>Access &amp; Security</code> -&gt; <code>API Access</code> </li>
+<li>Down ...</li></ul>
+                                <p class="readmore">
+                                    <a class="btn btn-small btn-info" href="./posts/2015/01/vagrant-openstack.html">Read more...</a>
+                                </p>
+                            </div><!-- /.entry-content -->
+                            <hr/>
+                        </article>
+                    </li>
+                    </ol><!-- /#posts-list -->
+<p class="paginator">
+        <a href="./index.html">&laquo;</a>
+    Page 2 / 2
+</p>
+                </section><!-- /#content -->
 </div>
 <div class="span3">
     <section id="sidebar">
