@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>IT.met.no</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2015-12-16T00:00:00+01:00</updated><entry><title>Security clearance</title><link href="/posts/2015/12/security-clearance.html" rel="alternate"></link><updated>2015-12-16T00:00:00+01:00</updated><author><name>morten.hanshaugen@met.no</name></author><id>tag:,2015-12-16:posts/2015/12/security-clearance.html</id><summary type="html">&lt;h2&gt;Security clearance&lt;/h2&gt;
-&lt;p&gt;As part of the public administration, some MET positions require a security clearance. Please read more about clarence at &lt;a href="https://www.nsm.stat.no"&gt;NSM Web pages&lt;/a&gt;, especially the &lt;a href="http://goo.gl/0QCFBH"&gt;frequently asked questions page&lt;/a&gt; - Google translated for your convenience.&lt;/p&gt;
-&lt;p&gt;Short summary:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Norwegian citizens are eligible for a deterministic security clearance process&lt;/li&gt;
-&lt;li&gt;Citizens of countries Norway has personnel security collaboration with (NATO countries, Schengen countries, countries Norway extends a great deal of trust to) are eligible for a deterministic security clearance process&lt;/li&gt;
-&lt;li&gt;Citizens of countries Norway does not have a personnel security collaboration agreement with might never obtain a Norwegian security clearance, or the clarence process may take years to conclude&lt;/li&gt;
-&lt;li&gt;If investigations of your person record evaluated to not comply with clearance requirements you may be denied clarence regardless of your citizenship&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;If you belong to category 3 or 4, and the position require security clearance, we will discourage you from applying for the position.&lt;/p&gt;
-&lt;p&gt;If you belong to category 1 or 2 we encourage you to go forth with your application.&lt;/p&gt;</summary><category term="Security clearance"></category></entry><entry><title>Post-processing and visualization</title><link href="/posts/2015/12/MET%20post-processing%20and%20visualization%20systems.html" rel="alternate"></link><updated>2015-12-15T00:00:00+01:00</updated><author><name>nico.budewitz@met.no</name></author><id>tag:,2015-12-15:posts/2015/12/MET post-processing and visualization systems.html</id><summary type="html">&lt;p&gt;MET post-processing and visualization systems are primarily used for
+<feed xmlns="http://www.w3.org/2005/Atom"><title>IT.met.no</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2015-12-15T00:00:00+01:00</updated><entry><title>Post-processing and visualization</title><link href="/posts/2015/12/MET%20post-processing%20and%20visualization%20systems.html" rel="alternate"></link><updated>2015-12-15T00:00:00+01:00</updated><author><name>nico.budewitz@met.no</name></author><id>tag:,2015-12-15:posts/2015/12/MET post-processing and visualization systems.html</id><summary type="html">&lt;p&gt;MET post-processing and visualization systems are primarily used for
 small and large scale serial- and parallel processing tasks. In order
 to post- or reprocess modeldata or to visualize 2D/3D data remotely,
 MET relies on state-of-the are technology.&lt;/p&gt;
@@ -211,7 +201,17 @@ nova-manage db sync
     &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;157.249.16.22&amp;quot;&lt;/span&gt;
     &lt;span class="p-Indicator"&gt;-&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;157.249.16.20&amp;quot;&lt;/span&gt;
   &lt;span class="l-Scalar-Plain"&gt;command&lt;/span&gt;&lt;span class="p-Indicator"&gt;:&lt;/span&gt; &lt;span class="l-Scalar-Plain"&gt;su -s /bin/bash -c /usr/bin/nova-api nova&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="private cloud"></category><category term="OpenStack"></category></entry><entry><title>MET Norway open Clos Data Center Network</title><link href="/posts/2015/12/open-clos-data-center-network.html" rel="alternate"></link><updated>2015-12-14T00:00:00+01:00</updated><author><name>erlend.rosok@met.no</name></author><id>tag:,2015-12-14:posts/2015/12/open-clos-data-center-network.html</id><summary type="html">&lt;h2&gt;Open Clos Data Center Network&lt;/h2&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="private cloud"></category><category term="OpenStack"></category></entry><entry><title>Security clearance</title><link href="/posts/2015/12/security-clearance.html" rel="alternate"></link><updated>2015-12-15T00:00:00+01:00</updated><author><name>morten.hanshaugen@met.no</name></author><id>tag:,2015-12-15:posts/2015/12/security-clearance.html</id><summary type="html">&lt;h2&gt;Security clearance&lt;/h2&gt;
+&lt;p&gt;As part of the public administration, some MET positions require a security clearance. Please read more about clarence at &lt;a href="https://www.nsm.stat.no"&gt;NSM Web pages&lt;/a&gt;, especially the &lt;a href="http://goo.gl/0QCFBH"&gt;frequently asked questions page&lt;/a&gt; - Google translated for your convenience.&lt;/p&gt;
+&lt;p&gt;Short summary:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Norwegian citizens are eligible for a deterministic security clearance process&lt;/li&gt;
+&lt;li&gt;Citizens of countries Norway has personnel security collaboration with (NATO countries, Schengen countries, countries Norway extends a great deal of trust to) are eligible for a deterministic security clearance process&lt;/li&gt;
+&lt;li&gt;Citizens of countries Norway does not have a personnel security collaboration agreement with might never obtain a Norwegian security clearance, or the clarence process may take years to conclude&lt;/li&gt;
+&lt;li&gt;If investigations of your person record evaluated to not comply with clearance requirements you may be denied clarence regardless of your citizenship&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If you belong to category 3 or 4, and the position require security clearance, we will discourage you from applying for the position.&lt;/p&gt;
+&lt;p&gt;If you belong to category 1 or 2 we encourage you to go forth with your application.&lt;/p&gt;</summary><category term="Security clearance"></category></entry><entry><title>MET Norway open Clos Data Center Network</title><link href="/posts/2015/12/open-clos-data-center-network.html" rel="alternate"></link><updated>2015-12-14T00:00:00+01:00</updated><author><name>erlend.rosok@met.no</name></author><id>tag:,2015-12-14:posts/2015/12/open-clos-data-center-network.html</id><summary type="html">&lt;h2&gt;Open Clos Data Center Network&lt;/h2&gt;
 &lt;p&gt;In 2015, MET Norway needed to replace an old core switch based network. Instead of replacing it, we defined the network as legacy infrastructure, and we invested in an open Clos leaf/spine network to be ready for SDN in connection to the OpenStack based production MET Cloud.&lt;/p&gt;
 &lt;p&gt;MET Norway purchased 14 Juniper QFX5100-24Q 40Gbit switches with aggregate backbone capacity of 1.2Tbits. The new data center network is pure layer 3, L2 does not extend outside each leaf switch.&lt;/p&gt;
 &lt;h3&gt;EBGP&lt;/h3&gt;
