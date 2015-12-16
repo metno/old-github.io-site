@@ -15,6 +15,7 @@ Short summary:
 3. Citizens of countries Norway does not have a personnel security collaboration agreement with might never obtain a Norwegian security clearance, or the clarence process may take years to conclude
 4. If investigations of your person record evaluated to not comply with clearance requirements you may be denied clarence regardless of your citizenship
 
+
 If you belong to category 3 or 4, and the position require security clearance, we will discourage you from applying for the position.
 
 If you belong to category 1 or 2 we encourage you to go forth with your application.
