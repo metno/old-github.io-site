@@ -2,7 +2,7 @@ Title: Production OpenStack
 Date: 2015-12-15
 Tags: private cloud, OpenStack
 Slug: OpenStack
-Authors: sverrest@met.no
+Authors: sverre.stoltenberg@met.no
 
 [consul]: https://consul.io/
 [registrator]: https://github.com/gliderlabs/registrator

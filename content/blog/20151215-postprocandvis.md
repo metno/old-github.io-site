@@ -2,7 +2,7 @@ Title: Post-processing and visualization
 Date: 2015-12-15
 Tags: post-processing, visualization
 Slug: MET post-processing and visualization systems
-Author: nicob@met.no
+Author: nico.budewitz@met.no
 
 MET post-processing and visualization systems are primarily used for
 small and large scale serial- and parallel processing tasks. In order
