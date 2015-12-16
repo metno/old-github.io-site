@@ -5,14 +5,14 @@
     <meta name="author" content="Webmaster" />
     <meta name="robots" content="index, follow"/>
 
-    <meta property="og:title" content="IT.met.no - sverrest@met.no"/>
-    <meta property="og:url" content="../author/sverrestmetno.html"/>
+    <meta property="og:title" content="IT.met.no - nico.budewitz@met.no"/>
+    <meta property="og:url" content="../author/nicobudewitzmetno.html"/>
     <meta property="og:site_name" content="IT.met.no"/>
     <meta property="og:type" content="website"/>
 
-    <link rel="canonical" href="../author/sverrestmetno.html" />
+    <link rel="canonical" href="../author/nicobudewitzmetno.html" />
 
-    <title>IT.met.no - sverrest@met.no | IT.met.no</title>
+    <title>IT.met.no - nico.budewitz@met.no | IT.met.no</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
@@ -66,15 +66,15 @@
                         <article>
                             <header>
                                 <h1 class="entry-title">
-                                    <a href="../posts/2015/12/OpenStack.html" rel="bookmark" title="Permalink to Production OpenStack">
-                                       Production OpenStack
+                                    <a href="../posts/2015/12/MET post-processing and visualization systems.html" rel="bookmark" title="Permalink to Post-processing and visualization">
+                                       Post-processing and visualization
                                     </a>
                                 </h1>
                             </header>
                             <div class="entry-content">
 <footer class="post-info">
     <address class="vcard author">
-        by <a class="url fn" href="../author/sverrestmetno.html">sverrest@met.no</a>
+        by <a class="url fn" href="../author/nicobudewitzmetno.html">nico.budewitz@met.no</a>
     </address>
 
     in <a href="../category/blog.html">blog</a>
@@ -82,28 +82,26 @@
     on 2015-12-15
 
         |
-        tags:         <a href="../tag/private-cloud.html">private cloud</a>
-        <a href="../tag/openstack.html">OpenStack</a>
+        tags:         <a href="../tag/post-processing.html">post-processing</a>
+        <a href="../tag/visualization.html">visualization</a>
 
 
 
     
-</footer><!-- /.post-info -->                                <h2>Requirements</h2>
-<p>The requirement of this OpenStack setup is to have a highly available
-cloud spread over two or more data centers. It will replace the current
-solution where a user is requesting a VM from the infrastructure
-group, which is ineffective and time consuming.</p>
-<p>The aim of the setup is to be able to lose one data center, without
-affecting production. The use of containers makes it easier to scale
-the services by adding more servers, and to set up an identical
-staging environment to test upgrades or develop new services. </p>
-<p>It was also a good opportunity to introduce new technology and when
-you setup an OpenStack service as a container from scratch, you get
-pretty familiar with the service.</p>
-<p>We are not using <a href="https://docs.docker.com/engine/userguide/networking/get-started-overlay/">docker overlay network</a> at the moment, but it would
-be nice to have it in the future, so we don't have to expose too many ...</p>
+</footer><!-- /.post-info -->                                <p>MET post-processing and visualization systems are primarily used for
+small and large scale serial- and parallel processing tasks. In order
+to post- or reprocess modeldata or to visualize 2D/3D data remotely,
+MET relies on state-of-the are technology.</p>
+<p>To achieve the maximum throughput and to handle the huge amounts of
+parallel I/O operations Researcher and Meteorologists at MET benefit
+of low latency and high bandwidth networks and highly parallel storage
+systems We ensure data integrity by checksumming network traffic and
+on disk data.</p>
+<p>To enable remote sites and airports to access (weather) data on demand
+and independent from your location we are providing a remote 2D/3D
+visualization service.</p>
                                 <p class="readmore">
-                                    <a class="btn btn-small btn-info" href="../posts/2015/12/OpenStack.html">Read more...</a>
+                                    <a class="btn btn-small btn-info" href="../posts/2015/12/MET post-processing and visualization systems.html">Read more...</a>
                                 </p>
                             </div><!-- /.entry-content -->
                             <hr/>
