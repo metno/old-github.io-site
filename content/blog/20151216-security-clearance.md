@@ -1,5 +1,5 @@
 Title: Security clearance
-Date: 2015-12-16
+Date: 2015-12-15
 Tags: Security clearance
 Slug: security-clearance
 Authors: morten.hanshaugen@met.no
